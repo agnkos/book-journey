@@ -13,14 +13,13 @@ const Login = () => {
     try {
       fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/api/login', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(loginData),
       })
-      .then(response => response.json())
-      .then(data => console.log(data))
+        .then(response => response.json())
+        .then(data => console.log(data))
 
       // tu set authorization (token) - żądanie do backendu
       // set user z auth w stanie aplikacji
