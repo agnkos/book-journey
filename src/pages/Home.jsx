@@ -1,7 +1,6 @@
-// import Header from "./Header"
 import { NavLink } from "react-router-dom"
 
-function App() {
+const Home = () => {
   return (
     <>
       <h1 className="text-3xl font-bold underline text-cyan-800">
@@ -15,4 +14,4 @@ function App() {
   )
 }
 
-export default App
+export default Home

@@ -1,37 +1,28 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ username: '', password: '' })
+  const { login } = useAuth();
+  const location = useLocation();
 
   const handleLoginChange = ({ target }) => {
     setLoginData({ ...loginData, [target.name]: target.value })
   }
 
+  // dodać async await?
   const handleLogin = (e) => {
     e.preventDefault()
-
-    try {
-      fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      })
-        .then(response => response.json())
-        .then(data => console.log(data))
-
-      // tu set authorization (token) - żądanie do backendu
-      // set user z auth w stanie aplikacji
-      // setLoginData({ username: '', password: '' })
-    } catch (error) {
-      console.log(error)
-    }
+    login(loginData)
+    setLoginData({ username: '', password: '' })
   }
 
   return (
     <div className="p-10">
       <h1 className="text-center mb-4 font-bold">Log in</h1>
+      {location.state?.message &&
+        <h3>{location.state.message}</h3>}
       <form onSubmit={handleLogin} className="flex flex-col items-center gap-4">
         <input
           type="text"
@@ -52,7 +43,7 @@ const Login = () => {
           className="border"
         />
 
-        <button type="submit" className="bg-cyan-800 text-neutral-100 py-1 px-4 rounded">Sign Up</button>
+        <button type="submit" className="bg-cyan-800 text-neutral-100 py-1 px-4 rounded">Log In</button>
       </form>
     </div>
   )
