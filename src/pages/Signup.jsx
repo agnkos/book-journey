@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
+import { useAuth } from "../hooks/useAuth"
 
 const Signup = () => {
     const [newUser, setNewUser] = useState({
         'username': '',
         'password': '',
+        'email': '',
         'firstName': '',
         'lastName': ''
     })
+    const { signup } = useAuth()
 
     const handleUserChange = ({ target }) => {
         setNewUser({ ...newUser, [target.name]: target.value })
@@ -14,20 +17,20 @@ const Signup = () => {
 
     const handleSignup = (e) => {
         e.preventDefault()
-
-        try {
-            fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newUser),
-            })
-                .then(response => response.json())
-                .then(data => console.log(data))
-        } catch (error) {
-            console.log(error)
-        }
+        signup(newUser)
+        // try {
+        //     fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/api/register', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(newUser),
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => console.log(data))
+        // } catch (error) {
+        //     console.log(error)
+        // }
     }
 
     useEffect(() => {
@@ -38,6 +41,15 @@ const Signup = () => {
         <div className="p-10">
             <h1 className="text-center mb-4 font-bold">Signup</h1>
             <form onSubmit={handleSignup} className="flex flex-col items-center gap-4">
+                <input
+                    type="email"
+                    value={newUser.email}
+                    name="email"
+                    onChange={handleUserChange}
+                    id='email'
+                    placeholder="Email"
+                    className="border"
+                />
                 <input
                     type="text"
                     value={newUser.firstName}

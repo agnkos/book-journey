@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,14 @@ const AuthContext = createContext(null)
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedBookJourneyUser')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            setUser(user)
+        }
+    }, [])
 
     const login = async (loginData) => {
 
@@ -32,16 +40,50 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const logout = () => {
-        window.localStorage.removeItem('loggedBookJourneyUser')
-        setUser(null)
-        navigate('/')
+    const logout = async () => {
+        try {
+            await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                })
+            window.localStorage.removeItem('loggedBookJourneyUser')
+            setUser(null)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const signup = async (newUser) => {
+        try {
+            await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newUser),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    login({ username: data.username, password: data.password })
+                })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const value = {
         user,
         login,
-        logout
+        logout,
+        signup
     }
 
     return (
