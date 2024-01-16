@@ -4,7 +4,8 @@
 
 @layer base {
     :root {
-        --main-accent: 65 174 153;
+        --main-accent: 27 138 122;
+        --lighter-accent: 65 174 153;
         --main-accent-hover: 39 137 118;
         --home-bg: 239 250 252;
         --link-active: 254 184 72;
@@ -16,4 +17,9 @@
     }
 }
 
-
+@layer {
+    body {
+      @apply text-text;
+    }
+  }
+  

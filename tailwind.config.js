@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
 export default {
   content: [
     "./index.html",
@@ -8,6 +9,7 @@ export default {
     extend: {
       colors: {
         "main-accent": "rgb(var(--main-accent))",
+        "lighter-accent": "rgb(var(--lighter-accent))",
         "main-accent-hover": "rgb(var(--main-accent-hover))",
         "home-bg": "rgb(var(--home-bg))",
         "link-active": "rgb(var(--link-active))",
@@ -18,6 +20,9 @@ export default {
         "light-objects": "rgb(var(--light-objects))",
       }
     },
+    fontFamily: {
+      sans: ['Poppins', ...defaultTheme.fontFamily.sans]
+    }
   },
   plugins: [],
 }

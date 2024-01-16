@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../hooks/useAuth"
+import ShelfImg from '../img/shelf.jpg';
 
 const Signup = () => {
     const [newUser, setNewUser] = useState({
@@ -18,19 +19,6 @@ const Signup = () => {
     const handleSignup = (e) => {
         e.preventDefault()
         signup(newUser)
-        // try {
-        //     fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/api/register', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(newUser),
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => console.log(data))
-        // } catch (error) {
-        //     console.log(error)
-        // }
     }
 
     useEffect(() => {
@@ -38,7 +26,7 @@ const Signup = () => {
     })
 
     return (
-        <div className="p-10">
+        <div className="h-screen flex flex-col px-8 pt-16 pb-8 text-center bg-light-bg">
             <h1 className="text-center mb-4 font-bold">Signup</h1>
             <form onSubmit={handleSignup} className="flex flex-col items-center gap-4">
                 <input
