@@ -20,6 +20,7 @@
 @layer {
     body {
       @apply text-text;
+      @apply box-border;
     }
   }
   

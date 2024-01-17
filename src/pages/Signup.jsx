@@ -26,8 +26,12 @@ const Signup = () => {
     })
 
     return (
-        <div className="h-screen flex flex-col px-8 pt-16 pb-8 text-center bg-light-bg">
-            <h1 className="text-center mb-4 font-bold">Signup</h1>
+        <div className="h-screen max-h-screen flex flex-col justify-center px-8 py-6 text-center bg-light-bg">
+            <img src={ShelfImg} className="mx-auto max-w-full max-h-[25%]" alt="a shelf with books illustration" />
+            <h1 className="text-4xl max-[320px]:text-3xl mb-2 font-bold text-main-accent">
+                BookJourney
+            </h1>
+            <p className="text-xl font-medium mb-4">Create an account</p>
             <form onSubmit={handleSignup} className="flex flex-col items-center gap-4">
                 <input
                     type="email"
@@ -36,26 +40,26 @@ const Signup = () => {
                     onChange={handleUserChange}
                     id='email'
                     placeholder="Email"
-                    className="border"
+                    className="w-11/12 px-4 py-2 rounded-md border"
                 />
-                <input
+                {/* <input
                     type="text"
                     value={newUser.firstName}
                     name="firstName"
                     onChange={handleUserChange}
                     id='firstName'
                     placeholder="First name"
-                    className="border"
-                />
-                <input
+                    className="w-11/12 px-4 py-2 text-sm rounded-md border"
+                    />
+                    <input
                     type="text"
                     value={newUser.lastName}
                     name="lastName"
                     onChange={handleUserChange}
                     id='lastName'
                     placeholder="Last name"
-                    className="border"
-                />
+                    className="w-11/12 px-4 py-2 text-sm rounded-md border"
+                /> */}
                 <input
                     type="text"
                     value={newUser.username}
@@ -63,7 +67,7 @@ const Signup = () => {
                     onChange={handleUserChange}
                     id='username'
                     placeholder="Username"
-                    className="border"
+                    className="w-11/12 px-4 py-2 rounded-md border"
                 />
                 <input
                     type="password"
@@ -72,7 +76,7 @@ const Signup = () => {
                     onChange={handleUserChange}
                     id='password'
                     placeholder="Password"
-                    className="border"
+                    className="w-11/12 px-4 py-2  rounded-md border"
                 />
                 <input
                     type="password"
@@ -81,10 +85,11 @@ const Signup = () => {
                     onChange={handleUserChange}
                     id='repeatPassword'
                     placeholder="Confirm password"
-                    className="border"
+                    className="w-11/12 px-4 py-2 rounded-md border"
                 />
-                <button type="submit" className="bg-cyan-800 text-neutral-100 py-1 px-4 rounded">Sign Up</button>
+                <button type="submit" className="w-11/12 px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md">Sign Up</button>
             </form>
+            <p className="text-xs text-main-accent fixed bottom-4 left-2/4 -translate-x-2/4">Image by<a href="https://pl.freepik.com/darmowe-wektory/recznie-rysowane-ilustracja-kregoslupa-ksiazki-o-plaskiej-konstrukcji_24307294.htm#from_view=detail_serie">Freepik</a></p>
         </div>
     )
 }

@@ -20,15 +20,15 @@ const Login = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col px-8 pt-16 pb-8 text-center bg-light-bg">
-      <img src={ShelfImg} alt="a shelf with books illustration" className="w-4/5 mx-auto" />
-      <h1 className="text-4xl leading-10 mb-2 font-bold text-main-accent">
+    <div className="h-screen flex flex-col justify-center px-8 py-6 text-center bg-light-bg">
+      <img src={ShelfImg} alt="a shelf with books illustration" className="max-w-full max-h-[35%] mx-auto" />
+      <h1 className="text-4xl max-[320px]:text-3xl mb-2 font-bold text-main-accent">
         BookJourney
       </h1>
-      <p className="text-xl font-medium mb-6">Log In</p>
+      <p className="text-xl font-medium mb-4">Log In</p>
       {location.state?.message &&
         <h3>{location.state.message}</h3>}
-      <form onSubmit={handleLogin} className="flex flex-col items-center gap-6">
+      <form onSubmit={handleLogin} className="flex flex-col items-center gap-4">
         <input
           type="text"
           value={loginData.username}
@@ -48,8 +48,9 @@ const Login = () => {
           className="w-11/12 px-4 py-2 rounded-md border"
         />
 
-        <button type="submit" className="w-11/12 px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md">Log In</button>
+        <button type="submit" className="w-11/12 px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md">Log In</button>
       </form>
+      <p className="text-xs text-main-accent fixed bottom-4 left-2/4 -translate-x-2/4">Image by<a href="https://pl.freepik.com/darmowe-wektory/recznie-rysowane-ilustracja-kregoslupa-ksiazki-o-plaskiej-konstrukcji_24307294.htm#from_view=detail_serie">Freepik</a></p>
     </div>
   )
 }
