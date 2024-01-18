@@ -8,7 +8,7 @@ export const AuthRequired = () => {
     const outlet = useOutlet()
 
     useEffect(() => {
-        console.log('user from ', user)
+        console.log('user from authrequired', user)
     }, [user])
 
     if (!user) {

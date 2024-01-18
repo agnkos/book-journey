@@ -1,5 +1,6 @@
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Dashboard = () => {
   const { user, logout } = useAuth()
@@ -25,17 +26,18 @@ const Dashboard = () => {
   }, [user.token])
 
   useEffect(() => {
-    console.log(user)
-  }, [user])
+    console.log('dashboard user', user)
+  })
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="p-4">
+        <h1>Dashboard</h1>
       <p>Hello, {user?.username}</p>
       <p>First name: {userData?.firstName}</p>
       <p>Last name: {userData?.lastName}</p>
       <p>Account created: {userData?.accountCreated}</p>
       <button onClick={logout} className="py-1 px-2  text-neutral-50 bg-emerald-500">Log out</button>
+      <NavLink to='/books'>link to books</NavLink>
     </div>
   )
 }
