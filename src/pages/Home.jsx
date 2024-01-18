@@ -8,8 +8,8 @@ const Home = () => {
         Welcome to <span className="text-main-accent">BookJourney</span>
       </h1>
       <p>cursus risus at ultrices mi tempus imperdiet nulla malesuada</p>
-      <img src={BooksImg} alt="a stack of books illustration" className="w-4/5 mx-auto" />
-      <div className="flex flex-col items-center gap-4">
+      <img src={BooksImg} alt="a stack of books illustration" className="w-4/5 mx-auto max-w-sm" />
+      <div className="flex flex-col items-center gap-4 max-w-sm">
         <AuthButton text="Log In" link='/login' />
         <AuthButton text="Sign Up" link='/signup' />
       </div>

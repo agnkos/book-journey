@@ -28,7 +28,7 @@ const Login = () => {
       <p className="text-xl font-medium mb-4">Log In</p>
       {location.state?.message &&
         <h3>{location.state.message}</h3>}
-      <form onSubmit={handleLogin} className="flex flex-col items-center gap-4">
+      <form onSubmit={handleLogin} className="w-11/12 flex flex-col items-center gap-4 max-w-md mx-auto">
         <input
           type="text"
           value={loginData.username}

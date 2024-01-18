@@ -32,7 +32,7 @@ const Signup = () => {
                 BookJourney
             </h1>
             <p className="text-xl font-medium mb-4">Create an account</p>
-            <form onSubmit={handleSignup} className="flex flex-col items-center gap-4">
+            <form onSubmit={handleSignup} className="w-11/12 mx-auto flex flex-col items-center gap-4 max-w-md">
                 <input
                     type="email"
                     value={newUser.email}

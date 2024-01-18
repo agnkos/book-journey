@@ -10,9 +10,9 @@ const Navbar = ({ toggleMenu, toggle }) => {
                 <p className='text-light-bg font-semibold'>BookJourney</p>
             </div>
             {toggle ?
-                <XMarkIcon className='w-6 h-6 text-light-bg' onClick={toggleMenu} />
+                <XMarkIcon className='w-6 h-6 text-light-bg cursor-pointer' onClick={toggleMenu} />
                 :
-                <Bars3BottomRightIcon className='w-6 h-6 text-light-bg' onClick={toggleMenu} />}
+                <Bars3BottomRightIcon className='w-6 h-6 text-light-bg cursor-pointer' onClick={toggleMenu} />}
         </div>
     )
 }
