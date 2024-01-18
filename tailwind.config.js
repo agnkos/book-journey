@@ -18,7 +18,7 @@ export default {
         "text-faded": "rgb(var(--text-faded))",
         "light-bg": "rgb(var(--light-bg))",
         "light-objects": "rgb(var(--light-objects))",
-      }
+      },
     },
     fontFamily: {
       sans: ['Poppins', ...defaultTheme.fontFamily.sans]

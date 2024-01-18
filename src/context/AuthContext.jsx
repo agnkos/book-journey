@@ -1,20 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const AuthContext = createContext(null)
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState()
+    const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedBookJourneyUser')
-        if (loggedUserJSON) {
-            const user = JSON.parse(loggedUserJSON)
-            setUser(user)
-        }
-    }, [])
 
     const login = async (loginData) => {
 
@@ -28,9 +21,9 @@ export const AuthContextProvider = ({ children }) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setUser(data)
-                    console.log('user', user)
+                    // console.log('user', user)
                     window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
                     navigate('/dashboard')
                 })
@@ -81,6 +74,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const value = {
         user,
+        setUser,
         login,
         logout,
         signup

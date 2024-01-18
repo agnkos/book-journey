@@ -12,6 +12,12 @@ import Dashboard from './pages/user/Dashboard.jsx';
 import NoMatch from './pages/NoMatch.jsx';
 import { AuthLayout } from './layouts/AuthLayout.jsx';
 import { AuthRequired } from './components/AuthRequired.jsx';
+import Books from './pages/user/Books.jsx';
+import Friends from './pages/user/Friends.jsx';
+import Stats from './pages/user/Stats.jsx';
+import DashboardLayout from './layouts/DashboardLayout.jsx';
+import AddBook from './pages/user/AddBook.jsx'
+import Profile from './pages/user/Profile.jsx'
 
 const router = createBrowserRouter([
   {
@@ -33,9 +39,34 @@ const router = createBrowserRouter([
         element: <AuthRequired />,
         children: [
           {
-            path: '/dashboard',
-            element: <Dashboard />
-          },
+            element: <DashboardLayout />,
+            children: [
+              {
+                path: '/dashboard',
+                element: <Dashboard />
+              },
+              {
+                path: '/books',
+                element: <Books />
+              },
+              {
+                path: '/friends',
+                element: <Friends />
+              },
+              {
+                path: '/stats',
+                element: <Stats />
+              },
+              {
+                path: '/addbook',
+                element: <AddBook />
+              },
+              {
+                path: '/profile',
+                element: <Profile />
+              },
+            ]
+          }
         ]
       },
       {
