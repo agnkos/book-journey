@@ -3,13 +3,13 @@ import AuthButton from "../components/AuthButton";
 
 const Home = () => {
   return (
-    <div className="h-screen flex flex-col px-8 pt-16 pb-6 text-center bg-home-bg">
+    <div className="h-screen flex flex-col px-8 pt-16 pb-6 text-center items-center bg-home-bg">
       <h1 className="text-4xl leading-10 mb-4 font-extrabold text-text">
         Welcome to <span className="text-main-accent">BookJourney</span>
       </h1>
       <p>cursus risus at ultrices mi tempus imperdiet nulla malesuada</p>
       <img src={BooksImg} alt="a stack of books illustration" className="w-4/5 mx-auto max-w-sm" />
-      <div className="flex flex-col items-center gap-4 max-w-sm">
+      <div className="w-11/12 flex flex-col items-center gap-4 max-w-sm">
         <AuthButton text="Log In" link='/login' />
         <AuthButton text="Sign Up" link='/signup' />
       </div>
