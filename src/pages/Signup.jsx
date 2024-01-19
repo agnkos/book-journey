@@ -42,24 +42,6 @@ const Signup = () => {
                     placeholder="Email"
                     className="w-11/12 px-4 py-2 rounded-md border"
                 />
-                {/* <input
-                    type="text"
-                    value={newUser.firstName}
-                    name="firstName"
-                    onChange={handleUserChange}
-                    id='firstName'
-                    placeholder="First name"
-                    className="w-11/12 px-4 py-2 text-sm rounded-md border"
-                    />
-                    <input
-                    type="text"
-                    value={newUser.lastName}
-                    name="lastName"
-                    onChange={handleUserChange}
-                    id='lastName'
-                    placeholder="Last name"
-                    className="w-11/12 px-4 py-2 text-sm rounded-md border"
-                /> */}
                 <input
                     type="text"
                     value={newUser.username}
