@@ -20,7 +20,7 @@ const Login = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col justify-center px-8 py-6 text-center bg-light-bg">
+    <div className="h-screen flex flex-col justify-center px-8 py-6 text-center items-center bg-light-bg">
       <img src={ShelfImg} alt="a shelf with books illustration" className="max-w-full max-h-[35%] mx-auto" />
       <h1 className="text-4xl max-[320px]:text-3xl mb-2 font-bold text-main-accent">
         BookJourney
