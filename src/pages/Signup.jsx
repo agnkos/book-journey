@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 import { useAuth } from "../hooks/useAuth"
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
 
 const Signup = () => {
-    const [newUser, setNewUser] = useState({
-        'username': '',
-        'password': '',
-        'email': '',
-        'firstName': '',
-        'lastName': ''
-    })
     const { signup } = useAuth()
 
-    const handleUserChange = ({ target }) => {
-        setNewUser({ ...newUser, [target.name]: target.value })
+    const signupInitialValues = {
+        email: '',
+        username: '',
+        password: '',
+        repeatPassword: ''
     }
-
-    const handleSignup = (e) => {
-        e.preventDefault()
-        signup(newUser)
-    }
-
-    useEffect(() => {
-        console.log(newUser)
+    // .email('Invalid email address')
+    const signupValidationSchema = Yup.object({
+        email: Yup.string().required('Email is required').matches(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            'Invalid email address'
+        ),
+        username: Yup.string().required('Username is required'),
+        password: Yup.string().required('Password is required').min(6, 'Password must be 6 characters long or more'),
+        repeatPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords don't match").required('Repeat password')
     })
 
     return (
@@ -32,45 +31,58 @@ const Signup = () => {
                 BookJourney
             </h1>
             <p className="text-xl font-medium mb-4">Create an account</p>
-            <form onSubmit={handleSignup} className="w-11/12 mx-auto flex flex-col items-center gap-4 max-w-md">
-                <input
-                    type="email"
-                    value={newUser.email}
-                    name="email"
-                    onChange={handleUserChange}
-                    id='email'
-                    placeholder="Email"
-                    className="w-11/12 px-4 py-2 rounded-md border"
-                />
-                <input
-                    type="text"
-                    value={newUser.username}
-                    name="username"
-                    onChange={handleUserChange}
-                    id='username'
-                    placeholder="Username"
-                    className="w-11/12 px-4 py-2 rounded-md border"
-                />
-                <input
-                    type="password"
-                    value={newUser.password}
-                    name="password"
-                    onChange={handleUserChange}
-                    id='password'
-                    placeholder="Password"
-                    className="w-11/12 px-4 py-2  rounded-md border"
-                />
-                <input
-                    type="password"
-                    value={newUser.repeatPassword}
-                    name="repeatPassword"
-                    onChange={handleUserChange}
-                    id='repeatPassword'
-                    placeholder="Confirm password"
-                    className="w-11/12 px-4 py-2 rounded-md border"
-                />
-                <button type="submit" className="w-11/12 px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md">Sign Up</button>
-            </form>
+
+            <Formik
+                initialValues={signupInitialValues}
+                validationSchema={signupValidationSchema}
+                onSubmit={(values, { setStatus }) => signup(values, { setStatus })}
+            >
+
+                {({ values, status, isSubmitting }) => (<Form className="w-11/12 mx-auto flex flex-col items-center gap-4 max-w-md">
+                    <div className="w-full">
+                        <Field
+                            type="email"
+                            value={values.email}
+                            name="email"
+                            placeholder="Email"
+                            className="w-11/12 mb-1 px-4 py-2 rounded-md border"
+                        />
+                        <ErrorMessage name="email" component="div" className="text-sm text-red-500" />
+                    </div>
+                    <div className="w-full">
+                        <Field
+                            type="text"
+                            value={values.username}
+                            name="username"
+                            placeholder="Username"
+                            className="w-11/12 mb-1 px-4 py-2 rounded-md border"
+                        />
+                        <ErrorMessage name="username" component="div" className="text-sm text-red-500" />
+
+                    </div>
+                    <div className="w-full">
+                        <Field
+                            type="password"
+                            value={values.password}
+                            placeholder="Password"
+                            className="w-11/12 mb-1 px-4 py-2 rounded-md border"
+                        />
+                        <ErrorMessage name="password" component="div" className="text-sm text-red-500" />
+                    </div>
+                    <div className="w-full">
+                        <Field
+                            type="password"
+                            value={values.repeatPassword}
+                            name="repeatPassword"
+                            placeholder="Confirm password"
+                            className="w-11/12 mb-1 px-4 py-2 rounded-md border"
+                        />
+                        <ErrorMessage name="repeatPassword" component="div" className="text-sm text-red-500" />
+                        <p className="text-sm text-red-500">{status}</p>
+                    </div>
+                    <button type="submit" className="w-11/12 px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md" disabled={isSubmitting}>Sign Up</button>
+                </Form>)}
+            </Formik>
             <p className="text-xs text-main-accent fixed bottom-4 left-2/4 -translate-x-2/4">Image by<a href="https://pl.freepik.com/darmowe-wektory/recznie-rysowane-ilustracja-kregoslupa-ksiazki-o-plaskiej-konstrukcji_24307294.htm#from_view=detail_serie">Freepik</a></p>
         </div>
     )

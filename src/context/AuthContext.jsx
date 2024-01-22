@@ -58,20 +58,24 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const signup = async (newUser) => {
+    const signup = async (newUser, { setStatus }) => {
         try {
-            await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/register', {
+            const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newUser),
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    login({ username: data.username, password: data.password })
-                })
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                if (errorData.detail === 'Invalid request content.') setStatus('User email already exists')
+                console.log(errorData)
+            }
+
+            const data = await response.json()
+            login({ username: data.username, password: data.password })
         } catch (error) {
             console.log(error)
         }
