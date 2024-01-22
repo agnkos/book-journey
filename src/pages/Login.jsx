@@ -37,6 +37,7 @@ const Login = () => {
           id='username'
           placeholder="Username"
           className="w-11/12 px-4 py-2 rounded-md border"
+          required
         />
         <input
           type="password"
@@ -46,6 +47,7 @@ const Login = () => {
           id='password'
           placeholder="Password"
           className="w-11/12 px-4 py-2 rounded-md border"
+          required
         />
 
         <button type="submit" className="w-11/12 px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md">Log In</button>
