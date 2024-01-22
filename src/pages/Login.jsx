@@ -7,21 +7,8 @@ import * as Yup from "yup";
 
 
 const Login = () => {
-  // const [loginData, setLoginData] = useState({ username: '', password: '' })
   const { login } = useAuth();
   const location = useLocation();
-
-  // const handleLoginChange = ({ target }) => {
-  //   setLoginData({ ...loginData, [target.name]: target.value })
-  // }
-
-  // dodać async await?
-  // Form onSubmit={handleLogin}
-  // const handleLogin = (e) => {
-  //   e.preventDefault()
-  //   login(loginData)
-  //   setLoginData({ username: '', password: '' })
-  // }
 
   const initialValues = {
     username: '',
@@ -45,20 +32,16 @@ const Login = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={loginValidationSchema}
-        onSubmit={(values) => login(values)}
+        onSubmit={(values, { setErrors }) => login(values, { setErrors })}
       >
         {({ values }) => {
-
-          console.log(values)
           return (<Form className="w-11/12 flex flex-col items-center gap-4 max-w-md mx-auto">
             <div className="w-full">
 
               <Field
                 type="text"
-                // value={loginData.username}
                 value={values.username}
                 name="username"
-                // onChange={handleLoginChange}
                 id='username'
                 placeholder="Username"
                 className="w-11/12 mb-1 px-4 py-2 rounded-md border"
@@ -70,10 +53,8 @@ const Login = () => {
             <div className="w-full">
               <Field
                 type="password"
-                // value={loginData.password}
                 value={values.password}
                 name="password"
-                // onChange={handleLoginChange}
                 id='password'
                 placeholder="Password"
                 className="w-11/12 mb-1 px-4 py-2 rounded-md border"
