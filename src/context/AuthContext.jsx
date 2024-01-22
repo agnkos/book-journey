@@ -67,7 +67,9 @@ export const AuthContextProvider = ({ children }) => {
                 },
                 body: JSON.stringify(newUser),
             })
-
+            // const datajo = await response.json()
+            // console.log(datajo)
+            console.log(response)
             if (!response.ok) {
                 const errorData = await response.json();
                 if (errorData.detail === 'Invalid request content.') setStatus('User email already exists')
@@ -77,7 +79,7 @@ export const AuthContextProvider = ({ children }) => {
             const data = await response.json()
             login({ username: data.username, password: data.password })
         } catch (error) {
-            console.log(error)
+            setStatus('User email already exists')
         }
     }
 

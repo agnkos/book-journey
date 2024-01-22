@@ -11,7 +11,7 @@ const Signup = () => {
         email: '',
         username: '',
         password: '',
-        repeatPassword: ''
+        // repeatPassword: ''
     }
     // .email('Invalid email address')
     const signupValidationSchema = Yup.object({
@@ -42,8 +42,9 @@ const Signup = () => {
                     <div className="w-full">
                         <Field
                             type="email"
-                            value={values.email}
                             name="email"
+                            id="email"
+                            // value={values.email}
                             placeholder="Email"
                             className="w-11/12 mb-1 px-4 py-2 rounded-md border"
                         />
@@ -52,8 +53,9 @@ const Signup = () => {
                     <div className="w-full">
                         <Field
                             type="text"
-                            value={values.username}
                             name="username"
+                            id="username"
+                            // value={values.username}
                             placeholder="Username"
                             className="w-11/12 mb-1 px-4 py-2 rounded-md border"
                         />
@@ -63,6 +65,8 @@ const Signup = () => {
                     <div className="w-full">
                         <Field
                             type="password"
+                            name="password"
+                            id="password"
                             value={values.password}
                             placeholder="Password"
                             className="w-11/12 mb-1 px-4 py-2 rounded-md border"
@@ -72,8 +76,9 @@ const Signup = () => {
                     <div className="w-full">
                         <Field
                             type="password"
-                            value={values.repeatPassword}
                             name="repeatPassword"
+                            id="repeatPasswrod"
+                            value={values.repeatPassword}
                             placeholder="Confirm password"
                             className="w-11/12 mb-1 px-4 py-2 rounded-md border"
                         />
