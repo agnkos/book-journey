@@ -20,10 +20,10 @@ export const AuthContextProvider = ({ children }) => {
             })
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail)
-                // setErrors({ password: 'Invalid username or password' })
-                // if (errorData.detail === 'Invalid request content.') throw new Error('Invalid username or password')
+                // console.log('login error')
+                // const errorData = await response.json();
+                // console.log(errorData)
+                throw new Error('Invalid username or password')
             }
 
             const data = await response.json()
@@ -31,9 +31,8 @@ export const AuthContextProvider = ({ children }) => {
             window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
             navigate('/dashboard')
         } catch (error) {
-            if (error.detail === 'Invalid request content.') {
-                setErrors({ password: 'Invalid username or password' })
-            }
+            console.log(error)
+            setErrors({ password: 'Invalid username or password' })
         }
     }
 
