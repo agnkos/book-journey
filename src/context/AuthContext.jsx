@@ -9,8 +9,7 @@ export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)
     const navigate = useNavigate()
 
-    const login = async (loginData, { setErrors }) => {
-
+    const login = async (loginData, { setErrors = () => { } } = {}) => {
         try {
             const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/login', {
                 method: 'POST',
@@ -22,10 +21,9 @@ export const AuthContextProvider = ({ children }) => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.log(errorData)
-                setErrors({ password: 'Invalid username or password' })
-                if (errorData.detail === 'Invalid request content.') throw new Error('Invalid username or password')
-                else throw new Error('Login failed')
+                throw new Error(errorData.detail)
+                // setErrors({ password: 'Invalid username or password' })
+                // if (errorData.detail === 'Invalid request content.') throw new Error('Invalid username or password')
             }
 
             const data = await response.json()
@@ -33,8 +31,9 @@ export const AuthContextProvider = ({ children }) => {
             window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
             navigate('/dashboard')
         } catch (error) {
-            console.log(error)
-            setErrors({ password: 'Invalid username or password' })
+            if (error.detail === 'Invalid request content.') {
+                setErrors({ password: 'Invalid username or password' })
+            }
         }
     }
 
@@ -67,19 +66,24 @@ export const AuthContextProvider = ({ children }) => {
                 },
                 body: JSON.stringify(newUser),
             })
-            // const datajo = await response.json()
-            // console.log(datajo)
-            console.log(response)
+
             if (!response.ok) {
                 const errorData = await response.json();
-                if (errorData.detail === 'Invalid request content.') setStatus('User email already exists')
-                console.log(errorData)
+                throw new Error(errorData.message)
             }
 
-            const data = await response.json()
-            login({ username: data.username, password: data.password })
+            await response.json()
+            // {message: 'User registered successfully!'}
+            login({ username: newUser.username, password: newUser.password })
         } catch (error) {
-            setStatus('User email already exists')
+            console.log(error)
+            if (error.message === "Error: Username is already taken!") {
+                setStatus('Username already exists');
+            } else if (error.message === "Error: Email is already in use!") {
+                setStatus('Email already exists');
+            } else {
+                setStatus('An unexpected error occurred');
+            }
         }
     }
 
