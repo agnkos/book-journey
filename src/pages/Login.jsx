@@ -3,11 +3,15 @@ import { useLocation } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
+import { useCallback } from "react";
 
 
 const Login = () => {
   const { login } = useAuth();
   const location = useLocation();
+  const onSubmit = useCallback(() => {
+    (values, { setErrors }) => login(values, { setErrors })
+  }, [login])
 
   const initialValues = {
     username: '',
@@ -18,6 +22,7 @@ const Login = () => {
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
   })
+
 
   return (
     <div className="h-screen flex flex-col justify-center px-8 py-6 text-center items-center bg-light-bg">
@@ -32,7 +37,7 @@ const Login = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={loginValidationSchema}
-        onSubmit={(values, { setErrors }) => login(values, { setErrors })}
+        onSubmit={onSubmit}
       >
         {({ values, isSubmitting }) => {
           return (<Form className="w-11/12 flex flex-col items-center gap-4 max-w-md mx-auto">

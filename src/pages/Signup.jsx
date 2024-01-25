@@ -2,9 +2,15 @@ import { useAuth } from "../hooks/useAuth"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
+import { useCallback } from "react";
 
 const Signup = () => {
     const { signup } = useAuth()
+    const onSubmit = useCallback((values, { setStatus }) => {
+        const valuesToSend = { ...values }
+        delete valuesToSend.repeatPassword
+        signup(valuesToSend, { setStatus })
+    }, [signup])
 
     const signupInitialValues = {
         email: '',
@@ -12,7 +18,6 @@ const Signup = () => {
         password: '',
         repeatPassword: ''
     }
-    // .email('Invalid email address')
     const signupValidationSchema = Yup.object({
         email: Yup.string().required('Email is required').matches(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -22,6 +27,7 @@ const Signup = () => {
         password: Yup.string().required('Password is required').min(8, 'Password must be 6 characters long or more'),
         repeatPassword: Yup.string().oneOf([Yup.ref("password")], "Passwords don't match").required('Repeat password')
     })
+
 
     return (
         <div className="h-screen max-h-screen flex flex-col justify-center px-8 py-6 text-center bg-light-bg">
@@ -34,12 +40,7 @@ const Signup = () => {
             <Formik
                 initialValues={signupInitialValues}
                 validationSchema={signupValidationSchema}
-                onSubmit={(values, { setStatus }) => {
-                    // const { repeatPassword, ...valuesToSend } = values
-                    const valuesToSend = { ...values }
-                    delete valuesToSend.repeatPassword
-                    signup(valuesToSend, { setStatus })
-                }}
+                onSubmit={onSubmit}
             >
 
                 {({ values, status }) => (<Form className="w-11/12 mx-auto flex flex-col items-center gap-4 max-w-md">
