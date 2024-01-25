@@ -9,8 +9,7 @@ export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)
     const navigate = useNavigate()
 
-    const login = async (loginData) => {
-
+    const login = async (loginData, { setErrors = () => { } } = {}) => {
         try {
             const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/login', {
                 method: 'POST',
@@ -21,30 +20,19 @@ export const AuthContextProvider = ({ children }) => {
             })
 
             if (!response.ok) {
-                const errorData = await response.json();
-                console.log(errorData)
-                // setErrors({password: 'Invalid username or password' })
-                if (errorData.detail === 'Invalid request content.') throw new Error('Invalid login data')
-                else throw new Error('Login failed')
+                // console.log('login error')
+                // const errorData = await response.json();
+                // console.log(errorData)
+                throw new Error('Invalid username or password')
             }
 
             const data = await response.json()
             setUser(data)
             window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
             navigate('/dashboard')
-
-            //             .then(response => response.json())
-            // .then(data => {
-            //     // console.log(data)
-            //     setUser(data)
-            //     // console.log('user', user)
-            //     window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
-            //     navigate('/dashboard')
-            // })
-
         } catch (error) {
             console.log(error)
-            // tu też dodać setError({password: 'Invalid username or password' })
+            setErrors({ password: 'Invalid username or password' })
         }
     }
 
@@ -68,22 +56,33 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const signup = async (newUser) => {
+    const signup = async (newUser, { setStatus }) => {
         try {
-            await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/register', {
+            const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newUser),
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    login({ username: data.username, password: data.password })
-                })
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message)
+            }
+
+            await response.json()
+            // {message: 'User registered successfully!'}
+            login({ username: newUser.username, password: newUser.password })
         } catch (error) {
             console.log(error)
+            if (error.message === "Error: Username is already taken!") {
+                setStatus('Username already exists');
+            } else if (error.message === "Error: Email is already in use!") {
+                setStatus('Email already exists');
+            } else {
+                setStatus('An unexpected error occurred');
+            }
         }
     }
 
