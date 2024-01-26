@@ -2,15 +2,14 @@ import { useAuth } from "../hooks/useAuth"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
-import { useCallback } from "react";
 
 const Signup = () => {
     const { signup } = useAuth()
-    const onSubmit = useCallback((values, { setStatus }) => {
+    const onSubmit = (values, { setStatus }) => {
         const valuesToSend = { ...values }
         delete valuesToSend.repeatPassword
         signup(valuesToSend, { setStatus })
-    }, [signup])
+    }
 
     const signupInitialValues = {
         email: '',

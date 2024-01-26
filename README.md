@@ -6,6 +6,8 @@
 
 - [Deployed app](#deployed-app)
 - [About](#about)
+- [Technologies](#technologies)
+- [Screenshots](#screenshots)
 
 ## Deployed app
 
@@ -22,3 +24,13 @@ Planned features:
 - you can add a book to one of three categories (reading, to read, read)
 - for each book you have read, you can add reviews and moods and track your mood statistics
 - you can also recommend books to your friends
+
+## Technologies
+
+- React, Formik, TailwindCSS
+
+## Screenshots:
+
+<img src='./public/screen1.jpg' alt="app screenshot" title="app screenshot" style='width: 250px; margin: 10px;'> 
+<img src='./public/screen2.jpg' alt="app screenshot" title="app screenshot" style='width: 250px; margin: 10px;'> 
+<img src='./public/screen3.jpg' alt="app screenshot" title="app screenshot" style='width: 250px; margin: 10px;'> 
