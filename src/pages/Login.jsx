@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
+import { useCallback } from "react";
 
 const Login = () => {
   const { login } = useAuth();
   const location = useLocation();
-
-  const onSubmit = (values, { setErrors }) => login(values, { setErrors })
+  
+  const onSubmit = useCallback((values, { setErrors }) => {login(values, { setErrors })
+  }, [login])
 
   const initialValues = {
     username: '',
