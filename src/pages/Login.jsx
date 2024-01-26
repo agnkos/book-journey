@@ -1,23 +1,28 @@
-import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useLocation } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
+import { useCallback } from "react";
+
 
 const Login = () => {
-  const [loginData, setLoginData] = useState({ username: '', password: '' })
   const { login } = useAuth();
   const location = useLocation();
+  const onSubmit = useCallback(() => {
+    (values, { setErrors }) => login(values, { setErrors })
+  }, [login])
 
-  const handleLoginChange = ({ target }) => {
-    setLoginData({ ...loginData, [target.name]: target.value })
+  const initialValues = {
+    username: '',
+    password: ''
   }
 
-  // dodać async await?
-  const handleLogin = (e) => {
-    e.preventDefault()
-    login(loginData)
-    setLoginData({ username: '', password: '' })
-  }
+  const loginValidationSchema = Yup.object({
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().required('Password is required'),
+  })
+
 
   return (
     <div className="h-screen flex flex-col justify-center px-8 py-6 text-center items-center bg-light-bg">
@@ -28,28 +33,39 @@ const Login = () => {
       <p className="text-xl font-medium mb-4">Log In</p>
       {location.state?.message &&
         <h3>{location.state.message}</h3>}
-      <form onSubmit={handleLogin} className="w-11/12 flex flex-col items-center gap-4 max-w-md mx-auto">
-        <input
-          type="text"
-          value={loginData.username}
-          name="username"
-          onChange={handleLoginChange}
-          id='username'
-          placeholder="Username"
-          className="w-11/12 px-4 py-2 rounded-md border"
-        />
-        <input
-          type="password"
-          value={loginData.password}
-          name="password"
-          onChange={handleLoginChange}
-          id='password'
-          placeholder="Password"
-          className="w-11/12 px-4 py-2 rounded-md border"
-        />
 
-        <button type="submit" className="w-11/12 px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md">Log In</button>
-      </form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginValidationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ values, isSubmitting }) => {
+          return (<Form className="w-11/12 flex flex-col items-center gap-4 max-w-md mx-auto">
+            <div className="w-full">
+
+              <Field
+                type="text"
+                value={values.username}
+                name="username"
+                placeholder="Username"
+                className="w-11/12 mb-1 px-4 py-2 rounded-md border"
+              />
+              <ErrorMessage name="username" component="div" className="text-sm text-red-500" />
+            </div>
+            <div className="w-full">
+              <Field
+                type="password"
+                value={values.password}
+                name="password"
+                placeholder="Password"
+                className="w-11/12 mb-1 px-4 py-2 rounded-md border"
+              />
+              <ErrorMessage name="password" component="div" className="text-sm text-red-500" />
+            </div>
+            <button type="submit" className="w-11/12 px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md" disabled={isSubmitting}>Log In</button>
+          </Form>)
+        }}
+      </Formik>
       <p className="text-xs text-main-accent fixed bottom-4 left-2/4 -translate-x-2/4">Image by<a href="https://pl.freepik.com/darmowe-wektory/recznie-rysowane-ilustracja-kregoslupa-ksiazki-o-plaskiej-konstrukcji_24307294.htm#from_view=detail_serie">Freepik</a></p>
     </div>
   )

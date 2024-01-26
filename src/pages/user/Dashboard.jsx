@@ -25,10 +25,6 @@ const Dashboard = () => {
     fetchData()
   }, [user.token])
 
-  useEffect(() => {
-    console.log('dashboard user', user)
-  })
-
   return (
     <div className="p-4">
         <h1>Dashboard</h1>
