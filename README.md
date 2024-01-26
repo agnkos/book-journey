@@ -1,8 +1,24 @@
-# React + Vite
+### (code under construction :hammer_and_wrench:)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Book Journey
 
-Currently, two official plugins are available:
+## Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Deployed app](#deployed-app)
+- [About](#about)
+
+## Deployed app
+
+<b> [Link to the deployed app](https://book-journey.netlify.app/) </b> <br>
+
+## Project description
+
+I'm building frontend for the REST API (Java)
+[Link to the backend repo](https://github.com/JuliaSawczenko/BookJourney)
+[Link to the endpoints](https://book-journey-app-54dba2b08eec.herokuapp.com/swagger-ui/index.html)
+
+Planned features:
+- app for tracking info about books you want to read and already have read
+- you can add a book to one of three categories (reading, to read, read)
+- for each book you have read, you can add reviews and moods and track your mood statistics
+- you can also recommend books to your friends
