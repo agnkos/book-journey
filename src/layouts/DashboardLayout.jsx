@@ -17,7 +17,7 @@ const DashboardLayout = () => {
 
     return (
         <div className="min-h-screen flex flex-col justify-between">
-            <Navbar toggleMenu={toggleMenu} toggle={toggle}/>
+            <Navbar toggleMenu={toggleMenu} toggle={toggle} />
             <div className="flex flex-col grow">
                 <Menu closeMenu={closeMenu} toggle={toggle} />
                 <Outlet />
