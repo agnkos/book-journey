@@ -2,8 +2,12 @@ import { Formik, Form, Field } from "formik";
 // import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import { useAuth } from "../../hooks/useAuth";
+import { addBook } from "../../helpers/requests";
 
 const ReadForm = () => {
+  const { user } = useAuth()
+  // console.log('token', user.token)
 
   const initialValues = {
     title: '',
@@ -20,10 +24,22 @@ const ReadForm = () => {
       initialValues={initialValues}
       onSubmit={(values) => {
         console.log(values)
+        const bookData = {
+          title: values.title,
+          author: values.author,
+          status: "READ",
+          review: {
+            score: values.rate,
+            comment: values.review
+          },
+          startDate: values.startDate,
+          endDate: values.endDate
+        }
+        addBook(bookData, user.token)
       }}
     >
       {({ values, setFieldValue }) => {
-        console.log(values)
+        // console.log(values)
         return (
           <Form>
             <div>
@@ -31,7 +47,7 @@ const ReadForm = () => {
                 <Field
                   type="text"
                   name="title"
-                  className="w-11/12 mb-1 px-4 py-2 rounded-md border" />
+                  className="w-11/12 mb-2 px-3 py-1 rounded-md border" />
               </label>
             </div>
             <div>
@@ -39,12 +55,13 @@ const ReadForm = () => {
                 <Field
                   type="text"
                   name="author"
-                  className="w-11/12 mb-1 px-4 py-2 rounded-md border" />
+                  className="w-11/12 mb-2 px-3 py-1 rounded-md border" />
               </label>
             </div>
+
             <div className="flex">
               <label>Rate
-                <div className="flex gap-2 mb-1">
+                <div className="flex gap-2 mb-2">
                   <Field
                     type="range"
                     name="rate"
@@ -56,17 +73,19 @@ const ReadForm = () => {
                 </div>
               </label>
             </div>
+
             <div>
               <label>Review
                 <Field
                   type="text"
                   as="textarea"
                   name="review"
-                  className="w-11/12 mb-1 px-4 py-2 rounded-md border resize-none" />
+                  className="w-11/12 mb-2 px-4 py-2 rounded-md border resize-none" />
               </label>
             </div>
+
             <div id="moods-group">Moods</div>
-            <div role="group" aria-labelledby="moods-group" className="flex flex-col">
+            <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-2">
 
               <div className="flex gap-4">
                 <label className="mr-1">
@@ -223,25 +242,25 @@ const ReadForm = () => {
 
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex justify-between items-center max-w-[320px] max-[400px]:flex-col max-[400px]:items-start mb-2">
               <label>Start date
-                <DatePicker
-                  id="startDate"
-                  name="startDate"
-                  selected={values.startDate}
-                  onChange={(date) => setFieldValue('startDate', date)}
-                  className="px-4 py-2 ml-2 rounded-md border" />
               </label>
+              <DatePicker
+                id="startDate"
+                name="startDate"
+                selected={values.startDate}
+                onChange={(date) => setFieldValue('startDate', date)}
+                className="px-3 py-1 rounded-md border" />
             </div>
-            <div className="flex gap-4">
+            <div className="flex justify-between items-center max-w-[320px] max-[400px]:flex-col max-[400px]:items-start mb-2">
               <label>Finish date
-                <DatePicker
-                  id="finishDate"
-                  name="finishDate"
-                  selected={values.finishDate}
-                  onChange={(date) => setFieldValue('finishDate', date)}
-                  className="px-4 py-2 ml-2 rounded-md border" />
               </label>
+              <DatePicker
+                id="finishDate"
+                name="finishDate"
+                selected={values.finishDate}
+                onChange={(date) => setFieldValue('finishDate', date)}
+                className="px-3 py-1 rounded-md border" />
             </div>
 
             <button type="submit"

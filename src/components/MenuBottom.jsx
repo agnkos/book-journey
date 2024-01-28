@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const MenuBottom = () => {
     return (
-        <div className='flex p-4 bg-main-accent justify-between'>
+        <div className='w-full fixed bottom-0 flex p-4 bg-main-accent justify-between'>
             <NavLink to='dashboard'>
                 {({ isActive }) => (
                     <HomeIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} hover:stroke-link-active-hover transition duration-150`} />
