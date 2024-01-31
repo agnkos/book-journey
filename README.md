@@ -5,6 +5,7 @@
 ## Contents
 
 - [Deployed app](#deployed-app)
+- [Design](#design)
 - [About](#about)
 - [Technologies](#technologies)
 - [Screenshots](#screenshots)
@@ -12,6 +13,10 @@
 ## Deployed app
 
 <b> [Link to the deployed app](https://book-journey.netlify.app/) </b> <br>
+
+## Design
+
+[Link - figma design](https://www.figma.com/file/d8aWbn9I5lcGr7qO8B5z7x/BookJourney?type=design&node-id=0%3A1&mode=design&t=rlcY1RJpIIzhIX5b-1)
 
 ## Project description
 
