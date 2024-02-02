@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ReadForm from "../../components/AddBook forms/ReadForm"
-import SearchBook from "../../components/searchBook"
+// import SearchBook from "../../components/searchBook"
 
 const AddBook = () => {
     const [displayedForm, setDisplayedForm] = useState('read')
@@ -8,7 +8,7 @@ const AddBook = () => {
     return (
         <div className="p-4">
             <h1 className="text-2xl font-semibold mb-2">Add book</h1>
-            < SearchBook />
+            {/* < SearchBook /> */}
             <div className="flex gap-4 text-xl mb-2">
                 <button
                     onClick={() => setDisplayedForm('read')}

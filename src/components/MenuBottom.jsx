@@ -1,4 +1,4 @@
-import { HomeIcon, BookOpenIcon, UsersIcon, ChartPieIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, BookOpenIcon, UsersIcon, ChartPieIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { NavLink } from 'react-router-dom';
 
 const MenuBottom = () => {
@@ -12,6 +12,11 @@ const MenuBottom = () => {
             <NavLink to='books'>
                 {({ isActive }) => (
                     <BookOpenIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} hover:stroke-link-active-hover transition duration-150`} />
+                )}
+            </NavLink>
+            <NavLink to='search'>
+                {({ isActive }) => (
+                    <MagnifyingGlassIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} hover:stroke-link-active-hover transition duration-150`} />
                 )}
             </NavLink>
             <NavLink to='friends'>

@@ -93,7 +93,7 @@ const ReadForm = () => {
                   In love
                 </label>
                 {values.moods.includes('in love') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.inlove"
@@ -110,7 +110,7 @@ const ReadForm = () => {
                   happy
                 </label>
                 {values.moods.includes('happy') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.happy"
@@ -127,7 +127,7 @@ const ReadForm = () => {
                   dreamy
                 </label>
                 {values.moods.includes('dreamy') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.dreamy"
@@ -144,7 +144,7 @@ const ReadForm = () => {
                   nervous
                 </label>
                 {values.moods.includes('nervous') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.nervous"
@@ -161,7 +161,7 @@ const ReadForm = () => {
                   scared
                 </label>
                 {values.moods.includes('scared') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.scared"
@@ -178,7 +178,7 @@ const ReadForm = () => {
                   bored
                 </label>
                 {values.moods.includes('bored') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.bored"
@@ -195,7 +195,7 @@ const ReadForm = () => {
                   nostalgic
                 </label>
                 {values.moods.includes('nostalgic') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.nostalgic"
@@ -212,7 +212,7 @@ const ReadForm = () => {
                   sad
                 </label>
                 {values.moods.includes('sad') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.sad"
@@ -229,7 +229,7 @@ const ReadForm = () => {
                   angry
                 </label>
                 {values.moods.includes('angry') &&
-                  <div className="flex gap-2 mb-1">
+                  <div className="flex gap-2">
                     <Field
                       type="range"
                       name="moodsrate.angry"

@@ -18,6 +18,8 @@ import Stats from './pages/user/Stats.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
 import AddBook from './pages/user/AddBook.jsx'
 import Profile from './pages/user/Profile.jsx'
+import Search from './pages/user/Search.jsx';
+import AddBookVer from './pages/user/AddBookVer.jsx';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
                 element: <Books />
               },
               {
+                path: '/search',
+                element: <Search />
+              },
+              {
                 path: '/friends',
                 element: <Friends />
               },
@@ -60,6 +66,10 @@ const router = createBrowserRouter([
               {
                 path: '/addbook',
                 element: <AddBook />
+              },
+              {
+                path: '/addbook2',
+                element: <AddBookVer />
               },
               {
                 path: '/profile',
