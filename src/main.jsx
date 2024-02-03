@@ -19,7 +19,7 @@ import DashboardLayout from './layouts/DashboardLayout.jsx';
 import AddBook from './pages/user/AddBook.jsx'
 import Profile from './pages/user/Profile.jsx'
 import Search from './pages/user/Search.jsx';
-import AddBookVer from './pages/user/AddBookVer.jsx';
+import AddBookVer from './pages/user/AddBook/AddBookVer.jsx';
 
 const router = createBrowserRouter([
   {

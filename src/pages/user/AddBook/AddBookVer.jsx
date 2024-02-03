@@ -1,8 +1,10 @@
-import { useAuth } from "../../hooks/useAuth";
-import { addBook } from "../../helpers/requests";
+import { useAuth } from "../../../hooks/useAuth";
+import { addBook } from "../../../helpers/requests";
 import { Formik, Form, Field } from "formik";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import TextField from "./components/TextField";
+import RadioButton from "./components/RadioButton";
 
 const AddBookVer = () => {
     const { user } = useAuth()
@@ -17,7 +19,7 @@ const AddBookVer = () => {
         mood: null,
         moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
         startDate: null,
-        finishDate: null
+        endDate: null
     }
 
     return (
@@ -29,7 +31,7 @@ const AddBookVer = () => {
                     // console.log('moods', values.moods)
                     const moodsPercentages = {}
                     for (const [key, value] of Object.entries(values.moodsrate)) {
-                        if (values.moods.includes(key)) {
+                        if (values.status === "read" && values.moods.includes(key)) {
                             // console.log(value)
                             moodsPercentages[`${key}`.toUpperCase()] = value
                         }
@@ -45,7 +47,7 @@ const AddBookVer = () => {
                         mood: values.mood,
                         moods: { moodsPercentages: moodsPercentages },
                         startDate: values.startDate,
-                        endDate: values.finishDate
+                        endDate: values.endDate
                     }
                     console.log(moodsPercentages)
                     console.log(bookData)
@@ -56,40 +58,20 @@ const AddBookVer = () => {
                     console.log('form values', values)
                     return (
                         <Form>
-                            <div>
-                                <label>Book title
-                                    <Field
-                                        type="text"
-                                        name="title"
-                                        className="w-11/12 mb-2 px-3 py-1 rounded-md border" />
-                                </label>
-                            </div>
-                            <div>
-                                <label>Author
-                                    <Field
-                                        type="text"
-                                        name="author"
-                                        className="w-11/12 mb-2 px-3 py-1 rounded-md border" />
-                                </label>
-                            </div>
+                            <TextField name="title" label="Book title" />
+                            <TextField name="author" label="Author" />
 
-                            <div>
-                                <p id="status-group">Status</p>
-                                <div role="group" aria-labelledby="status-group">
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="status" value="read" checked="checked" className="mr-2" />
-                                        Read
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="status" value="reading" className="mr-2" />
-                                        Reading
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="status" value="to read" className="mr-2" />
-                                        To read
-                                    </label>
+                            
+                                <p id="status-group" className="font-semibold">Status</p>
+                                <div role="group" aria-labelledby="status-group" className="mb-3">
+                                    <RadioButton name="status" value="read"
+                                        label="Read" />
+                                    <RadioButton name="status" value="reading"
+                                        label="Reading" />
+                                    <RadioButton name="status" value="to read"
+                                        label="To read" />
                                 </div>
-                            </div>
+                         
                             {values.status === "read" &&
                                 <>
                                     <div className="flex">
@@ -122,7 +104,7 @@ const AddBookVer = () => {
 
                                         <div className="flex gap-4">
                                             <label className="mr-1">
-                                                <Field type="checkbox" name="moods" value="in love" className="mr-2" />
+                                                <Field type="checkbox" name="moods" value="in_love" className="mr-2" />
                                                 In love
                                             </label>
                                             {values.moods.includes('in_love') &&
@@ -260,7 +242,7 @@ const AddBookVer = () => {
                             }
 
                             {["reading", "read"].includes(values.status) && <div className="flex justify-between items-center max-w-[320px] max-[400px]:flex-col max-[400px]:items-start mb-2">
-                                <label>Start date
+                                <label htmlFor="startDate">Start date
                                 </label>
                                 <DatePicker
                                     id="startDate"
@@ -271,19 +253,19 @@ const AddBookVer = () => {
                             </div>}
 
                             {values.status === "read" && < div className="flex justify-between items-center max-w-[320px] max-[400px]:flex-col max-[400px]:items-start mb-2">
-                                <label>Finish date
+                                <label htmlFor="endDate">Finish date
                                 </label>
                                 <DatePicker
-                                    id="finishDate"
-                                    name="finishDate"
-                                    selected={values.finishDate}
-                                    onChange={(date) => setFieldValue('finishDate', date)}
+                                    id="endDate"
+                                    name="endDate"
+                                    selected={values.endDate}
+                                    onChange={(date) => setFieldValue('endDate', date)}
                                     className="px-3 py-1 rounded-md border" />
                             </div>}
 
                             {values.status === "reading" && <div>
-                                <p id="mood-group">Mood</p>
-                                <div role="group" aria-labelledby="mood-group">
+                                <p id="mood-group" className="font-semibold">Mood</p>
+                                <div role="group" aria-labelledby="mood-group" className="flex flex-col mb-3">
                                     <label className="mr-1 ">
                                         <Field type="radio" name="mood" value="happy" checked="checked" className="mr-2" />
                                         happy
