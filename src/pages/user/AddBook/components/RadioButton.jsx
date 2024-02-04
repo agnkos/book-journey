@@ -13,7 +13,7 @@ const RadioButton = ({ label, ...props }) => {
 export default RadioButton
 
 RadioButton.propTypes = {
-    name: PropTypes.string.isRequired,
+    // name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    // value: PropTypes.string.isRequired,
 }

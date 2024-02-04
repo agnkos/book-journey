@@ -1,10 +1,13 @@
 import { useAuth } from "../../../hooks/useAuth";
 import { addBook } from "../../../helpers/requests";
-import { Formik, Form, Field } from "formik";
-import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
+import RangeFieldEl from "./components/RangeFieldEl";
+import CheckboxField from "./components/CheckboxField";
+import TextareaField from "./components/TextareaField";
+import DateElement from "./components/DateElement";
 
 const AddBookVer = () => {
     const { user } = useAuth()
@@ -22,284 +25,176 @@ const AddBookVer = () => {
         endDate: null
     }
 
+    const validationSchema = Yup.object({
+        title: Yup.string().required('Title is required'),
+        author: Yup.string().required('Author is required')
+    })
+
+    const onSubmit = (values, resetForm) => {
+        const moodsPercentages = {}
+        for (const [key, value] of Object.entries(values.moodsrate)) {
+            if (values.status === "read" && values.moods.includes(key)) {
+                moodsPercentages[`${key}`.toUpperCase()] = value
+            }
+        }
+
+        const readingBook = {
+            title: values.title,
+            author: values.author,
+            mood: values.mood,
+            startDate: values.startDate,
+            status: values.status.toUpperCase()
+        }
+
+        const toReadBook = {
+            title: values.title,
+            author: values.author,
+            // status: values.status.toUpperCase()
+            status: 'TO_READ'
+        }
+        const readBook = {
+            title: values.title,
+            author: values.author,
+            status: values.status.toUpperCase(),
+            review: {
+                score: values.rate,
+                comment: values.review
+            },
+            moods: { moodsPercentages: moodsPercentages },
+            startDate: values.startDate,
+            endDate: values.endDate
+        }
+
+        const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
+
+        console.log(moodsPercentages)
+        console.log(bookData)
+        addBook(bookData, user.token)
+        resetForm()
+    }
+
     return (
         <div className="p-4">
             <h1 className="text-2xl font-semibold mb-2">AddBookVer</h1>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values) => {
-                    // console.log('moods', values.moods)
-                    const moodsPercentages = {}
-                    for (const [key, value] of Object.entries(values.moodsrate)) {
-                        if (values.status === "read" && values.moods.includes(key)) {
-                            // console.log(value)
-                            moodsPercentages[`${key}`.toUpperCase()] = value
-                        }
-                    }
-                    const bookData = {
-                        title: values.title,
-                        author: values.author,
-                        status: values.status.toUpperCase(),
-                        review: {
-                            score: values.rate,
-                            comment: values.review
-                        },
-                        mood: values.mood,
-                        moods: { moodsPercentages: moodsPercentages },
-                        startDate: values.startDate,
-                        endDate: values.endDate
-                    }
-                    console.log(moodsPercentages)
-                    console.log(bookData)
-                    addBook(bookData, user.token)
-                }}
+                onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
+                validationSchema={validationSchema}
             >
-                {({ values, setFieldValue }) => {
+                {({ values }) => {
                     console.log('form values', values)
                     return (
                         <Form>
                             <TextField name="title" label="Book title" />
                             <TextField name="author" label="Author" />
 
-                            
-                                <p id="status-group" className="font-semibold">Status</p>
-                                <div role="group" aria-labelledby="status-group" className="mb-3">
-                                    <RadioButton name="status" value="read"
-                                        label="Read" />
-                                    <RadioButton name="status" value="reading"
-                                        label="Reading" />
-                                    <RadioButton name="status" value="to read"
-                                        label="To read" />
-                                </div>
-                         
+                            <p id="status-group" className="font-semibold">Status</p>
+                            <div role="group" aria-labelledby="status-group" className="mb-3">
+                                <RadioButton name="status" value="read"
+                                    label="Read" />
+                                <RadioButton name="status" value="reading"
+                                    label="Reading" />
+                                <RadioButton name="status" value="to read"
+                                    label="To read" />
+                            </div>
+
                             {values.status === "read" &&
                                 <>
-                                    <div className="flex">
-                                        <label>Rate
-                                            <div className="flex gap-2 mb-2">
-                                                <Field
-                                                    type="range"
-                                                    name="rate"
-                                                    min="1"
-                                                    max="10"
-                                                    // step="1"
-                                                    className="w-11/12 rounded-md border" />
-                                                <span>{values.rate}</span>
-                                            </div>
+                                    <div className="mb-3">
+                                        <label className="font-semibold">Rate
+                                            <RangeFieldEl name="rate" values={values} />
                                         </label>
                                     </div>
 
-                                    <div>
-                                        <label>Review
-                                            <Field
-                                                type="text"
-                                                as="textarea"
-                                                name="review"
-                                                className="w-11/12 mb-2 px-4 py-2 rounded-md border resize-none" />
-                                        </label>
+                                    <div className="mb-3">
+                                        <TextareaField name="review" label="Review" />
                                     </div>
 
-                                    <div id="moods-group">Moods</div>
-                                    <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-2">
+                                    <div id="moods-group" className="font-semibold">Moods</div>
+                                    <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-3">
 
                                         <div className="flex gap-4">
-                                            <label className="mr-1">
-                                                <Field type="checkbox" name="moods" value="in_love" className="mr-2" />
-                                                In love
-                                            </label>
+                                            <CheckboxField name="moods" value="in_love" label="In love" />
                                             {values.moods.includes('in_love') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate['in_love']"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate['in_love']}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate['in_love']" values={values} />
+                                            }
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="happy" className="mr-2" />
-                                                happy
-                                            </label>
+                                            <CheckboxField name="moods" value="happy" label="Happy" />
                                             {values.moods.includes('happy') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.happy"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.happy}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.happy" values={values} />}
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="intrigued" className="mr-2" />
-                                                intrigued
-                                            </label>
+                                            <CheckboxField name="moods" value="intrigued" label="Intrigued" />
                                             {values.moods.includes('intrigued') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.intrigued"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.dreamy}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.intrigued" values={values} />
+                                            }
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="tense" className="mr-2" />
-                                                tense
-                                            </label>
+                                            <CheckboxField name="moods" value="tense" label="Tense" />
                                             {values.moods.includes('tense') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.tense"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.nervous}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.tense" values={values} />
+                                            }
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="scared" className="mr-2" />
-                                                scared
-                                            </label>
+                                            <CheckboxField name="moods" value="scared" label="Scared" />
                                             {values.moods.includes('scared') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.scared"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.scared}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.scared" values={values} />
+                                            }
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="relaxed" className="mr-2" />
-                                                relaxed
-                                            </label>
+                                            <CheckboxField name="moods" value="relaxed" label="Relaxed" />
                                             {values.moods.includes('relaxed') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.relaxed"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.bored}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.relaxed" values={values} />
+                                            }
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="nostalgic" className="mr-2" />
-                                                nostalgic
-                                            </label>
+                                            <CheckboxField name="moods" value="nostalgic" label="Nostalgic" />
                                             {values.moods.includes('nostalgic') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.nostalgic"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.nostalgic}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.nostalgic" values={values} />
+                                            }
                                         </div>
 
                                         <div className="flex gap-4">
-                                            <label>
-                                                <Field type="checkbox" name="moods" value="sad" className="mr-2" />
-                                                sad
-                                            </label>
+                                            <CheckboxField name="moods" value="sad" label="Sad" />
                                             {values.moods.includes('sad') &&
-                                                <div className="flex gap-2">
-                                                    <Field
-                                                        type="range"
-                                                        name="moodsrate.sad"
-                                                        min="1"
-                                                        max="10"
-                                                    />
-                                                    <span>{values.moodsrate.sad}</span>
-                                                </div>}
+                                                <RangeFieldEl name="moodsrate.sad" values={values} />
+                                            }
                                         </div>
                                     </div>
                                 </>
                             }
 
-                            {["reading", "read"].includes(values.status) && <div className="flex justify-between items-center max-w-[320px] max-[400px]:flex-col max-[400px]:items-start mb-2">
-                                <label htmlFor="startDate">Start date
-                                </label>
-                                <DatePicker
-                                    id="startDate"
-                                    name="startDate"
-                                    selected={values.startDate}
-                                    onChange={(date) => setFieldValue('startDate', date)}
-                                    className="px-3 py-1 rounded-md border" />
-                            </div>}
+                            {["reading", "read"].includes(values.status) &&
+                                <DateElement name="startDate" label="Start date" values={values} />
+                            }
 
-                            {values.status === "read" && < div className="flex justify-between items-center max-w-[320px] max-[400px]:flex-col max-[400px]:items-start mb-2">
-                                <label htmlFor="endDate">Finish date
-                                </label>
-                                <DatePicker
-                                    id="endDate"
-                                    name="endDate"
-                                    selected={values.endDate}
-                                    onChange={(date) => setFieldValue('endDate', date)}
-                                    className="px-3 py-1 rounded-md border" />
-                            </div>}
+                            {
+                                values.status === "read" &&
+                                <DateElement name="endDate" label="Finish date" values={values} />
+                            }
 
-                            {values.status === "reading" && <div>
-                                <p id="mood-group" className="font-semibold">Mood</p>
-                                <div role="group" aria-labelledby="mood-group" className="flex flex-col mb-3">
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="happy" checked="checked" className="mr-2" />
-                                        happy
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="sad" className="mr-2" />
-                                        sad
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="scared" className="mr-2" />
-                                        scared
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="intrigued" className="mr-2" />
-                                        intrigued
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="relaxed" className="mr-2" />
-                                        realxed
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="tense" className="mr-2" />
-                                        tense
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="in_love" className="mr-2" />
-                                        in love
-                                    </label>
-                                    <label className="mr-1 ">
-                                        <Field type="radio" name="mood" value="nostalgic" className="mr-2" />
-                                        nostalgic
-                                    </label>
-                                </div>
-                            </div>}
+                            {values.status === "reading" &&
+                                <>
+                                    <p id="mood-group" className="font-semibold">Mood</p>
+                                    <div role="group" aria-labelledby="mood-group" className="flex flex-col mb-3">
+                                        <RadioButton label="happy" value="happy" name="mood" />
+                                        <RadioButton label="sad" value="sad" name="mood" />
+                                        <RadioButton label="scared" value="scared" name="mood" />
+                                        <RadioButton label="intrigued" value="intrigued" name="mood" />
+                                        <RadioButton label="relaxed" value="relaxed" name="mood" />
+                                        <RadioButton label="tense" value="tense" name="mood" />
+                                        <RadioButton label="in love" value="in_love" name="mood" />
+                                        <RadioButton label="nostalgic" value="nostalgic" name="mood" />
+                                    </div>
+                                </>
+                            }
 
                             <button type="submit"
                                 className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md"
