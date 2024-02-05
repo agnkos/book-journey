@@ -16,10 +16,9 @@ import Books from './pages/user/Books.jsx';
 import Friends from './pages/user/Friends.jsx';
 import Stats from './pages/user/Stats.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
-import AddBook from './pages/user/AddBook.jsx'
 import Profile from './pages/user/Profile.jsx'
 import Search from './pages/user/Search.jsx';
-import AddBookVer from './pages/user/AddBook/AddBookVer.jsx';
+import AddBook from './pages/user/AddBook/AddBook.jsx';
 
 const router = createBrowserRouter([
   {
@@ -66,10 +65,6 @@ const router = createBrowserRouter([
               {
                 path: '/addbook',
                 element: <AddBook />
-              },
-              {
-                path: '/addbook2',
-                element: <AddBookVer />
               },
               {
                 path: '/profile',

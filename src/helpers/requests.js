@@ -1,4 +1,4 @@
-export const addBook = async (bookData, token) => {
+export const addBook = async (bookData, token, actions) => {
     console.log('data sent', bookData)
     console.log('stringify', JSON.stringify(bookData))
     try {
@@ -10,16 +10,13 @@ export const addBook = async (bookData, token) => {
             },
             body: JSON.stringify(bookData),
         })
-        console.log('response', response)
-        // if (!response.ok) {
-        //     // const errorData = await response.json()
-        //     // console.log(errorData)
-        //     throw new Error('Could not add the book')
-        // }
-        const data = await response.json()
-        console.log(data)
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.message)
+        }
+
     } catch (error) {
-        console.log(error)
+        actions.setStatus({ response: error.message })
     }
 }
 

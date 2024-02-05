@@ -8,6 +8,18 @@ import RangeFieldEl from "./components/RangeFieldEl";
 import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
+import { useCallback } from "react";
+
+const moodOptions = [
+    { label: 'In love', value: 'in_love' },
+    { label: 'Happy', value: 'happy' },
+    { label: 'Intrigued', value: 'intrigued' },
+    { label: 'Tense', value: 'tense' },
+    { label: 'Scared', value: 'scared' },
+    { label: 'Relaxed', value: 'relaxed' },
+    { label: 'Nostalgic', value: 'nostalgic' },
+    { label: 'Sad', value: 'sad' },
+];
 
 const AddBookVer = () => {
     const { user } = useAuth()
@@ -27,10 +39,10 @@ const AddBookVer = () => {
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
-        author: Yup.string().required('Author is required')
+        author: Yup.string().required('Author is required'),
     })
 
-    const onSubmit = (values, resetForm) => {
+    const onSubmit = useCallback(async (values, actions) => {
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
             if (values.status === "read" && values.moods.includes(key)) {
@@ -49,8 +61,7 @@ const AddBookVer = () => {
         const toReadBook = {
             title: values.title,
             author: values.author,
-            // status: values.status.toUpperCase()
-            status: 'TO_READ'
+            status: 'GOING_TO_READ'
         }
         const readBook = {
             title: values.title,
@@ -67,26 +78,29 @@ const AddBookVer = () => {
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
-        console.log(moodsPercentages)
-        console.log(bookData)
-        addBook(bookData, user.token)
-        resetForm()
-    }
+        try {
+            await addBook(bookData, user.token)
+            actions.resetForm()
+        } catch (e) {
+            actions.setStatus({ response: 'Book not found' })
+        }
+    }, [user.token])
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-2">AddBookVer</h1>
+            <h1 className="text-2xl font-semibold mb-2">Add Book</h1>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values, { resetForm }) => onSubmit(values, resetForm)}
+                onSubmit={(values, actions) => onSubmit(values, actions)}
                 validationSchema={validationSchema}
             >
-                {({ values }) => {
-                    console.log('form values', values)
+                {({ values, status }) => {
                     return (
                         <Form>
-                            <TextField name="title" label="Book title" />
+                            <TextField name="title" label="Title" />
                             <TextField name="author" label="Author" />
+
+                            <div id="start" className="text-md font-semibold text-red-500">{status?.response}</div>
 
                             <p id="status-group" className="font-semibold">Status</p>
                             <div role="group" aria-labelledby="status-group" className="mb-3">
@@ -113,71 +127,16 @@ const AddBookVer = () => {
                                     <div id="moods-group" className="font-semibold">Moods</div>
                                     <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-3">
 
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="in_love" label="In love" />
-                                            {values.moods.includes('in_love') &&
-                                                <RangeFieldEl name="moodsrate['in_love']" values={values} />
-                                            }
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="happy" label="Happy" />
-                                            {values.moods.includes('happy') &&
-                                                <RangeFieldEl name="moodsrate.happy" values={values} />}
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="intrigued" label="Intrigued" />
-                                            {values.moods.includes('intrigued') &&
-                                                <RangeFieldEl name="moodsrate.intrigued" values={values} />
-                                            }
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="tense" label="Tense" />
-                                            {values.moods.includes('tense') &&
-                                                <RangeFieldEl name="moodsrate.tense" values={values} />
-                                            }
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="scared" label="Scared" />
-                                            {values.moods.includes('scared') &&
-                                                <RangeFieldEl name="moodsrate.scared" values={values} />
-                                            }
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="relaxed" label="Relaxed" />
-                                            {values.moods.includes('relaxed') &&
-                                                <RangeFieldEl name="moodsrate.relaxed" values={values} />
-                                            }
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="nostalgic" label="Nostalgic" />
-                                            {values.moods.includes('nostalgic') &&
-                                                <RangeFieldEl name="moodsrate.nostalgic" values={values} />
-                                            }
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <CheckboxField name="moods" value="sad" label="Sad" />
-                                            {values.moods.includes('sad') &&
-                                                <RangeFieldEl name="moodsrate.sad" values={values} />
-                                            }
-                                        </div>
+                                        {moodOptions.map((moodOption) => (
+                                            <div key={moodOption.value} className="flex gap-4">
+                                                <CheckboxField name="moods" value={moodOption.value} label={moodOption.label} />
+                                                {values.moods.includes(moodOption.value) && (
+                                                    <RangeFieldEl name={`moodsrate.${moodOption.value}`} values={values} />
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
                                 </>
-                            }
-
-                            {["reading", "read"].includes(values.status) &&
-                                <DateElement name="startDate" label="Start date" values={values} />
-                            }
-
-                            {
-                                values.status === "read" &&
-                                <DateElement name="endDate" label="Finish date" values={values} />
                             }
 
                             {values.status === "reading" &&
@@ -196,6 +155,12 @@ const AddBookVer = () => {
                                 </>
                             }
 
+                            {["reading", "read"].includes(values.status) &&
+                                <DateElement name="startDate" label="Start date" values={values} />}
+
+                            {values.status === "read" &&
+                                <DateElement name="endDate" label="Finish date" values={values} />}
+
                             <button type="submit"
                                 className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md"
                             >Add book</button>
@@ -206,4 +171,5 @@ const AddBookVer = () => {
         </div >
     )
 }
+
 export default AddBookVer

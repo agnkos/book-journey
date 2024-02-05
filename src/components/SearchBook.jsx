@@ -6,8 +6,10 @@ const SearchBook = () => {
     const [results, setResults] = useState()
 
     const searchBook = async (author, title) => {
+        console.log(import.meta.env.VITE_GOOGLE_BOOKS_API_KEY)
+        console.log('endpoint', `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`)
         try {
-            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=AIzaSyB8UOgz3o73qj7C_Dsj0JW-vPzbo1jKzvo`)
+            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`)
             const data = await response.json()
             console.log(data)
             setResults(data.items)
