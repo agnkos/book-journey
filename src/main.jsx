@@ -16,8 +16,9 @@ import Books from './pages/user/Books.jsx';
 import Friends from './pages/user/Friends.jsx';
 import Stats from './pages/user/Stats.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
-import AddBook from './pages/user/AddBook.jsx'
 import Profile from './pages/user/Profile.jsx'
+import Search from './pages/user/Search.jsx';
+import AddBook from './pages/user/AddBook/AddBook.jsx';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
               {
                 path: '/books',
                 element: <Books />
+              },
+              {
+                path: '/search',
+                element: <Search />
               },
               {
                 path: '/friends',
