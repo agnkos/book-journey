@@ -18,7 +18,7 @@ import Stats from './pages/user/Stats.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
 import Profile from './pages/user/Profile.jsx'
 import Search from './pages/user/Search.jsx';
-import AddBook from './pages/user/AddBook/AddBook.jsx';
+import AddBook from './pages/user/AddBookPage/AddBook.jsx';
 
 const router = createBrowserRouter([
   {
