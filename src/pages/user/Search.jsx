@@ -1,4 +1,4 @@
-import SearchBook from "../../components/searchBook"
+import SearchBook from "../../components/SearchBook"
 
 const Search = () => {
   return (
