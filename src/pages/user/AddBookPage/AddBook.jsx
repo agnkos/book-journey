@@ -9,6 +9,7 @@ import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
 import { useCallback } from "react";
+import { useLocation } from "react-router-dom";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -23,10 +24,11 @@ const moodOptions = [
 
 const AddBookVer = () => {
     const { user } = useAuth()
+    const { state } = useLocation()
 
     const initialValues = {
-        title: '',
-        author: '',
+        title: state.title || '',
+        author: state.author || '',
         status: 'read',
         rate: 0,
         review: '',

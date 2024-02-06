@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const MenuBottom = () => {
     return (
-        <div className='w-full fixed bottom-0 flex p-4 bg-main-accent justify-between'>
+        <div className='w-full fixed bottom-0 flex px-4 py-2 bg-main-accent justify-between items-center'>
             <NavLink to='dashboard'>
                 {({ isActive }) => (
                     <HomeIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} hover:stroke-link-active-hover transition duration-150`} />
@@ -14,9 +14,11 @@ const MenuBottom = () => {
                     <BookOpenIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} hover:stroke-link-active-hover transition duration-150`} />
                 )}
             </NavLink>
-            <NavLink to='search'>
+            <NavLink to='search' className='scale-[1.4] -translate-y-3 rounded-full outline-zinc-50 outline outline-[1.5px]  bg-main-accent p-2'>
                 {({ isActive }) => (
-                    <MagnifyingGlassIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} hover:stroke-link-active-hover transition duration-150`} />
+                    <MagnifyingGlassIcon className={`w-6 h-6 ${isActive ? 'stroke-link-active' : 'stroke-light-bg'} 
+                 
+                    hover:stroke-link-active-hover transition duration-150`} />
                 )}
             </NavLink>
             <NavLink to='friends'>
