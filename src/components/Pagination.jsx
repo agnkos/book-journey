@@ -21,7 +21,7 @@ const Pagination = ({ results, setResults }) => {
     }
 
     const handlePageChange = (selectedPage) => {
-        console.log('selected page',selectedPage)
+        console.log('selected page', selectedPage)
         setCurrentPage(selectedPage.selected + 1);
         const index = (currentPage + 1) * 20 - 20
         console.log('index', index)
@@ -32,6 +32,7 @@ const Pagination = ({ results, setResults }) => {
     useEffect(() => {
         console.log('currrent page', currentPage)
         console.log('total pages', totalPages)
+        console.log('blabla')
     }, [currentPage, totalPages])
 
     return (
