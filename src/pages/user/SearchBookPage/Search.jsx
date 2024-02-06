@@ -11,7 +11,7 @@ const Search = () => {
       <h1 className="text-2xl font-semibold mb-2">Search book</h1>
       <p className="mb-3">Find a book by title, author or both.</p>
       <SearchBook setResults={setResults} results={results} />
-      <SearchBookResults results={results} />
+      <SearchBookResults results={results} setResults={setResults}/>
     </div>
   )
 }

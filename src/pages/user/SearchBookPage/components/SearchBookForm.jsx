@@ -6,7 +6,7 @@ const SearchBook = ({ setResults }) => {
 
     const searchBook = async (author, title) => {
         try {
-            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`)
+            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20`)
             const data = await response.json()
             console.log(data)
             setResults(data)
@@ -60,7 +60,7 @@ const SearchBook = ({ setResults }) => {
                                 className="mb-2 px-3 py-1 rounded-md border grow" />
                             <ErrorMessage name="author" component="div" className="text-sm text-red-500" />
                         </div>
-                            <ErrorMessage name="title" component="div" className="text-sm text-red-500" />
+                        <ErrorMessage name="title" component="div" className="text-sm text-red-500" />
                         <button type="submit"
                             className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md ml-auto block"
                         >Search</button>
