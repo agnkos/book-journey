@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
+import { Outlet } from "react-router"
 import { useAuth } from "../../../hooks/useAuth"
-import BookListElement from "./components/BookListElement"
+import { NavLink } from "react-router-dom"
+import BookContext from "../../../context/BookContext"
 
 const Books = () => {
   const { user } = useAuth()
-  const [books, setBooks] = useState()
-  const [displayedBooks, setDisplayedBooks] = useState('read')
+  const { setBooks } = useContext(BookContext)
 
   useEffect(() => {
     const getBooks = async () => {
@@ -25,33 +26,23 @@ const Books = () => {
       }
     }
     getBooks()
-  }, [user.token])
-
-  const booksListDisplayed = books => books.map(book => <BookListElement book={book} key={book.id} />)
+  }, [user.token, setBooks])
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-2">My books</h1>
-      <div className="flex gap-4 text-xl mb-2">
-        <button
-          onClick={() => setDisplayedBooks('read')}
-          className={`${displayedBooks === 'read' ? 'bg-link-active px-2 py-1 text-light-bg rounded-md transition duration-150' : 'bg-transparent'}`}
-        >read</button>
-        <button
-          onClick={() => setDisplayedBooks('reading')}
-          className={`${displayedBooks === 'reading' ? 'bg-link-active px-2 py-1 text-light-bg rounded-md transition duration-150' : 'bg-transparent'}`}
-        >reading</button>
-        <button
-          onClick={() => setDisplayedBooks('toread')}
-          className={`${displayedBooks === 'toread' ? 'bg-link-active px-2 py-1 text-light-bg rounded-md transition duration-150' : 'bg-transparent'}`}
-        >to read</button>
+      <div className="flex gap-4 items-center text-xl mb-2">
+        <NavLink to="read"
+          className={({ isActive }) => `${isActive ? 'bg-link-active px-2 py-1 text-light-bg rounded-md transition duration-150' : 'bg-transparent'}`}
+        >read</NavLink>
+        <NavLink to="reading"
+          className={({ isActive }) => `${isActive ? 'bg-link-active px-2 py-1 text-light-bg rounded-md transition duration-150' : 'bg-transparent'}`}
+        >reading</NavLink>
+        <NavLink to="toread"
+          className={({ isActive }) => `${isActive ? 'bg-link-active px-2 py-1 text-light-bg rounded-md transition duration-150' : 'bg-transparent'}`}
+        >to read</NavLink>
       </div>
-
-      <div className="py-3">
-        {books && displayedBooks === "read" && booksListDisplayed(books.READ)}
-        {books && displayedBooks === "reading" && booksListDisplayed(books.READING)}
-        {books && displayedBooks === "toread" && booksListDisplayed(books.GOING_TO_READ)}
-      </div>
+      <Outlet />
     </div>
   )
 }

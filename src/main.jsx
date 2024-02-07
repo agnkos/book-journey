@@ -20,6 +20,9 @@ import Profile from './pages/user/Profile.jsx'
 import Search from './pages/user/SearchBookPage/Search.jsx';
 import AddBook from './pages/user/AddBookPage/AddBook.jsx';
 import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
+import Read from './pages/user/MyBooksPage/Read.jsx';
+import Reading from './pages/user/MyBooksPage/Reading.jsx';
+import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
 
 const router = createBrowserRouter([
   {
@@ -49,7 +52,21 @@ const router = createBrowserRouter([
               },
               {
                 path: '/books',
-                element: <Books />
+                element: <Books />,
+                children: [
+                  {
+                    path: '/books/read',
+                    element: <Read />
+                  },
+                  {
+                    path: '/books/reading',
+                    element: <Reading />
+                  },
+                  {
+                    path: '/books/toread',
+                    element: <ToRead />
+                  },
+                ]
               },
               {
                 path: '/books/:id',
