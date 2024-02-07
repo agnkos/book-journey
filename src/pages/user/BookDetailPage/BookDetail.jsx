@@ -33,7 +33,6 @@ const BookDetail = () => {
 
     return (
         <div className="p-4">
-            BookDetail
             <p>this is book page id {params.id}</p>
             <div onClick={() => navigate(-1)} className="flex gap-1 items-center cursor-pointer">
                 <ChevronLeftIcon className="w-5 h-5" />
@@ -77,7 +76,7 @@ const BookDetail = () => {
                             <p className="text-sm text-text-faded">My rating</p>
                             <p className="mb-2">{bookDetail.review.score}</p>
                             <p className="text-sm text-text-faded">My review</p>
-                            <p className="mb-2">{bookDetail.review.comment}</p>
+                            <p className="mb-2">{bookDetail.review.comment || '-'}</p>
                             <p className="text-sm text-text-faded">Start date</p>
                             <p className="mb-2">{bookDetail.startDate || '-'}</p>
                             <p className="text-sm text-text-faded">Finish date</p>
