@@ -17,7 +17,7 @@ const BookListElement = ({ book }) => {
                 <div className='grow flex flex-col'>
                     <p className="font-semibold text-lg border-link-active">{book.title}</p>
                     <p>{book.author}</p>
-                    <Link to=""
+                    <Link to={`${book.id}`}
                         className='mt-auto'
                     >
                         <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Details</button>

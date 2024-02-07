@@ -19,6 +19,7 @@ import DashboardLayout from './layouts/DashboardLayout.jsx';
 import Profile from './pages/user/Profile.jsx'
 import Search from './pages/user/SearchBookPage/Search.jsx';
 import AddBook from './pages/user/AddBookPage/AddBook.jsx';
+import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
               {
                 path: '/books',
                 element: <Books />
+              },
+              {
+                path: '/books/:id',
+                element: <BookDetail />
               },
               {
                 path: '/search',
