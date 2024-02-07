@@ -20,6 +20,12 @@ const Pagination = ({ results, setResults }) => {
         }
     }
 
+    //    const fetchPage = (index) => {
+    //     try {
+    //       await  func(index)
+    //     }
+    //  }
+
     const handlePageChange = (selectedPage) => {
         console.log('selected page', selectedPage)
         setCurrentPage(selectedPage.selected + 1);
