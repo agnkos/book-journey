@@ -1,34 +1,9 @@
-// import { useContext, useEffect } from "react"
 import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router"
-// import { useAuth } from "../../../hooks/useAuth"
 import { NavLink } from "react-router-dom"
-// import BookContext from "../../../context/BookContext"
 
 const Books = () => {
   const location = useLocation()
-  // const { user } = useAuth()
-  // const { setBooks } = useContext(BookContext)
-
-  // useEffect(() => {
-  //   const getBooks = async () => {
-  //     try {
-  //       const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/book/all_books', {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': `Bearer ${user.token}`
-  //         }
-  //       })
-  //       const data = await response.json()
-  //       console.log(data)
-  //       setBooks(data)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   getBooks()
-  // }, [user.token, setBooks])
 
   useEffect(() => {
     console.log('location', location)
