@@ -10,6 +10,9 @@ const BookDetail = () => {
     const params = useParams()
     const navigate = useNavigate()
 
+    useEffect(() => {
+        console.log('params', params.id)
+    }, [params.id])
 
     useEffect(() => {
         const getBooksDetail = async () => {

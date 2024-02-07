@@ -10,7 +10,7 @@ const ToRead = () => {
 
     return (
         <>
-            {booksDisplayed(books)}
+            {books && booksDisplayed(books)}
         </>
     )
 }

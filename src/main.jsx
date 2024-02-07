@@ -55,21 +55,25 @@ const router = createBrowserRouter([
                 element: <Books />,
                 children: [
                   {
-                    path: '/books/read',
+                    index: true,
                     element: <Read />
                   },
                   {
-                    path: '/books/reading',
+                    path: 'read',
+                    element: <Read />
+                  },
+                  {
+                    path: 'reading',
                     element: <Reading />
                   },
                   {
-                    path: '/books/toread',
+                    path: 'toread',
                     element: <ToRead />
                   },
                 ]
               },
               {
-                path: '/books/:id',
+                path: 'books/:id',
                 element: <BookDetail />
               },
               {

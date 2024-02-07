@@ -22,13 +22,13 @@ const moodOptions = [
     { label: 'Sad', value: 'sad' },
 ];
 
-const AddBookVer = () => {
+const AddBook = () => {
     const { user } = useAuth()
     const { state } = useLocation()
 
     const initialValues = {
-        title: state.title || '',
-        author: state.author || '',
+        title: state?.title || '',
+        author: state?.author || '',
         status: 'read',
         rate: 0,
         review: '',
@@ -174,4 +174,4 @@ const AddBookVer = () => {
     )
 }
 
-export default AddBookVer
+export default AddBook
