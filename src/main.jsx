@@ -12,7 +12,7 @@ import Dashboard from './pages/user/Dashboard.jsx';
 import NoMatch from './pages/NoMatch.jsx';
 import { AuthLayout } from './layouts/AuthLayout.jsx';
 import { AuthRequired } from './components/AuthRequired.jsx';
-import Books from './pages/user/Books.jsx';
+import Books from './pages/user/MyBooksPage/Books.jsx';
 import Friends from './pages/user/Friends.jsx';
 import Stats from './pages/user/Stats.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
