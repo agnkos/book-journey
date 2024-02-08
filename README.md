@@ -20,7 +20,7 @@
 
 ## Project description
 
-:handshake: project collaboration
+:handshake: project collaboration <br/>
 I'm building frontend for the REST API (Java) <br/>
 [Link to the backend repo](https://github.com/JuliaSawczenko/BookJourney) <br/>
 [Link to the endpoints](https://book-journey-app-54dba2b08eec.herokuapp.com/swagger-ui/index.html)
