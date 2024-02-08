@@ -17,13 +17,13 @@
 
 ## Sign in
 
-To test the app you can log in with email:
+To test the app you can log in with username:
 
-        t
+        booktester
 
 and password:
 
-        t
+        ilovebooks
 
 or create a new account
 
