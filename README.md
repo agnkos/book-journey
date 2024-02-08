@@ -5,6 +5,7 @@
 ## Contents
 
 - [Deployed app](#deployed-app)
+- [Sign in](#sign-in)
 - [Design](#design)
 - [About](#about)
 - [Technologies](#technologies)
@@ -13,6 +14,18 @@
 ## Deployed app
 
 <b> [Link to the deployed app](https://book-journey.netlify.app/) </b> <br>
+
+## Sign in
+
+To test the app you can log in with email:
+
+        t
+
+and password:
+
+        t
+
+or create a new account
 
 ## Design
 
