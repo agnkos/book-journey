@@ -23,6 +23,7 @@ import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
 import Read from './pages/user/MyBooksPage/Read.jsx';
 import Reading from './pages/user/MyBooksPage/Reading.jsx';
 import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
+import Favourites from './pages/user/Favourites.jsx';
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
               {
                 path: 'books/:id',
                 element: <BookDetail />
+              },
+              {
+                path: 'favourites',
+                element: <Favourites />
               },
               {
                 path: '/search',
