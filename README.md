@@ -20,8 +20,9 @@
 
 ## Project description
 
-I'm building frontend for the REST API (Java)
-[Link to the backend repo](https://github.com/JuliaSawczenko/BookJourney)
+:handshake: project collaboration
+I'm building frontend for the REST API (Java) <br/>
+[Link to the backend repo](https://github.com/JuliaSawczenko/BookJourney) <br/>
 [Link to the endpoints](https://book-journey-app-54dba2b08eec.herokuapp.com/swagger-ui/index.html)
 
 Planned features:
@@ -32,7 +33,11 @@ Planned features:
 
 ## Technologies
 
-- React, Formik, TailwindCSS
+- React, React Router, TailwindCSS
+  ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+  ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+  ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+- additional packages: Vite, Formik & Yup, <a href="https://www.npmjs.com/package/react-datepicker">react-datepicker</a>
 
 ## Screenshots:
 
