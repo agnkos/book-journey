@@ -24,23 +24,20 @@
 // }
 
 export const addBook = async (bookData, token) => {
-    console.log('data sent', bookData)
-    console.log('stringify', JSON.stringify(bookData))
 
-        const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/book', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(bookData),
-        })
-        console.log(response)
-        if (!response.ok) {
-            const errorData = await response.json()
-            console.log(errorData)
-            throw new Error(errorData.message)
-        }
+    const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/book', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(bookData),
+    })
+
+    if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message)
+    }
 }
 
 

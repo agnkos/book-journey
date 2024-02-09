@@ -39,15 +39,12 @@ const AddBook = () => {
         endDate: null
     }
 
-    console.log('initial values', initialValues)
-
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
         author: Yup.string().required('Author is required'),
     })
 
     const onSubmit = useCallback(async (values, { resetForm, setStatus }) => {
-        console.log('values', values)
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
             if (values.status === "read" && values.moods.includes(key)) {
@@ -86,9 +83,8 @@ const AddBook = () => {
         try {
             await addBook(bookData, user.token)
             resetForm()
-        } catch (e) {
-            console.log('error from onsubmit', e)
-            setStatus({ response: e.message })
+        } catch (error) {
+            setStatus({ response: error.message })
         }
     }, [user.token])
 
@@ -101,7 +97,6 @@ const AddBook = () => {
                 validationSchema={validationSchema}
             >
                 {({ values, status }) => {
-                    console.log('form values', values)
                     return (
                         <Form>
                             <TextField name="title" label="Title" />
