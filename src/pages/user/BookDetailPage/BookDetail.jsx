@@ -13,7 +13,7 @@ const BookDetail = () => {
     useEffect(() => {
         const getBooksDetail = async () => {
             try {
-                const response = await fetch(`https://book-journey-app-54dba2b08eec.herokuapp.com/book/${params.id}/details`, {
+                const response = await fetch(`https://book-journey-app-54dba2b08eec.herokuapp.com/book/${params.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

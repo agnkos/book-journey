@@ -1,13 +1,13 @@
-import { useEffect } from "react"
+// import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router"
 import { NavLink } from "react-router-dom"
 
 const Books = () => {
   const location = useLocation()
 
-  useEffect(() => {
-    console.log('location', location)
-  }, [location])
+  // useEffect(() => {
+  //   console.log('location', location)
+  // }, [location])
 
   return (
     <div className="p-4">

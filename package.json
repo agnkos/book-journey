@@ -12,9 +12,11 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.1",
     "dotenv": "^16.4.1",
     "formik": "^2.4.5",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-paginate": "^8.2.0",

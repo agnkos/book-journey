@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 const SearchBook = ({ setResults }) => {
 
     const searchBook = async (author, title) => {
-        console.log('api key', )
         try {
             const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20`)
             const data = await response.json()

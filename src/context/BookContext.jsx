@@ -11,7 +11,7 @@ export const BookContextProvider = ({ children }) => {
     useEffect(() => {
         const getBooks = async () => {
             try {
-                const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/book/all_books', {
+                const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/book/books', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export const BookContextProvider = ({ children }) => {
             }
         }
         getBooks()
-    }, [user.token, setBooks])
+    }, [])
 
     return (
         <BookContext.Provider value={{ books, setBooks }}>
