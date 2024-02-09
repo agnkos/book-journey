@@ -46,7 +46,7 @@ const AddBook = () => {
         author: Yup.string().required('Author is required'),
     })
 
-    const onSubmit = useCallback(async (values, actions) => {
+    const onSubmit = useCallback(async (values, { resetForm, setStatus }) => {
         console.log('values', values)
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
@@ -85,10 +85,10 @@ const AddBook = () => {
 
         try {
             await addBook(bookData, user.token)
-            actions.resetForm()
+            resetForm()
         } catch (e) {
             console.log('error from onsubmit', e)
-            actions.setStatus({ response: e.message })
+            setStatus({ response: e.message })
         }
     }, [user.token])
 
