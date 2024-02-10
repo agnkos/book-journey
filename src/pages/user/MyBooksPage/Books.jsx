@@ -1,13 +1,10 @@
-// import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router"
 import { NavLink } from "react-router-dom"
+import { Suspense } from "react"
+import Loading from "../../../components/Loading"
 
 const Books = () => {
   const location = useLocation()
-
-  // useEffect(() => {
-  //   console.log('location', location)
-  // }, [location])
 
   return (
     <div className="p-4">
@@ -24,7 +21,9 @@ const Books = () => {
         >to read</NavLink>
       </div>
       <div className="py-3">
-        <Outlet />
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
       </div>
     </div>
   )

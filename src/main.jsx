@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import {
@@ -20,10 +20,14 @@ import Profile from './pages/user/Profile.jsx'
 import Search from './pages/user/SearchBookPage/Search.jsx';
 import AddBook from './pages/user/AddBookPage/AddBook.jsx';
 import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
-import Read from './pages/user/MyBooksPage/Read.jsx';
-import Reading from './pages/user/MyBooksPage/Reading.jsx';
-import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
+// import Read from './pages/user/MyBooksPage/Read.jsx';
+// import Reading from './pages/user/MyBooksPage/Reading.jsx';
+// import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
 import Favourites from './pages/user/Favourites.jsx';
+
+const Read = lazy(() => import('./pages/user/MyBooksPage/Read.jsx'))
+const Reading = lazy(() => import('./pages/user/MyBooksPage/Reading.jsx'))
+const ToRead = lazy(() => import('./pages/user/MyBooksPage/ToRead.jsx'))
 
 const router = createBrowserRouter([
   {
