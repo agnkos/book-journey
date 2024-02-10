@@ -2,6 +2,7 @@ import { HeartIcon, ShareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import StarRating from "./StarRating"
+import PieChart from "./PieChart"
 import PropTypes from 'prop-types';
 
 const BookDetailElement = ({ bookDetail }) => {
@@ -56,11 +57,14 @@ const BookDetailElement = ({ bookDetail }) => {
                     <p className="mb-2">{bookDetail.startDate || '-'}</p>
                     <p className="text-sm text-text-faded">Finish date</p>
                     <p className="mb-2">{bookDetail.endDate || '-'}</p>
-
+                    <p className="text-sm text-text-faded">Moods</p>
+                    <div className="mb-2">
+                        <PieChart data={bookDetail.moods.moodsPercentages} />
+                    </div>
                     <Link to={``}
                         className=''
                     >
-                        <button className="mt-4 px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block">Edit</button>
+                        <button className="mt-6 px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block">Edit</button>
                     </Link>
                 </div>}
 
