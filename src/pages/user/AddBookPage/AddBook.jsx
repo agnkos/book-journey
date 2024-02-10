@@ -1,15 +1,16 @@
-import { useAuth } from "../../../hooks/useAuth";
-import { addBook } from "../../../helpers/requests";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useCallback, useContext } from "react";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
+import { addBook, getBooks } from "../../../helpers/requests";
+import BookContext from "../../../context/BookContext";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
 import RangeFieldEl from "./components/RangeFieldEl";
 import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
-import { useCallback } from "react";
-import { useLocation } from "react-router-dom";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -25,6 +26,7 @@ const moodOptions = [
 const AddBook = () => {
     const { user } = useAuth()
     const { state } = useLocation()
+    const { setBooks } = useContext(BookContext)
 
     const initialValues = {
         title: state?.title || '',
@@ -44,7 +46,7 @@ const AddBook = () => {
         author: Yup.string().required('Author is required'),
     })
 
-    const onSubmit = useCallback(async (values, { resetForm, setStatus }) => {
+    const onSubmit = useCallback(async (values, { resetForm, setStatus, setFormValues }) => {
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
             if (values.status === "read" && values.moods.includes(key)) {
@@ -82,11 +84,17 @@ const AddBook = () => {
 
         try {
             await addBook(bookData, user.token)
+            getBooks(setBooks, user.token)
             resetForm()
+            setFormValues({
+                ...values,
+                title: '',
+                author: '',
+            });
         } catch (error) {
             setStatus({ response: error.message })
         }
-    }, [user.token])
+    }, [user.token, setBooks])
 
     return (
         <div className="p-4">

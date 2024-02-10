@@ -9,14 +9,17 @@ const BookListElement = ({ result }) => {
 
                 {result.volumeInfo?.imageLinks?.smallThumbnail ?
                     <img src={`${result.volumeInfo?.imageLinks?.smallThumbnail}`}
-                        className="rounded-lg w-24 h-36 object-cover"
+                        className="rounded-lg w-24 h-36 min-w-24 object-cover"
                     /> :
                     <BookCoverPlaceholder />
                 }
 
                 <div className='grow flex flex-col'>
+                    <div className='flex flex-col grow'>
+
                     <p className="font-semibold text-lg border-link-active">{result.volumeInfo.title}</p>
                     <p>{result.volumeInfo.authors}</p>
+                    </div>
                     <Link to="/addbook" state={{ author: result.volumeInfo.authors, title: result.volumeInfo.title }}
                         className='mt-auto'
                     >
