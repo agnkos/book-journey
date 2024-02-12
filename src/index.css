@@ -14,6 +14,8 @@
         --text-faded: 105 105 105;
         --light-bg: 250 250 250;
         --light-objects: 217 217 217;
+        --danger: 239 68 68;
+        --danger-hover: 185 28 28;
     }
     html {
       scroll-behavior: smooth;

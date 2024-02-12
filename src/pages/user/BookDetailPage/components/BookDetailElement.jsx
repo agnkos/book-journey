@@ -4,9 +4,14 @@ import { useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
 import PropTypes from 'prop-types';
+import Modal from "../../../../components/Modal"
 
-const BookDetailElement = ({ bookDetail }) => {
+const BookDetailElement = ({ bookDetail, id }) => {
     const [details, setDetails] = useState(true)
+    const [showModal, setShowModal] = useState(false)
+
+    const closeModal = () => setShowModal(false)
+    const openModal = () => setShowModal(true)
 
     return (
         <>
@@ -31,7 +36,9 @@ const BookDetailElement = ({ bookDetail }) => {
                 <div className="flex gap-1 items-center group cursor-pointer">
                     <ShareIcon className="w-5 h-5 text-text-faded group-hover:stroke-link-active-hover" /><p className="text-text-faded group-hover:text-link-active-hover"> share</p>
                 </div>
-                <div className="flex gap-1 items-center group cursor-pointer">
+                <div className="flex gap-1 items-center group cursor-pointer"
+                    onClick={openModal}
+                >
                     <TrashIcon className="w-5 h-5 text-text-faded group-hover:stroke-link-active-hover" /><p className="text-text-faded group-hover:text-link-active-hover"> delete</p>
                 </div>
             </div>
@@ -57,11 +64,13 @@ const BookDetailElement = ({ bookDetail }) => {
                     <p className="mb-2">{bookDetail.startDate || '-'}</p>
                     <p className="text-sm text-text-faded">Finish date</p>
                     <p className="mb-2">{bookDetail.endDate || '-'}</p>
-                    <p className="text-sm text-text-faded mb-2">Moods</p>
-                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 &&
-                        <div className="mb-2">
+                    <p className="text-sm text-text-faded">Moods</p>
+                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 ?
+                        <div className="my-2">
                             <PieChart data={bookDetail.moods.moodsPercentages} />
                         </div>
+                        :
+                        <span>-</span>
                     }
                     <Link to={``}
                         className=''
@@ -77,11 +86,13 @@ const BookDetailElement = ({ bookDetail }) => {
                     <p className="mb-2">{bookDetail.description}</p>
                 </div>}
             </div>
+            {showModal && <Modal closeModal={closeModal} id={id} />}
         </>
     )
 }
 export default BookDetailElement
 
 BookDetailElement.propTypes = {
-    bookDetail: PropTypes.object
+    bookDetail: PropTypes.object,
+    id: PropTypes.string
 }

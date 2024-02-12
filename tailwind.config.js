@@ -18,6 +18,8 @@ export default {
         "text-faded": "rgb(var(--text-faded))",
         "light-bg": "rgb(var(--light-bg))",
         "light-objects": "rgb(var(--light-objects))",
+        "danger": "rgb(var(--danger))",
+        "danger-hover": "rgb(var(--danger-hover))",
       },
     },
     fontFamily: {
