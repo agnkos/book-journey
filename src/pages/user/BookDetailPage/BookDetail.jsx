@@ -37,7 +37,7 @@ const BookDetail = () => {
                 <p>back to books</p>
             </div>
             {bookDetail &&
-                <BookDetailElement bookDetail={bookDetail} />
+                <BookDetailElement bookDetail={bookDetail} id={params.id} />
             }
         </div>
     )
