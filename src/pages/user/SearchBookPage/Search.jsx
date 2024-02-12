@@ -14,6 +14,7 @@ const Search = () => {
       setIsLoading(true)
       const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20`)
       const data = await response.json()
+      console.log(data)
       setResults(data)
       setIsLoading(false)
     } catch (err) {
