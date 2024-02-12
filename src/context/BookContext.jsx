@@ -10,9 +10,12 @@ export const BookContextProvider = ({ children }) => {
     const { user } = useAuth()
 
     useEffect(() => {
-        getBooks(setBooks, user.token)
-        if (user?.token) getBooks()
-    }, [user.token])
+        if (user?.token) {
+            getBooks(setBooks, user.token)
+        }
+        // if (user?.token) getBooks()
+        // getBooks()
+    }, [user?.token])
 
     return (
         <BookContext.Provider value={{ books, setBooks }}>
