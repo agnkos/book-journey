@@ -57,10 +57,12 @@ const BookDetailElement = ({ bookDetail }) => {
                     <p className="mb-2">{bookDetail.startDate || '-'}</p>
                     <p className="text-sm text-text-faded">Finish date</p>
                     <p className="mb-2">{bookDetail.endDate || '-'}</p>
-                    <p className="text-sm text-text-faded">Moods</p>
-                    <div className="mb-2">
-                        <PieChart data={bookDetail.moods.moodsPercentages} />
-                    </div>
+                    <p className="text-sm text-text-faded mb-2">Moods</p>
+                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 &&
+                        <div className="mb-2">
+                            <PieChart data={bookDetail.moods.moodsPercentages} />
+                        </div>
+                    }
                     <Link to={``}
                         className=''
                     >
