@@ -13,8 +13,6 @@ const BookDetailElement = ({ bookDetail, id }) => {
     const closeModal = () => setShowModal(false)
     const openModal = () => setShowModal(true)
 
-    console.log('book detail', bookDetail)
-
     return (
         <>
             <div className="flex gap-4">
@@ -66,11 +64,13 @@ const BookDetailElement = ({ bookDetail, id }) => {
                     <p className="mb-2">{bookDetail.startDate || '-'}</p>
                     <p className="text-sm text-text-faded">Finish date</p>
                     <p className="mb-2">{bookDetail.endDate || '-'}</p>
-                    <p className="text-sm text-text-faded mb-2">Moods</p>
-                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 &&
-                        <div className="mb-2">
+                    <p className="text-sm text-text-faded">Moods</p>
+                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 ?
+                        <div className="my-2">
                             <PieChart data={bookDetail.moods.moodsPercentages} />
                         </div>
+                        :
+                        <span>-</span>
                     }
                     <Link to={``}
                         className=''
