@@ -3,15 +3,24 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
-import PropTypes from 'prop-types';
 import Modal from "../../../../components/Modal"
+import { addToFavourites } from "../../../../helpers/requests"
+import { getBookDetail } from "../../../../helpers/requests"
+import { useAuth } from "../../../../hooks/useAuth";
+import PropTypes from 'prop-types';
 
-const BookDetailElement = ({ bookDetail, id }) => {
+const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const [details, setDetails] = useState(true)
     const [showModal, setShowModal] = useState(false)
+    const { user } = useAuth()
 
     const closeModal = () => setShowModal(false)
     const openModal = () => setShowModal(true)
+
+    const handleAddToFavourites = async (id, token, func) => {
+        await addToFavourites(id, token)
+        await getBookDetail(id, token, func)
+    }
 
     return (
         <>
@@ -29,8 +38,10 @@ const BookDetailElement = ({ bookDetail, id }) => {
             </div>
 
             <div className="flex justify-between px-4 py-4">
-                <div className="flex gap-1 items-center group cursor-pointer">
-                    <HeartIcon className="w-5 h-5 text-text-faded group-hover:stroke-link-active-hover" />
+                <div className="flex gap-1 items-center group cursor-pointer"
+                    onClick={() => handleAddToFavourites(id, user.token, setBookDetail)}
+                >
+                    <HeartIcon className={` ${bookDetail.favourite ? 'stroke-main-accent fill-main-accent' : ''} w-5 h-5 text-text-faded group-hover:stroke-link-active-hover group-hover:fill-link-active-hover`} />
                     <p className="text-text-faded group-hover:text-link-active-hover"> favourites</p>
                 </div>
                 <div className="flex gap-1 items-center group cursor-pointer">
@@ -94,5 +105,6 @@ export default BookDetailElement
 
 BookDetailElement.propTypes = {
     bookDetail: PropTypes.object,
+    setBookDetail: PropTypes.func,
     id: PropTypes.string
 }

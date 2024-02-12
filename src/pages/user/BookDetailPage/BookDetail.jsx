@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "../../../hooks/useAuth"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
+import { getBookDetail } from "../../../helpers/requests"
 import BookDetailElement from "./components/BookDetailElement"
 
 const BookDetail = () => {
@@ -11,23 +12,7 @@ const BookDetail = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const getBooksDetail = async () => {
-            try {
-                const response = await fetch(`https://book-journey-app-54dba2b08eec.herokuapp.com/book/${params.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user.token}`
-                    }
-                })
-                const data = await response.json()
-                console.log(data)
-                setBookDetail(data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getBooksDetail()
+        getBookDetail(params.id, user.token, setBookDetail)
     }, [params.id, user.token])
 
     return (
@@ -37,7 +22,7 @@ const BookDetail = () => {
                 <p>back to books</p>
             </div>
             {bookDetail &&
-                <BookDetailElement bookDetail={bookDetail} id={params.id} />
+                <BookDetailElement bookDetail={bookDetail} id={params.id} setBookDetail={setBookDetail}/>
             }
         </div>
     )

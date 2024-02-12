@@ -32,7 +32,7 @@ const AddBook = () => {
         title: state?.title || '',
         author: state?.author[0] || '',
         status: 'read',
-        rate: 0,
+        rate: null,
         review: '',
         moods: [],
         mood: null,
@@ -46,7 +46,7 @@ const AddBook = () => {
         author: Yup.string().required('Author is required'),
     })
 
-    const onSubmit = useCallback(async (values, { resetForm, setStatus, setFormValues }) => {
+    const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
             if (values.status === "read" && values.moods.includes(key)) {
@@ -86,10 +86,13 @@ const AddBook = () => {
             await addBook(bookData, user.token)
             getBooks(setBooks, user.token)
             resetForm()
-            setFormValues({
+            setValues({
                 ...values,
                 title: '',
                 author: '',
+                rate: '',
+                moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
+                moods: [],
             });
         } catch (error) {
             setStatus({ response: error.message })
