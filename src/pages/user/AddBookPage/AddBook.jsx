@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useCallback, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
-import { addBook, getBooks } from "../../../helpers/requests";
+import { addBook } from "../../../helpers/requests";
 import BookContext from "../../../context/BookContext";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
@@ -26,16 +26,16 @@ const moodOptions = [
 const AddBook = () => {
     const { user } = useAuth()
     const { state } = useLocation()
-    const { setBooks } = useContext(BookContext)
+    const { refreshBooks } = useContext(BookContext)
 
     const initialValues = {
         title: state?.title || '',
         author: state?.author[0] || '',
         status: 'read',
-        rate: null,
+        rate: '',
         review: '',
         moods: [],
-        mood: null,
+        mood: '',
         moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
         startDate: null,
         endDate: null
@@ -84,7 +84,8 @@ const AddBook = () => {
 
         try {
             await addBook(bookData, user.token)
-            getBooks(setBooks, user.token)
+            // getBooks(setBooks, user.token)
+            refreshBooks(user.token)
             resetForm()
             setValues({
                 ...values,
@@ -97,7 +98,7 @@ const AddBook = () => {
         } catch (error) {
             setStatus({ response: error.message })
         }
-    }, [user.token, setBooks])
+    }, [user.token, refreshBooks])
 
     return (
         <div className="p-4">

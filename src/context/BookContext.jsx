@@ -11,12 +11,23 @@ export const BookContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (user?.token) {
-            getBooks(setBooks, user.token)
+            refreshBooks(user.token)
         }
     }, [user?.token])
 
+
+
+    useEffect(() => {
+        console.log('books from contexxt', books)
+    }, [books])
+
+    const refreshBooks = async (token) => {
+        const data = await getBooks(token)
+        setBooks(data)
+    }
+
     return (
-        <BookContext.Provider value={{ books, setBooks }}>
+        <BookContext.Provider value={{ books, setBooks, refreshBooks }}>
             {children}
         </BookContext.Provider>
     )
