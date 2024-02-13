@@ -2,8 +2,6 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useCallback, useContext } from "react";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
-import { addBook } from "../../../helpers/requests";
 import BookContext from "../../../context/BookContext";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
@@ -11,6 +9,7 @@ import RangeFieldEl from "./components/RangeFieldEl";
 import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
+import booksService from '../../../services/books'
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -24,7 +23,6 @@ const moodOptions = [
 ];
 
 const AddBook = () => {
-    const { user } = useAuth()
     const { state } = useLocation()
     const { refreshBooks } = useContext(BookContext)
 
@@ -83,9 +81,8 @@ const AddBook = () => {
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
         try {
-            await addBook(bookData, user.token)
-            // getBooks(setBooks, user.token)
-            refreshBooks(user.token)
+            await booksService.addBook(bookData)
+            refreshBooks()
             resetForm()
             setValues({
                 ...values,
@@ -98,7 +95,7 @@ const AddBook = () => {
         } catch (error) {
             setStatus({ response: error.message })
         }
-    }, [user.token, refreshBooks])
+    }, [refreshBooks])
 
     return (
         <div className="p-4">

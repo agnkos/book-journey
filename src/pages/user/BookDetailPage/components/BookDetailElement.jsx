@@ -4,30 +4,27 @@ import { useContext, useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
 import Modal from "../../../../components/Modal"
-import { addToFavourites } from "../../../../helpers/requests"
-import { getBookDetail } from "../../../../helpers/requests"
-import { useAuth } from "../../../../hooks/useAuth";
 import PropTypes from 'prop-types';
 import BookContext from "../../../../context/BookContext"
+import booksService from '../../../../services/books'
 
 const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const [details, setDetails] = useState(true)
     const [showModal, setShowModal] = useState(false)
-    const { user } = useAuth()
     const { refreshBooks } = useContext(BookContext)
 
     const closeModal = () => setShowModal(false)
     const openModal = () => setShowModal(true)
 
-    const handleAddToFavourites = async (id, token) => {
-        await addToFavourites(id, token)
-        refreshBookDetail(id, token)
+    const handleAddToFavourites = async (id) => {
+        await booksService.addToFavourites(id)
+        refreshBookDetail(id)
     }
 
-    const refreshBookDetail = async (id, token) => {
-        const data = await getBookDetail(id, token)
+    const refreshBookDetail = async (id) => {
+        const data = await booksService.getBookDetail(id)
         setBookDetail(data)
-        refreshBooks(token)
+        refreshBooks()
     }
 
     return (
@@ -47,7 +44,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
 
             <div className="flex justify-between px-4 py-4">
                 <div className="flex gap-1 items-center group cursor-pointer"
-                    onClick={() => handleAddToFavourites(id, user.token)}
+                    onClick={() => handleAddToFavourites(id)}
                 >
                     <HeartIcon className={` ${bookDetail.favourite ? 'stroke-main-accent fill-main-accent' : ''} w-5 h-5 text-text-faded group-hover:stroke-link-active-hover group-hover:fill-link-active-hover`} />
                     <p className="text-text-faded group-hover:text-link-active-hover"> favourites</p>
