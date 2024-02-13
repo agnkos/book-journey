@@ -17,7 +17,7 @@ export const addBook = async (bookData, token) => {
     }
 }
 
-export const getBooks = async (setBooks, token) => {
+export const getBooks = async (token) => {
     try {
         const response = await fetch('https://book-journey-app-54dba2b08eec.herokuapp.com/book/books', {
             method: 'GET',
@@ -28,13 +28,13 @@ export const getBooks = async (setBooks, token) => {
         })
         const data = await response.json()
         console.log('data from book context', data)
-        setBooks(data)
+        return data
     } catch (error) {
         console.log(error)
     }
 }
 
-export const getBookDetail = async (id, token, setBookDetail) => {
+export const getBookDetail = async (id, token) => {
     try {
         const response = await fetch(`https://book-journey-app-54dba2b08eec.herokuapp.com/book/${id}`, {
             method: 'GET',
@@ -45,7 +45,7 @@ export const getBookDetail = async (id, token, setBookDetail) => {
         })
         const data = await response.json()
         console.log(data)
-        setBookDetail(data)
+        return data
     } catch (error) {
         console.log(error)
     }
