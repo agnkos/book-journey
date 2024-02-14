@@ -7,7 +7,6 @@ const Favourites = () => {
   const { books } = useContext(BookContext)
   const location = useLocation()
 
-  console.log('path fav', location.pathname)
   // const favouriteBooks = books.READ.filter(book => book.favourite === true).map(book =>
   //   <BookListElement key={book.id} book={book} />)
 
@@ -17,7 +16,7 @@ const Favourites = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-2">My favourite books</h1>
-      {favoriteBooks}
+      {books && favoriteBooks}
     </div>
   )
 }

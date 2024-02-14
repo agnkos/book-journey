@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "../../../hooks/useAuth"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
-import { getBookDetail } from "../../../helpers/requests"
 import BookDetailElement from "./components/BookDetailElement"
+import bookService from '../../../services/books'
 
 const BookDetail = () => {
     const [bookDetail, setBookDetail] = useState()
@@ -13,11 +13,11 @@ const BookDetail = () => {
     const location = useLocation()
 
     useEffect(() => {
-        refreshBookDetail(params.id, user.token)
+        refreshBookDetail(params.id)
     }, [params.id, user.token])
 
-    const refreshBookDetail = async (id, token) => {
-        const data = await getBookDetail(id, token)
+    const refreshBookDetail = async (id) => {
+        const data = await bookService.getBookDetail(id)
         setBookDetail(data)
     }
 

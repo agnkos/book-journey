@@ -1,20 +1,22 @@
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import PropTypes from 'prop-types';
-import { deleteBook, getBooks } from "../helpers/requests";
-import { useAuth } from "../hooks/useAuth";
+// import { deleteBook } from "../services/books";
+// import { useAuth } from "../hooks/useAuth";
 import { useContext, useRef } from "react";
 import BookContext from "../context/BookContext";
 import { useNavigate } from "react-router-dom";
+import bookService from '../services/books'
 
 const Modal = ({ closeModal, id }) => {
-    const { user } = useAuth()
-    const { setBooks } = useContext(BookContext)
+    // const { user } = useAuth()
+    const { refreshBooks } = useContext(BookContext)
     const navigate = useNavigate()
     const modalRef = useRef()
 
-    const handleDelete = async (id, token, func) => {
-        await deleteBook(id, token)
-        await getBooks(func, token)
+    const handleDelete = async (id) => {
+        // await deleteBook(id, token)
+        await bookService.deleteBook(id)
+        refreshBooks()
         closeModal()
         navigate(-1)
     }
@@ -36,7 +38,7 @@ const Modal = ({ closeModal, id }) => {
                 <p className="text-center">Are you sure you want to delete this book?</p>
                 <div className='flex justify-evenly'>
                     <button className="px-4 py-2 text-center bg-danger hover:bg-danger-hover text-light-bg rounded-md transition duration-15"
-                        onClick={() => handleDelete(id, user.token, setBooks)}
+                        onClick={() => handleDelete(id)}
                     >Delete</button>
                     <button className="px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent text-light-bg rounded-md transition duration-15"
                         onClick={closeModal}
