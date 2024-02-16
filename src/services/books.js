@@ -2,7 +2,9 @@ import axios from 'axios';
 
 const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/book'
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token}`
+if (JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token !== undefined) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token}`
+}
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
