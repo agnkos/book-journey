@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 
 const Navbar = ({ toggleMenu, toggle }) => {
     return (
-        <div className='fixed top-0 w-full flex p-4 bg-main-accent justify-between z-10'>
+        <div className='fixed top-0 w-full flex p-4 bg-main-accent justify-between z-10 navbar'>
             <div className='flex'>
-                <BookOpenIcon className='w-6 h-6 text-light-bg' />
+                <BookOpenIcon className='w-6 h-6 text-light-bg ' />
                 <p className='text-light-bg font-semibold'>BookJourney</p>
             </div>
             {toggle ?
                 <XMarkIcon className='w-6 h-6 text-light-bg cursor-pointer' onClick={toggleMenu} />
                 :
-                <Bars3BottomRightIcon className='w-6 h-6 text-light-bg cursor-pointer' onClick={toggleMenu} />}
+                <Bars3BottomRightIcon className='w-6 h-6 text-light-bg cursor-pointer burger-btn' onClick={toggleMenu} />}
         </div>
     )
 }
