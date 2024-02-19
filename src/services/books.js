@@ -8,10 +8,12 @@ if (JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token !== undefine
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
+    console.log('bookData', bookData)
     const response = await axios.post(`${baseUrl}`, bookData)
-
+    console.log(response)
     if (!response.ok) {
-        const errorData = await response.data.json()
+        const errorData = await response.data
+        console.log('errrodata', errorData)
         throw new Error(errorData.message)
     }
     return response.data
