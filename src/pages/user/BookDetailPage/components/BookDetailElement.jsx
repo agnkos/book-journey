@@ -88,7 +88,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                         :
                         <span>-</span>
                     }
-                    <Link to={``}
+                    <Link to='/addbook'
                         className=''
                     >
                         <button className="mt-6 px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block">Edit</button>

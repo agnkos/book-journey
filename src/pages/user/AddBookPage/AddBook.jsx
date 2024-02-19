@@ -93,7 +93,8 @@ const AddBook = () => {
                 moods: [],
             });
         } catch (error) {
-            setStatus({ response: error.message })
+            console.log(error)
+            setStatus({ response: error.response.data.message })
         }
     }, [refreshBooks])
 
