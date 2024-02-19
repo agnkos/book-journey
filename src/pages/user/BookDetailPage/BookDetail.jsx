@@ -12,6 +12,8 @@ const BookDetail = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
+    console.log('bookdetail', bookDetail)
+
     useEffect(() => {
         refreshBookDetail(params.id)
     }, [params.id, user.token])

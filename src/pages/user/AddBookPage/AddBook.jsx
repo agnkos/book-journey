@@ -55,7 +55,7 @@ const AddBook = () => {
         const readingBook = {
             title: values.title,
             author: values.author,
-            mood: values.mood,
+            mood: values.mood.toUpperCase(),
             startDate: values.startDate,
             status: values.status.toUpperCase()
         }
@@ -91,6 +91,8 @@ const AddBook = () => {
                 rate: '',
                 moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
                 moods: [],
+                startDate: null,
+                endDate: null
             });
         } catch (error) {
             console.log(error)
