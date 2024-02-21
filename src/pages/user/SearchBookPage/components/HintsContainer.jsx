@@ -17,7 +17,7 @@ const HintsContainer = ({ searchBook }) => {
             if (values.title?.length > 2 && showHints) {
 
                 const title = (values.title).replace(/ /g, '+')
-                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+intitle:${title}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${title}"+intitle:"${title}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
                 // const titles = data.items.map(item => item.volumeInfo.title)
                 setQueryResults(data.items)

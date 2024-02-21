@@ -4,8 +4,19 @@ import PropTypes from 'prop-types';
 // import { useEffect, useState } from "react";
 // import CustomInput from "./CustomInput";
 import HintsContainer from "./HintsContainer";
+import { useRef, useEffect, useState } from "react";
 
 const SearchBook = ({ searchBook }) => {
+
+    const titleInputRef = useRef()
+    const [hints, setHints] = useState()
+
+    useEffect(() => {
+        if (titleInputRef.current) {
+            console.log('input current')
+
+        } else console.log('input not focused')
+    }, [titleInputRef])
 
     // const [query, setQuery] = useState()
     // const [queryResults, setQueryResults] = useState()
@@ -40,6 +51,7 @@ const SearchBook = ({ searchBook }) => {
     //     console.log(query)
     // }, [query])
 
+
     const onSubmit = (values, { resetForm, setErrors }) => {
         console.log('sent values', values)
         if (!values.author && !values.title) {
@@ -68,6 +80,10 @@ const SearchBook = ({ searchBook }) => {
     //     setQuery(title); // Update React state
     // };
 
+    const handleFocusChange = () => {
+        setHints(true)
+    }
+
     return (
         <>
             <Formik
@@ -88,6 +104,8 @@ const SearchBook = ({ searchBook }) => {
                                     name="title"
                                     id="title"
                                     className="w-full px-3 py-1 rounded-md border grow"
+                                    ref={titleInputRef}
+                                    onFocus={handleFocusChange}
                                 // onChange={() => { handleInputChange(values.title); handleChange }}
                                 />
                                 {/* {(query?.title?.length > 2 && queryResults && showHints) && */}
@@ -100,7 +118,7 @@ const SearchBook = ({ searchBook }) => {
                                     //         >{item.volumeInfo.title}, {item.volumeInfo.authors}</p>
                                     //     ))}
                                     // </div>
-                                    <HintsContainer searchBook={searchBook}/>
+                                    <HintsContainer searchBook={searchBook} />
 
                                 }
                             </div>
