@@ -138,7 +138,7 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
                                 <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-3">
 
                                     {moodOptions.map((moodOption) => (
-                                        <div key={moodOption.value} className="flex gap-4 max-[390px]:gap-2 justify-between">
+                                        <div key={moodOption.value} className="flex gap-4 max-[390px]:gap-2">
                                             <CheckboxField name="moods" value={moodOption.value} label={moodOption.label} />
                                             {values.moods.includes(moodOption.value) && (
                                                 <RangeFieldEl name={`moodsrate.${moodOption.value}`} values={values} />

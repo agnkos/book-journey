@@ -19,14 +19,12 @@ const BookListElement = ({ result }) => {
     return (
         <>
             <div key={result.id} className="flex gap-4 my-4 max-w-[500px]">
-
                 {result.volumeInfo?.imageLinks?.smallThumbnail ?
                     <img src={`${result.volumeInfo?.imageLinks?.smallThumbnail}`}
                         className="rounded-lg w-24 h-36 min-w-24 object-cover"
                     /> :
                     <BookCoverPlaceholder />
                 }
-
                 <div className='grow flex flex-col'>
                     <div className='flex flex-col grow'>
 
