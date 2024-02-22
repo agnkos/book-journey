@@ -28,7 +28,7 @@ const BookDetail = () => {
         <div className="p-4">
             <div onClick={() => navigate(-1)} className="mb-3 flex gap-1 hover:text-link-active items-center font-semibold cursor-pointer transition delay-150">
                 <ChevronLeftIcon className="w-5 h-5" />
-                <p>back to {location?.state?.path === '/favourites' ? 'favourites' : location?.state?.path === '/books' ? 'books' : location?.state?.path === '/search' ? 'search' : ''}</p>
+                <p>back to {location?.state?.path === '/favourites' ? 'favourites' : location?.state?.path.includes('/books') ? 'books' : location?.state?.path === '/search' ? 'search' : ''}</p>
             </div>
             {bookDetail &&
                 <BookDetailElement bookDetail={bookDetail} id={params.id} setBookDetail={setBookDetail} />
