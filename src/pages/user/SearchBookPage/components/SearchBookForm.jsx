@@ -1,22 +1,38 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup";
 import PropTypes from 'prop-types';
-// import { useEffect, useState } from "react";
-// import CustomInput from "./CustomInput";
 import HintsContainer from "./HintsContainer";
 import { useRef, useEffect, useState } from "react";
 
 const SearchBook = ({ searchBook }) => {
 
-    const titleInputRef = useRef()
-    const [hints, setHints] = useState()
+    const titleInputRef = useRef(null)
+    const authorInputRef = useRef(null)
+    const [showHintsTitle, setShowHintsTitle] = useState(true)
+    const [showHintsAuthor, setShowHintsAuthor] = useState(true)
 
     useEffect(() => {
-        if (titleInputRef.current) {
-            console.log('input current')
-
-        } else console.log('input not focused')
-    }, [titleInputRef])
+        const closeOnClickOutside = () => {
+            document.activeElement === titleInputRef.current ? setShowHintsTitle(true) : setShowHintsTitle(false)
+            document.activeElement === authorInputRef.current ? setShowHintsAuthor(true) : setShowHintsAuthor(false)
+            // if (document.activeElement === titleInputRef.current) {
+            //     console.log('input current')
+            //     setShowHintsTitle(true)
+            // } else if ((document.activeElement === authorInputRef.current)) {
+            //     console.log('author input focus')
+            //     setShowHintsAuthor(true)
+            // }
+            // else {
+            //     setShowHintsTitle(false)
+            //     // setShowHintsAuthor(false)
+            //     console.log('input not focused')
+            // }
+        }
+        document.addEventListener('click', closeOnClickOutside);
+        return () => {
+            document.removeEventListener('click', closeOnClickOutside);
+        };
+    }, [])
 
     // const [query, setQuery] = useState()
     // const [queryResults, setQueryResults] = useState()
@@ -80,10 +96,6 @@ const SearchBook = ({ searchBook }) => {
     //     setQuery(title); // Update React state
     // };
 
-    const handleFocusChange = () => {
-        setHints(true)
-    }
-
     return (
         <>
             <Formik
@@ -104,22 +116,16 @@ const SearchBook = ({ searchBook }) => {
                                     name="title"
                                     id="title"
                                     className="w-full px-3 py-1 rounded-md border grow"
-                                    ref={titleInputRef}
-                                    onFocus={handleFocusChange}
+                                    innerRef={titleInputRef}
+
                                 // onChange={() => { handleInputChange(values.title); handleChange }}
                                 />
                                 {/* {(query?.title?.length > 2 && queryResults && showHints) && */}
                                 {values.title.length > 2 &&
-                                    // <div className="absolute top-8 left-0 w-full px-2 py-1 text-xs bg-white border">
-                                    //     {queryResults.slice(0, 5).map(item => (
-                                    //         <p key={item.id}
-                                    //             className="hover:bg-light-objects cursor-pointer"
-                                    //             onClick={() => handleHintClick(item.volumeInfo.title, item.volumeInfo.authors[0], setFieldValue)}
-                                    //         >{item.volumeInfo.title}, {item.volumeInfo.authors}</p>
-                                    //     ))}
-                                    // </div>
-                                    <HintsContainer searchBook={searchBook} />
-
+                                    <HintsContainer searchBook={searchBook}
+                                        showHintsTitle={showHintsTitle}
+                                        setShowHintsTitle={setShowHintsTitle}
+                                    />
                                 }
                             </div>
                         </div>
@@ -133,11 +139,22 @@ const SearchBook = ({ searchBook }) => {
                         <div className="flex flex-col mb-3 min-[400px]:flex-row min-[400px]:items-center">
                             <label className="w-[80px] mr-3 mb-1 font-semibold" htmlFor="author">Author
                             </label>
-                            <Field
-                                type="text"
-                                name="author"
-                                id="author"
-                                className="mb-2 px-3 py-1 rounded-md border grow" />
+                            <div className="relative grow">
+
+                                <Field
+                                    type="text"
+                                    name="author"
+                                    id="author"
+                                    className="w-full mb-2 px-3 py-1 rounded-md border grow"
+                                    innerRef={authorInputRef}
+                                />
+                                {values.author.length > 2 &&
+                                    <HintsContainer searchBook={searchBook}
+                                        showHintsAuthor={showHintsAuthor}
+                                        setShowHintsAuthor={setShowHintsAuthor}
+                                    />
+                                }
+                            </div>
                             <ErrorMessage name="author" component="div" className="text-sm text-red-500" />
                         </div>
                         <ErrorMessage name="title" component="div" className="text-sm text-red-500" />
