@@ -3,7 +3,7 @@ import AuthButton from "../components/AuthButton";
 
 const Home = () => {
   return (
-    <div className="h-screen flex flex-col px-8 py-6 text-center items-center justify-center bg-home-bg">
+    <div className="h-screen max-h-full flex flex-col px-8 py-6 text-center items-center justify-center bg-home-bg">
       <h1 className="text-4xl max-[320px]:text-3xl leading-10 mb-4 font-extrabold text-text">
         Welcome to <span className="text-main-accent">BookJourney</span>
       </h1>

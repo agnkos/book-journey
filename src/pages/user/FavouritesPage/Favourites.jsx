@@ -7,9 +7,6 @@ const Favourites = () => {
   const { books } = useContext(BookContext)
   const location = useLocation()
 
-  // const favouriteBooks = books.READ.filter(book => book.favourite === true).map(book =>
-  //   <BookListElement key={book.id} book={book} />)
-
   const favoriteBooks = Object.values(books).flatMap(array => array.filter(book => book.favourite === true)).map(book =>
     <BookListElement key={book.id} book={book} from={location.pathname} />)
 
