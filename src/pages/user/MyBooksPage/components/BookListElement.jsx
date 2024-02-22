@@ -1,8 +1,9 @@
 import BookCoverPlaceholder from '../../../../components/BookCoverPlaceholder';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const BookListElement = ({ book, from }) => {
+const BookListElement = ({ book }) => {
+    const location = useLocation()
     return (
         <>
             <div className="flex gap-4 my-4 max-w-[500px]">
@@ -18,7 +19,7 @@ const BookListElement = ({ book, from }) => {
                     <p className="font-semibold text-lg border-link-active">{book.title}</p>
                     <p>{book.author}</p>
                     <Link to={`/books/${book.id}`}
-                        state={{ path: from }}
+                        state={{ path: location.pathname }}
                         className='mt-auto'
                     >
                         <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Details</button>
@@ -33,5 +34,4 @@ export default BookListElement
 
 BookListElement.propTypes = {
     book: PropTypes.object,
-    from: PropTypes.string
 }

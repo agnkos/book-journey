@@ -11,11 +11,11 @@ const addBook = async (bookData) => {
     console.log('bookData', bookData)
     const response = await axios.post(`${baseUrl}`, bookData)
     console.log(response)
-    if (!response.ok) {
-        const errorData = await response.data
-        console.log('errrodata', errorData)
-        throw new Error(errorData.message)
-    }
+    // if (!response.ok) {
+    //     const errorData = await response.data
+    //     console.log('errrodata', errorData)
+    //     throw new Error(errorData.message)
+    // }
     return response.data
 }
 
@@ -59,4 +59,14 @@ const addToFavourites = async (id) => {
     }
 }
 
-export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites }
+const editBookDetail = async (id, bookData) => {
+    try {
+        const response = await axios.put(`${baseUrl}/${id}/`, bookData)
+        return response.data
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail }

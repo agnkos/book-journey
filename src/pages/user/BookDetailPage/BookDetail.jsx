@@ -12,6 +12,8 @@ const BookDetail = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
+    console.log('bookdetail', bookDetail)
+
     useEffect(() => {
         refreshBookDetail(params.id)
     }, [params.id, user.token])
@@ -20,12 +22,13 @@ const BookDetail = () => {
         const data = await bookService.getBookDetail(id)
         setBookDetail(data)
     }
+    console.log('location', location.state)
 
     return (
         <div className="p-4">
             <div onClick={() => navigate(-1)} className="mb-3 flex gap-1 hover:text-link-active items-center font-semibold cursor-pointer transition delay-150">
                 <ChevronLeftIcon className="w-5 h-5" />
-                <p>back to {location.state.path === '/favourites' ? 'favourites' : 'books'}</p>
+                <p>back to {location?.state?.path === '/favourites' ? 'favourites' : location?.state?.path === '/books' ? 'books' : location?.state?.path === '/search' ? 'search' : ''}</p>
             </div>
             {bookDetail &&
                 <BookDetailElement bookDetail={bookDetail} id={params.id} setBookDetail={setBookDetail} />
