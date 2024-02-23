@@ -2,9 +2,16 @@ import { Outlet, useLocation } from "react-router"
 import { NavLink } from "react-router-dom"
 import { Suspense } from "react"
 import Loading from "../../../components/Loading"
+import { useContext, useEffect } from "react"
+import BookContext from "../../../context/BookContext"
 
 const Books = () => {
   const location = useLocation()
+  const { refreshBooks } = useContext(BookContext)
+
+  useEffect(() => {
+    refreshBooks()
+  }, [])
 
   return (
     <div className="p-4">

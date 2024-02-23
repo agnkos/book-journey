@@ -1,22 +1,22 @@
 import { createContext, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import { useAuth } from "../hooks/useAuth"
+// import { useAuth } from "../hooks/useAuth"
 import booksService from '../services/books'
 
 const BookContext = createContext(null)
 
 export const BookContextProvider = ({ children }) => {
     const [books, setBooks] = useState()
-    const { user } = useAuth()
+    // const { user } = useAuth()
+
+    // useEffect(() => {
+    //     if (user?.token) {
+    //         refreshBooks(user?.token)
+    //     }
+    // }, [user?.token])
 
     useEffect(() => {
-        if (user?.token) {
-            refreshBooks()
-        }
-    }, [user?.token])
-
-    useEffect(() => {
-        console.log('books from contexxt', books)
+        console.log('books from context', books)
     }, [books])
 
     const refreshBooks = async () => {

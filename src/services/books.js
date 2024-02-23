@@ -2,13 +2,15 @@ import axios from 'axios';
 
 const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/book'
 
-if (JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token !== undefined) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token}`
-}
+// if (JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token !== undefined) {
+//     axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token}`
+// }
+axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
     console.log('bookData', bookData)
+    console.log('default token', axios.defaults.headers.common['Authorization'])
     const response = await axios.post(`${baseUrl}`, bookData)
     console.log(response)
     // if (!response.ok) {
@@ -20,8 +22,13 @@ const addBook = async (bookData) => {
 }
 
 const getBooks = async () => {
+    // const config = {
+    //     headers: { 'Authorization': `Bearer ${token}` }
+    // }
+    console.log('default token', axios.defaults.headers.common['Authorization'])
     try {
         const response = await axios.get(`${baseUrl}/books`)
+        console.log('books request', response.data)
         return response.data
 
     } catch (error) {

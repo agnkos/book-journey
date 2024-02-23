@@ -10,7 +10,7 @@ const Reading = () => {
 
     return (
         <>
-            {books && booksDisplayed(books)}
+            {(books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READING')) && booksDisplayed(books)}
         </>
     )
 }

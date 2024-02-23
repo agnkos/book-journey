@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -10,6 +10,10 @@ const AuthContext = createContext(null)
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        console.log('local', window.localStorage.getItem('loggedBookJourneyUser'))
+    })
 
     const login = async (loginData, { setErrors = () => { } } = {}) => {
 
