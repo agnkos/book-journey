@@ -11,7 +11,7 @@ export const BookContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (user?.token) {
-            refreshBooks()
+            refreshBooks(user?.token)
         }
     }, [user?.token])
 
@@ -19,13 +19,13 @@ export const BookContextProvider = ({ children }) => {
         console.log('books from contexxt', books)
     }, [books])
 
-    const refreshBooks = async () => {
-        const data = await booksService.getBooks()
+    const refreshBooks = async (token) => {
+        const data = await booksService.getBooks(token)
         setBooks(data)
     }
 
     return (
-        <BookContext.Provider value={{ books, setBooks, refreshBooks }}>
+        <BookContext.Provider value={{ books, setBooks, refreshBooks, }}>
             {children}
         </BookContext.Provider>
     )

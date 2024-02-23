@@ -7,9 +7,11 @@ const Read = () => {
 
     const booksDisplayed = books => books.READ.map(book => <BookListElement book={book} key={book.id} />)
 
+    // console.log('books read', books.READ)
+
     return (
         <>
-            {books && booksDisplayed(books)}
+            {(Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ')) && booksDisplayed(books)}
         </>
     )
 }
