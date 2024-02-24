@@ -54,8 +54,8 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
         const readingBook = {
             title: values.title,
             author: values.author,
-            mood: values.mood.toUpperCase(),
-            startDate: values.startDate,
+            mood: values.mood.toUpperCase() || null,
+            startDate: values.startDate || null,
             status: values.status.toUpperCase()
         }
 
