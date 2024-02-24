@@ -2,18 +2,18 @@ import { Outlet, useLocation } from "react-router"
 import { NavLink } from "react-router-dom"
 import { Suspense } from "react"
 import Loading from "../../../components/Loading"
-import { useContext, useEffect } from "react"
-import BookContext from "../../../context/BookContext"
-import AuthContext from '../../../context/AuthContext'
+// import { useContext, useEffect } from "react"
+// import BookContext from "../../../context/BookContext"
+// import AuthContext from '../../../context/AuthContext'
 
 const Books = () => {
   const location = useLocation()
-  const { refreshBooks } = useContext(BookContext)
-  const { user } = useContext(AuthContext)
+  // const { refreshBooks } = useContext(BookContext)
+  // const { user } = useContext(AuthContext)
 
-  useEffect(() => {
-    refreshBooks(user.token)
-  }, [])
+  // useEffect(() => {
+  //   refreshBooks(user.token)
+  // }, [])
 
   return (
     <div className="p-4">
