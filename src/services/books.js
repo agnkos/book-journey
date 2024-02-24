@@ -11,6 +11,13 @@ const setAuthToken = (token) => {
     }
 }
 
+// axios.interceptors.request.use(function (config) {
+//     const token = localStorage.getItem('loggedBookJourneyUser').token;
+//     console.log('tokennn', token)
+//     config.headers.Authorization =  token ? `Bearer ${token}` : '';
+//     return config;
+//   });
+
 // axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
 
 axios.defaults.headers.common['Content-Type'] = 'application/json'
@@ -83,4 +90,4 @@ const editBookDetail = async (id, bookData) => {
     }
 }
 
-export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail, setAuthToken }
+export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail,  setAuthToken}
