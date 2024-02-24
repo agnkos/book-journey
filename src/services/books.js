@@ -2,10 +2,17 @@ import axios from 'axios';
 
 const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/book'
 
-// if (JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token !== undefined) {
-//     axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token}`
-// }
-axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+const setAuthToken = (token) => {
+    axios.defaults.headers.common['Authorization'] = '';
+    delete axios.defaults.headers.common['Authorization'];
+
+    if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+}
+
+// axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
@@ -76,4 +83,4 @@ const editBookDetail = async (id, bookData) => {
     }
 }
 
-export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail }
+export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail, setAuthToken }
