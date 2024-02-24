@@ -4,13 +4,15 @@ import { Suspense } from "react"
 import Loading from "../../../components/Loading"
 import { useContext, useEffect } from "react"
 import BookContext from "../../../context/BookContext"
+import AuthContext from '../../../context/AuthContext'
 
 const Books = () => {
   const location = useLocation()
   const { refreshBooks } = useContext(BookContext)
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    refreshBooks()
+    refreshBooks(user.token)
   }, [])
 
   return (

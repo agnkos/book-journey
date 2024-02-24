@@ -4,6 +4,7 @@ import { useCallback, useContext } from "react";
 // import * as Yup from "yup";
 // import TextField from "../pages/user/AddBookPage/components/TextField";
 import BookContext from "../context/BookContext";
+import AuthContext from "../context/AuthContext";
 import RadioButton from "../pages/user/AddBookPage/components/RadioButton";
 import RangeFieldEl from "../pages/user/AddBookPage/components/RangeFieldEl";
 import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
@@ -25,6 +26,7 @@ const moodOptions = [
 
 const EditModalForm = ({ bookDetail, closeModal, id }) => {
     const { refreshBooks } = useContext(BookContext)
+    const { user } = useContext(AuthContext)
     const location = useLocation()
     const navigate = useNavigation()
 
@@ -83,7 +85,7 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
         try {
             if (location.pathname === '/search') await booksService.addBook(bookData)
             // else await booksService.editBookDetail(id, bookData)
-            refreshBooks()
+            refreshBooks(user.token)
             resetForm()
             setValues({
                 ...values,
@@ -101,7 +103,7 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
             console.log(error)
             setStatus({ response: error.response.data.message })
         }
-    }, [refreshBooks, closeModal, location.pathname])
+    }, [refreshBooks, closeModal, location.pathname, user.token])
 
     return (
         <Formik
@@ -190,5 +192,5 @@ export default EditModalForm
 EditModalForm.propTypes = {
     closeModal: PropTypes.func.isRequired,
     bookDetail: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired
+    // id: PropTypes.string.isRequired
 }

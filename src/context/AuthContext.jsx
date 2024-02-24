@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import userService from '../services/user'
-import booksService from '../services/books'
+// import booksService from '../services/books'
 
 const AuthContext = createContext(null)
 
@@ -22,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
                 console.log(data)
                 setUser(data)
                 window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
-                booksService.setAuthToken(data.token)
+                // booksService.setAuthToken(data.token)
                 navigate('/dashboard')
             })
             .catch((error) => {
