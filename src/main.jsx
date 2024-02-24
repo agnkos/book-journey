@@ -21,6 +21,7 @@ import Search from './pages/user/SearchBookPage/Search.jsx';
 import AddBook from './pages/user/AddBookPage/AddBook.jsx';
 import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
 import Favourites from './pages/user/FavouritesPage/Favourites.jsx';
+import BookContextLayout from './layouts/BookContextLayout.jsx';
 // import Read from './pages/user/MyBooksPage/Read.jsx';
 // import Reading from './pages/user/MyBooksPage/Reading.jsx';
 // import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
@@ -47,66 +48,70 @@ const router = createBrowserRouter([
       },
       {
         element: <AuthRequired />,
-        children: [
-          {
-            element: <DashboardLayout />,
-            children: [
-              {
-                path: '/dashboard',
-                element: <Dashboard />
-              },
-              {
-                path: '/books',
-                element: <Books />,
-                children: [
-                  {
-                    index: true,
-                    element: <Read />
-                  },
-                  {
-                    path: 'read',
-                    element: <Read />
-                  },
-                  {
-                    path: 'reading',
-                    element: <Reading />
-                  },
-                  {
-                    path: 'toread',
-                    element: <ToRead />
-                  },
-                ]
-              },
-              {
-                path: 'books/:id',
-                element: <BookDetail />
-              },
-              {
-                path: 'favourites',
-                element: <Favourites />
-              },
-              {
-                path: '/search',
-                element: <Search />
-              },
-              {
-                path: '/friends',
-                element: <Friends />
-              },
-              {
-                path: '/stats',
-                element: <Stats />
-              },
-              {
-                path: '/addbook',
-                element: <AddBook />
-              },
-              {
-                path: '/profile',
-                element: <Profile />
-              },
-            ]
-          }
+        children: [{
+          element: <BookContextLayout />,
+          children: [
+            {
+              element: <DashboardLayout />,
+              children: [
+                {
+                  path: '/dashboard',
+                  element: <Dashboard />
+                },
+                {
+                  path: '/books',
+                  element: <Books />,
+                  children: [
+                    {
+                      index: true,
+                      element: <Read />
+                    },
+                    {
+                      path: 'read',
+                      element: <Read />
+                    },
+                    {
+                      path: 'reading',
+                      element: <Reading />
+                    },
+                    {
+                      path: 'toread',
+                      element: <ToRead />
+                    },
+                  ]
+                },
+                {
+                  path: 'books/:id',
+                  element: <BookDetail />
+                },
+                {
+                  path: 'favourites',
+                  element: <Favourites />
+                },
+                {
+                  path: '/search',
+                  element: <Search />
+                },
+                {
+                  path: '/friends',
+                  element: <Friends />
+                },
+                {
+                  path: '/stats',
+                  element: <Stats />
+                },
+                {
+                  path: '/addbook',
+                  element: <AddBook />
+                },
+                {
+                  path: '/profile',
+                  element: <Profile />
+                },
+              ]
+            }
+          ]
+        }
         ]
       },
       {

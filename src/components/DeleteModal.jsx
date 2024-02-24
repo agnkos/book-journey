@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 // import { useAuth } from "../hooks/useAuth";
 import { useContext, useRef } from "react";
 import BookContext from "../context/BookContext";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import bookService from '../services/books'
 
 const DeleteModal = ({ closeModal, id }) => {
-    // const { user } = useAuth()
+    const { user } = useAuth()
     const { refreshBooks } = useContext(BookContext)
     const navigate = useNavigate()
     const modalRef = useRef()
@@ -16,7 +17,7 @@ const DeleteModal = ({ closeModal, id }) => {
     const handleDelete = async (id) => {
         // await deleteBook(id, token)
         await bookService.deleteBook(id)
-        refreshBooks()
+        refreshBooks(user.token)
         closeModal()
         navigate(-1)
     }
