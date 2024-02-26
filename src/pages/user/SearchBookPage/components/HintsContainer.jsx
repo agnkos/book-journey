@@ -13,26 +13,25 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 const title = (values.title).replace(/ /g, '+')
                 const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${title}"+intitle:"${title}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
-                // console.log('title data', data.items)
-                const titles = data.items.map((t) => ({ title: t.volumeInfo.title, author: t.volumeInfo.authors, id: t.id }))
-                // console.log('only titles', titles)
-                const filteredTitles = titles.filter((value, index, self) => index === self.findIndex((t) => t.title === value.title && t?.author?.[0] === value?.author?.[0]))
-                setQueryResultsTitle(filteredTitles)
-                // console.log('filtered titles', filteredTitles)
-
+                if (data.totalItems > 0) {
+                    const titles = data.items.map((t) => ({ title: t.volumeInfo.title, author: t.volumeInfo.authors, id: t.id }))
+                    const filteredTitles = titles.filter((value, index, self) => index === self.findIndex((t) => t.title === value.title && t?.author?.[0] === value?.author?.[0]))
+                    setQueryResultsTitle(filteredTitles)
+                }
             }
         }
         const getHintsAuthor = async () => {
             if (values.author?.length > 2 && showHintsAuthor) {
                 console.log('values author', values.author)
                 const author = (values.author).replace(/ /g, '+')
-                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${author}"+inauthor:"${author}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
-                const authors = data.items.map(a => a.volumeInfo.authors[0].trim())
-                const authorsFiltered = [...new Set(authors)]
-                setQueryResultsAuthor(authorsFiltered)
-                // console.log('author', data.items)
-                // console.log('filtered authors', authorsFiltered)
+                console.log('atuhor data', data)
+                if (data.totalItems > 0) {
+                    const authors = data?.items.map(a => a.volumeInfo?.authors[0].trim())
+                    const authorsFiltered = [...new Set(authors)]
+                    setQueryResultsAuthor(authorsFiltered)
+                }
             }
         }
         getHintsTitle()
@@ -52,11 +51,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         setShowHintsAuthor(false)
         resetForm()
     }
-
-    // useEffect(() => {
-    //     console.log('queryResultsTitle', queryResultsTitle)
-    //     console.log('queryResultsAuthor', queryResultsAuthor)
-    // }, [queryResultsAuthor, queryResultsTitle])
 
     if (queryResultsTitle && showHintsTitle)
         return (
