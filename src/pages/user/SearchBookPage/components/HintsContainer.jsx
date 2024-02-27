@@ -23,11 +23,9 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         }
         const getHintsAuthor = async () => {
             if (values.author?.length > 2 && showHintsAuthor) {
-                console.log('values author', values.author)
                 const author = (values.author).replace(/ /g, '+')
                 const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
-                console.log('atuhor data', data)
                 if (data.totalItems > 0) {
                     const authors = data?.items.map(a => a.volumeInfo?.authors?.[0].trim())
                     const authorsFiltered = [...new Set(authors)]
@@ -44,7 +42,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         const handleKeyDownTitle = (e) => {
             if (document.activeElement === titleInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
                 setSelectedItem(prev => prev - 1)
-                console.log('selected title', selectedItem)
             } else if (document.activeElement === titleInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsTitle.length - 1) {
                 setSelectedItem(prev => prev + 1)
             } else if (document.activeElement === titleInputRef.current && e.key === "Enter" && selectedItem >= 0) {
@@ -75,7 +72,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         };
     }, [showHintsTitle, queryResultsTitle, searchBook, selectedItem, titleInputRef, showHintsAuthor, authorInputRef, queryResultsAuthor])
 
-
     const handleTitleHintClick = async (title, author) => {
         setFieldValue('title', title)
         setFieldValue('author', author)
@@ -89,10 +85,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         setShowHintsAuthor(false)
         resetForm()
     }
-
-    useEffect(() => {
-        console.log('query title', queryResultsTitle)
-    }, [queryResultsTitle])
 
     if (queryResultsTitle && showHintsTitle)
         return (
