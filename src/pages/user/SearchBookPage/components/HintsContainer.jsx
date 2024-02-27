@@ -2,13 +2,11 @@ import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 
-const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHintsAuthor, setShowHintsAuthor, titleInputRef }) => {
+const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHintsAuthor, setShowHintsAuthor, titleInputRef, authorInputRef }) => {
     const [queryResultsTitle, setQueryResultsTitle] = useState()
     const [queryResultsAuthor, setQueryResultsAuthor] = useState()
     const { values, setFieldValue, resetForm } = useFormikContext()
-    const [selectedTitleItem, setSelectedTitleItem] = useState(-1)
-    const [selectedAuthorItem, setSelectedAuthorItem] = useState(-1)
-
+    const [selectedItem, setSelectedItem] = useState(-1)
 
     useEffect(() => {
         const getHintsTitle = async () => {
@@ -33,7 +31,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 if (data.totalItems > 0) {
                     const authors = data?.items.map(a => a.volumeInfo?.authors?.[0].trim())
                     const authorsFiltered = [...new Set(authors)]
-                    setQueryResultsAuthor(authorsFiltered)
+                    setQueryResultsAuthor(authorsFiltered.slice(0, 5))
                 }
             }
         }
@@ -43,28 +41,39 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
 
 
     useEffect(() => {
-        const handleKeyDown = (e) => {
-            e.stopPropagation()
-            // console.log(e.key)
-            if (document.activeElement === titleInputRef.current && e.key === "ArrowUp" && selectedTitleItem > -1) {
-                setSelectedTitleItem(prev => prev - 1)
-                console.log('selected title', selectedTitleItem)
-            } else if (document.activeElement === titleInputRef.current && e.key === "ArrowDown" && selectedTitleItem < queryResultsTitle.length - 1) {
-                setSelectedTitleItem(prev => prev + 1)
-            } else if (document.activeElement === titleInputRef.current && e.key === "Enter" && selectedTitleItem >= 0) {
-                searchBook(queryResultsTitle[selectedTitleItem])
+        const handleKeyDownTitle = (e) => {
+            if (document.activeElement === titleInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
+                setSelectedItem(prev => prev - 1)
+                console.log('selected title', selectedItem)
+            } else if (document.activeElement === titleInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsTitle.length - 1) {
+                setSelectedItem(prev => prev + 1)
+            } else if (document.activeElement === titleInputRef.current && e.key === "Enter" && selectedItem >= 0) {
+                searchBook(queryResultsTitle[selectedItem])
             }
         }
-        if (showHintsTitle) {
+        const handleKeyDownAuthor = (e) => {
+            if (document.activeElement === authorInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
+                setSelectedItem(prev => prev - 1)
+                console.log('selected title', selectedItem)
+            } else if (document.activeElement === authorInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsAuthor.length - 1) {
+                setSelectedItem(prev => prev + 1)
+            } else if (document.activeElement === authorInputRef.current && e.key === "Enter" && selectedItem >= 0) {
+                searchBook(queryResultsAuthor[selectedItem])
+            }
+        }
 
-            document.addEventListener('keydown', handleKeyDown)
-            console.log('selet title', selectedTitleItem)
-            console.log('ref', titleInputRef)
+        if (showHintsTitle) {
+            document.addEventListener('keydown', handleKeyDownTitle)
+        }
+
+        if (showHintsAuthor) {
+            document.addEventListener('keydown', handleKeyDownAuthor)
         }
         return () => {
-            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keydown', handleKeyDownTitle);
+            document.removeEventListener('keydown', handleKeyDownAuthor);
         };
-    }, [showHintsTitle, queryResultsTitle, searchBook, selectedTitleItem, titleInputRef])
+    }, [showHintsTitle, queryResultsTitle, searchBook, selectedItem, titleInputRef, showHintsAuthor, authorInputRef, queryResultsAuthor])
 
 
     const handleTitleHintClick = async (title, author) => {
@@ -90,7 +99,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
             <div className="absolute top-9 left-0 w-full text-xs bg-white border z-10">
                 {queryResultsTitle.map((item, index) => (
                     <div key={item.id}
-                        className={`flex w-full px-2 py-1 hover:bg-light-objects cursor-pointer ${index === selectedTitleItem ? 'bg-light-objects' : ''}`}
+                        className={`flex w-full px-2 py-1 hover:bg-light-objects cursor-pointer ${index === selectedItem ? 'bg-light-objects' : ''}`}
                         onClick={() => handleTitleHintClick(item.title, item.author)}>
                         <p className='truncate'>{item.title}</p><p className='truncate'>, {item.author}</p>
                     </div>
@@ -100,10 +109,10 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
 
     if (queryResultsAuthor && showHintsAuthor)
         return (
-            <div className="absolute top-9 left-0 w-full px-2 py-1 text-xs bg-white border z-10">
-                {queryResultsAuthor.slice(0, 5).map(item => (
+            <div className="absolute top-9 left-0 w-full text-xs bg-white border z-10">
+                {queryResultsAuthor.map((item, index) => (
                     <p key={item}
-                        className="hover:bg-light-objects cursor-pointer"
+                        className={`flex w-full px-2 py-1 hover:bg-light-objects cursor-pointer ${index === selectedItem ? 'bg-light-objects' : ''}`}
                         onClick={() => handleAuthorHintClick(item)}
                     >{item}</p>
                 ))}
@@ -119,5 +128,6 @@ HintsContainer.propTypes = {
     setShowHintsTitle: PropTypes.func,
     showHintsAuthor: PropTypes.bool,
     setShowHintsAuthor: PropTypes.func,
-    titleInputRef: PropTypes.ReactNode
+    titleInputRef: PropTypes.object,
+    authorInputRef: PropTypes.object,
 }

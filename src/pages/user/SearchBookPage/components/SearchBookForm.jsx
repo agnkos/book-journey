@@ -97,6 +97,7 @@ const SearchBook = ({ searchBook }) => {
                                         searchBook={searchBook}
                                         showHintsAuthor={showHintsAuthor}
                                         setShowHintsAuthor={setShowHintsAuthor}
+                                        authorInputRef={authorInputRef}
                                     />
                                 }
                             </div>
