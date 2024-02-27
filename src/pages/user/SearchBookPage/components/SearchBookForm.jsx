@@ -9,8 +9,8 @@ const SearchBook = ({ searchBook }) => {
 
     const titleInputRef = useRef(null)
     const authorInputRef = useRef(null)
-    const [showHintsTitle, setShowHintsTitle] = useState(true)
-    const [showHintsAuthor, setShowHintsAuthor] = useState(true)
+    const [showHintsTitle, setShowHintsTitle] = useState(false)
+    const [showHintsAuthor, setShowHintsAuthor] = useState(false)
 
     useEffect(() => {
         const closeOnClickOutside = () => {
@@ -70,6 +70,7 @@ const SearchBook = ({ searchBook }) => {
                                         searchBook={searchBook}
                                         showHintsTitle={showHintsTitle}
                                         setShowHintsTitle={setShowHintsTitle}
+                                        titleInputRef={titleInputRef}
                                     />
                                 }
                             </div>
@@ -86,9 +87,11 @@ const SearchBook = ({ searchBook }) => {
                                     className="w-full grow focus:outline-none"
                                     innerRef={authorInputRef}
                                 />
-                                <XMarkIcon className="w-6 h-6 stroke-text-faded hover:stroke-link-active transition duration-150 cursor-pointer"
-                                    onClick={() => setFieldValue('author', '')}
-                                />
+                                {values.author.length > 1 &&
+                                    <XMarkIcon className="w-6 h-6 stroke-text-faded hover:stroke-link-active transition duration-150 cursor-pointer"
+                                        onClick={() => setFieldValue('author', '')}
+                                    />
+                                }
                                 {values.author.length > 2 &&
                                     <HintsContainer
                                         searchBook={searchBook}
