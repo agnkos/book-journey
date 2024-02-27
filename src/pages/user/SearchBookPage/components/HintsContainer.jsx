@@ -27,7 +27,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 const author = (values.author).replace(/ /g, '+')
                 const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
-                console.log('atuhor data', data)
                 if (data.totalItems > 0) {
                     const authors = data?.items.map(a => a.volumeInfo?.authors?.[0].trim())
                     const authorsFiltered = [...new Set(authors)]
@@ -39,12 +38,10 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         getHintsAuthor()
     }, [values, showHintsTitle, showHintsAuthor])
 
-
     useEffect(() => {
         const handleKeyDownTitle = (e) => {
             if (document.activeElement === titleInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
                 setSelectedItem(prev => prev - 1)
-                console.log('selected title', selectedItem)
             } else if (document.activeElement === titleInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsTitle.length - 1) {
                 setSelectedItem(prev => prev + 1)
             } else if (document.activeElement === titleInputRef.current && e.key === "Enter" && selectedItem >= 0) {
@@ -54,7 +51,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         const handleKeyDownAuthor = (e) => {
             if (document.activeElement === authorInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
                 setSelectedItem(prev => prev - 1)
-                console.log('selected title', selectedItem)
             } else if (document.activeElement === authorInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsAuthor.length - 1) {
                 setSelectedItem(prev => prev + 1)
             } else if (document.activeElement === authorInputRef.current && e.key === "Enter" && selectedItem >= 0) {
@@ -89,10 +85,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         setShowHintsAuthor(false)
         resetForm()
     }
-
-    useEffect(() => {
-        console.log('query title', queryResultsTitle)
-    }, [queryResultsTitle])
 
     if (queryResultsTitle && showHintsTitle)
         return (
