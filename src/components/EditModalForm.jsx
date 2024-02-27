@@ -11,7 +11,7 @@ import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
 import TextareaField from "../pages/user/AddBookPage/components/TextareaField";
 import DateElement from "../pages/user/AddBookPage/components/DateElement";
 import booksService from '../services/books';
-import { useLocation, useNavigation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -24,26 +24,37 @@ const moodOptions = [
     { label: 'Sad', value: 'sad' },
 ];
 
-const EditModalForm = ({ bookDetail, closeModal, id }) => {
+const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
     const { refreshBooks } = useContext(BookContext)
     const { user } = useContext(AuthContext)
     const location = useLocation()
-    const navigate = useNavigation()
+    // const navigate = useNavigate()
 
     console.log('location', location)
     console.log('book detail from edit form', bookDetail)
 
+    const search = location.pathname === '/search'
+
     const initialValues = {
-        title: location.pathname === '/search' ? bookDetail.volumeInfo.title : bookDetail.title,
-        author: location.pathname === '/search' ? bookDetail.volumeInfo.authors[0] : bookDetail.author,
-        status: location.pathname === '/search' ? 'read' : (bookDetail.status === 'READ' ? 'read' : bookDetail.status === 'READING' ? 'reading' : 'to read'),
-        rate: location.pathname === '/search' ? '' : bookDetail.review.score,
-        review: location.pathname === '/search' ? '' : bookDetail.review.comment,
-        moods: [],
+        title: search ? bookDetail.volumeInfo.title : bookDetail.title,
+        author: search ? bookDetail.volumeInfo.authors[0] : bookDetail.author,
+        status: search ? 'read' : (bookDetail.status === 'READ' ? 'read' : bookDetail.status === 'READING' ? 'reading' : 'to read'),
+        rate: search ? '' : bookDetail.review.score,
+        review: search ? '' : bookDetail.review.comment,
+        moods: search ? '' : Object.keys(bookDetail?.moodPercentages?.moodsPercentages).map(key => key.toLowerCase()),
         mood: '',
-        moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
-        startDate: location.pathname === '/search' ? '' : bookDetail.startDate,
-        endDate: location.pathname === '/search' ? '' : bookDetail.endDate
+        moodsrate: {
+            in_love: bookDetail?.moodScores?.moodsPercentages.IN_LOVE || 1,
+            happy: bookDetail?.moodScores?.moodsPercentages.HAPPY || 1,
+            relaxed: bookDetail?.moodScores?.moodsPercentages.RELAXED || 1,
+            intrigued: bookDetail?.moodScores?.moodsPercentages.INTRIGUED || 1,
+            scared: bookDetail?.moodScores?.moodsPercentages.SCARED || 1,
+            tense: bookDetail?.moodScores?.moodsPercentages.TENSE || 1,
+            nostalgic: bookDetail?.moodScores?.moodsPercentages.NOSTALGIC || 1,
+            sad: bookDetail?.moodScores?.moodsPercentages.SAD || 1
+        },
+        startDate: search ? '' : bookDetail.startDate,
+        endDate: search ? '' : bookDetail.endDate
     }
 
     const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
@@ -75,17 +86,23 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
                 comment: values.review
             },
             moods: { moodsPercentages: moodsPercentages },
-            startDate: values.startDate,
-            endDate: values.endDate
+            startDate: values.startDate || null,
+            endDate: values.endDate || null
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
 
         try {
-            if (location.pathname === '/search') await booksService.addBook(bookData)
-            // else await booksService.editBookDetail(id, bookData)
-            refreshBooks(user.token)
+            if (location.pathname === '/search') {
+                await booksService.addBook(bookData)
+                refreshBooks(user.token)
+                // navigate to books???
+            }
+            else {
+                await booksService.editBookDetail(id, bookData)
+                refreshBookDetail(id)
+            }
             resetForm()
             setValues({
                 ...values,
@@ -98,12 +115,15 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
             console.log('book edited', bookData)
             closeModal()
             // if edit:
-            // navigate(`books/${id}`)
+            // if (location.pathname.includes(`/books/${id}`)) {
+            //     console.log('book edited')
+            //     navigate(`/books/${id}`)
+            // }
         } catch (error) {
             console.log(error)
-            setStatus({ response: error.response.data.message })
+            setStatus({ response: error.response.data.message || error.response.data.title })
         }
-    }, [refreshBooks, closeModal, location.pathname, user.token])
+    }, [refreshBooks, closeModal, location.pathname, user.token, id, refreshBookDetail])
 
     return (
         <Formik
@@ -112,6 +132,7 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
         // validationSchema={validationSchema}
         >
             {({ values }) => {
+                console.log('values', values)
                 return (
                     <Form>
                         <p id="status-group" className="font-semibold">Status</p>
@@ -192,5 +213,6 @@ export default EditModalForm
 EditModalForm.propTypes = {
     closeModal: PropTypes.func.isRequired,
     bookDetail: PropTypes.object.isRequired,
-    // id: PropTypes.string.isRequired
+    id: PropTypes.string,
+    refreshBookDetail: PropTypes.func
 }

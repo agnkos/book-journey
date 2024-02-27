@@ -100,6 +100,8 @@ const addToFavourites = async (id) => {
 }
 
 const editBookDetail = async (id, bookData) => {
+    console.log('book id', id)
+    console.log('bookData', bookData)
     try {
         const response = await axios.put(`${baseUrl}/${id}/`, bookData)
         return response.data
