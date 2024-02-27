@@ -3,13 +3,14 @@ import * as Yup from "yup";
 import PropTypes from 'prop-types';
 import HintsContainer from "./HintsContainer";
 import { useRef, useEffect, useState } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const SearchBook = ({ searchBook }) => {
 
     const titleInputRef = useRef(null)
     const authorInputRef = useRef(null)
-    const [showHintsTitle, setShowHintsTitle] = useState(true)
-    const [showHintsAuthor, setShowHintsAuthor] = useState(true)
+    const [showHintsTitle, setShowHintsTitle] = useState(false)
+    const [showHintsAuthor, setShowHintsAuthor] = useState(false)
 
     useEffect(() => {
         const closeOnClickOutside = () => {
@@ -46,25 +47,30 @@ const SearchBook = ({ searchBook }) => {
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
             >
-                {({ values }) => {
+                {({ values, setFieldValue }) => {
                     return (<Form className="max-w-[500px] mb-6">
                         <div className="flex flex-col mb-3 min-[400px]:flex-row min-[400px]:items-center">
                             <label htmlFor="title" className="w-[80px] mr-3 mb-1 font-semibold">Book title
                             </label>
-                            <div className="relative grow">
-
+                            <div className="flex items-center relative px-3 py-1 grow border border-light-objects rounded-md focus-within:outline focus-within:outline-2">
                                 <Field
                                     type="text"
                                     name="title"
                                     id="title"
-                                    className="w-full px-3 py-1 rounded-md border grow"
+                                    className="w-full grow focus:outline-none"
                                     innerRef={titleInputRef}
                                 />
+                                {values.title.length > 0 &&
+                                    <XMarkIcon className="w-6 h-6 stroke-text-faded hover:stroke-link-active transition duration-150 cursor-pointer"
+                                        onClick={() => setFieldValue('title', '')}
+                                    />
+                                }
                                 {values.title.length > 2 &&
                                     <HintsContainer
                                         searchBook={searchBook}
                                         showHintsTitle={showHintsTitle}
                                         setShowHintsTitle={setShowHintsTitle}
+                                        titleInputRef={titleInputRef}
                                     />
                                 }
                             </div>
@@ -73,19 +79,25 @@ const SearchBook = ({ searchBook }) => {
                         <div className="flex flex-col mb-3 min-[400px]:flex-row min-[400px]:items-center">
                             <label className="w-[80px] mr-3 mb-1 font-semibold" htmlFor="author">Author
                             </label>
-                            <div className="relative grow">
+                            <div className="flex items-center relative px-3 py-1 grow border border-light-objects rounded-md focus-within:outline focus-within:outline-2">
                                 <Field
                                     type="text"
                                     name="author"
                                     id="author"
-                                    className="w-full mb-2 px-3 py-1 rounded-md border grow"
+                                    className="w-full grow focus:outline-none"
                                     innerRef={authorInputRef}
                                 />
+                                {values.author.length > 1 &&
+                                    <XMarkIcon className="w-6 h-6 stroke-text-faded hover:stroke-link-active transition duration-150 cursor-pointer"
+                                        onClick={() => setFieldValue('author', '')}
+                                    />
+                                }
                                 {values.author.length > 2 &&
                                     <HintsContainer
                                         searchBook={searchBook}
                                         showHintsAuthor={showHintsAuthor}
                                         setShowHintsAuthor={setShowHintsAuthor}
+                                        authorInputRef={authorInputRef}
                                     />
                                 }
                             </div>
