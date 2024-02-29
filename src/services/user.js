@@ -18,4 +18,9 @@ const changeUsername = async (data) => {
     return response.data
 }
 
-export default { getUser, changeUsername }
+const changePassword = async (data) => {
+    const response = await axios.put(`${baseUrl}/password`, data)
+    return response.data
+}
+
+export default { getUser, changeUsername, changePassword }
