@@ -84,7 +84,7 @@ const Profile = () => {
                     :
                     <>
                       <div className="flex items-center gap-8">
-                        <p className="text-xl">{userData?.firstName}</p>
+                        <p className="text-xl">{userData?.firstName || '-'}</p>
                       </div>
                     </>
                   }
@@ -99,7 +99,7 @@ const Profile = () => {
                       />
                       :
                       <div className="flex items-center gap-8">
-                        <p className="text-xl">{userData?.lastName}</p>
+                        <p className="text-xl">{userData?.lastName || '-'}</p>
                       </div>}
                   </div>
 
