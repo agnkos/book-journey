@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import userService from '../../services/user'
-import { useAuth } from "../../hooks/useAuth"
+import userService from '../../../services/user'
+import { useAuth } from "../../../hooks/useAuth"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 
@@ -18,14 +18,13 @@ const Profile = () => {
     getUserData()
   }, [user.token])
 
-
   let initialNameValues = {
-    firstName: userData?.firstName,
-    lastName: userData?.lastName,
+    firstName: userData?.firstName || '',
+    lastName: userData?.lastName || '',
   };
 
   const onSubmit = async (values) => {
-    await userService.changeUsername(values)
+    await userService.changeUsername(values, user.token)
     const data = await userService.getUser(user.token)
     setUserData(data)
     setEditUsername(false)
@@ -43,11 +42,12 @@ const Profile = () => {
     confirmNewPassword: Yup.string().oneOf([Yup.ref("newPassword")], "Passwords don't match").required('Confirm password')
   })
 
-  const submitNewPassword = async (values, { setStatus }) => {
+  const submitNewPassword = async (values, { setStatus, resetForm }) => {
     const valuesToSend = { ...values }
     delete valuesToSend.confirmNewPassword
     try {
-      await userService.changePassword(valuesToSend)
+      await userService.changePassword(valuesToSend, user.token)
+      resetForm()
     } catch (error) {
       console.log(error)
       setStatus({ response: error.response.data.message })
@@ -69,8 +69,7 @@ const Profile = () => {
           initialValues={initialNameValues}
           onSubmit={onSubmit}
         >
-          {({ values }) => {
-            console.log('form values', values)
+          {() => {
             return (
               <Form className="max-w-fit mb-2 pb-3 border-b-2 border-b-light-objects">
                 <div className="mb-2">
@@ -80,7 +79,6 @@ const Profile = () => {
                       type="text"
                       name="firstName"
                       id="firstName"
-                      value={values.firstName}
                       className="mb-1 px-2 py-1 rounded-md border"
                     />
                     :
@@ -97,7 +95,6 @@ const Profile = () => {
                         type="text"
                         name="lastName"
                         id="lastName"
-                        value={values.lastName}
                         className="mb-1 px-2 py-1 rounded-md border"
                       />
                       :

@@ -13,13 +13,20 @@ const getUser = async (token) => {
     return response.data
 }
 
-const changeUsername = async (data) => {
-    const response = await axios.put(`${baseUrl}/name`, data)
+const changeUsername = async (data, token) => {
+    const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    }
+    console.log('username values', data)
+    const response = await axios.put(`${baseUrl}/name`, data, config)
     return response.data
 }
 
-const changePassword = async (data) => {
-    const response = await axios.put(`${baseUrl}/password`, data)
+const changePassword = async (data, token) => {
+    const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    }
+    const response = await axios.put(`${baseUrl}/password`, data, config)
     return response.data
 }
 
