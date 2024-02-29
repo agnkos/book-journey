@@ -1,22 +1,33 @@
 import axios from 'axios';
 
-const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/auth'
+const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/user'
 
 axios.defaults.headers.common['Content-Type'] = 'application/json'
+// axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
 
-const login = async (loginData) => {
-    const response = await axios.post(`${baseUrl}/login`, loginData)
-    return response.data
-}
-const logout = async () => {
-    const response = await axios.post(`${baseUrl}/logout`)
-    return response.data
-}
-
-const signup = async (signupData) => {
-    console.log(signupData)
-    const response = await axios.post(`${baseUrl}/users`, signupData)
+const getUser = async (token) => {
+    const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    }
+    const response = await axios.get(`${baseUrl}/profile`, config)
     return response.data
 }
 
-export default { login, logout, signup }
+const changeUsername = async (data, token) => {
+    const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    }
+    console.log('username values', data)
+    const response = await axios.put(`${baseUrl}/name`, data, config)
+    return response.data
+}
+
+const changePassword = async (data, token) => {
+    const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    }
+    const response = await axios.put(`${baseUrl}/password`, data, config)
+    return response.data
+}
+
+export default { getUser, changeUsername, changePassword }

@@ -1,20 +1,24 @@
 import { HeartIcon, ShareIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 import { useContext, useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
-import Modal from "../../../../components/Modal"
 import PropTypes from 'prop-types';
 import BookContext from "../../../../context/BookContext"
 import booksService from '../../../../services/books'
+import EditModal from "../../../../components/EditModal"
+import DeleteModal from "../../../../components/DeleteModal"
 
 const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const [details, setDetails] = useState(true)
-    const [showModal, setShowModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
     const { refreshBooks } = useContext(BookContext)
 
-    const closeModal = () => setShowModal(false)
-    const openModal = () => setShowModal(true)
+    const closeDeleteModal = () => setShowDeleteModal(false)
+    const openDeleteModal = () => setShowDeleteModal(true)
+    const closeEditModal = () => setShowEditModal(false)
+    const openEditModal = () => setShowEditModal(true)
 
     const handleAddToFavourites = async (id) => {
         await booksService.addToFavourites(id)
@@ -42,7 +46,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                 </div>
             </div>
 
-            <div className="flex justify-between px-4 py-4">
+            <div className="flex justify-between px-4 py-4 max-[380px]:px-2">
                 <div className="flex gap-1 items-center group cursor-pointer"
                     onClick={() => handleAddToFavourites(id)}
                 >
@@ -53,7 +57,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                     <ShareIcon className="w-5 h-5 text-text-faded group-hover:stroke-link-active-hover" /><p className="text-text-faded group-hover:text-link-active-hover"> share</p>
                 </div>
                 <div className="flex gap-1 items-center group cursor-pointer"
-                    onClick={openModal}
+                    onClick={openDeleteModal}
                 >
                     <TrashIcon className="w-5 h-5 text-text-faded group-hover:stroke-link-active-hover" /><p className="text-text-faded group-hover:text-link-active-hover"> delete</p>
                 </div>
@@ -88,11 +92,12 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                         :
                         <span>-</span>
                     }
-                    <Link to={``}
-                        className=''
-                    >
-                        <button className="mt-6 px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block">Edit</button>
-                    </Link>
+
+                    <button className="mt-6 px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block"
+                        onClick={openEditModal}
+
+                    >Edit</button>
+
                 </div>}
 
                 {!details && <div>
@@ -102,7 +107,8 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                     <p className="mb-2">{bookDetail.description}</p>
                 </div>}
             </div>
-            {showModal && <Modal closeModal={closeModal} id={id} />}
+            {showDeleteModal && <DeleteModal closeModal={closeDeleteModal} id={id} />}
+            {showEditModal && <EditModal closeModal={closeEditModal} bookDetail={bookDetail} id={id} />}
         </>
     )
 }

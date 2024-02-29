@@ -16,7 +16,7 @@ export const BookContextProvider = ({ children }) => {
     }, [user?.token])
 
     useEffect(() => {
-        console.log('books from contexxt', books)
+        console.log('books from context', books)
     }, [books])
 
     const refreshBooks = async (token) => {

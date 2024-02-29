@@ -1,6 +1,6 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import BookContext from "../../../context/BookContext";
 import TextField from "./components/TextField";
@@ -55,7 +55,7 @@ const AddBook = () => {
         const readingBook = {
             title: values.title,
             author: values.author,
-            mood: values.mood,
+            mood: values.mood.toUpperCase(),
             startDate: values.startDate,
             status: values.status.toUpperCase()
         }
@@ -91,11 +91,20 @@ const AddBook = () => {
                 rate: '',
                 moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
                 moods: [],
+                startDate: null,
+                endDate: null
             });
+            window.scrollTo({ top: 0, behaviour: 'smooth' });
         } catch (error) {
-            setStatus({ response: error.message })
+            window.scrollTo({ top: 0, behaviour: 'smooth' });
+            console.log(error)
+            setStatus({ response: error.response.data.message })
         }
     }, [refreshBooks])
+
+    useEffect(() => {
+        console.log('scroll y', window.scrollY)
+    })
 
     return (
         <div className="p-4">

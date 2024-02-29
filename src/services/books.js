@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/book'
 
+<<<<<<< HEAD
 // let token = null
 
 // const setToken = newToken => {
@@ -16,16 +17,62 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
     console.log('bookdata', bookData)
-    const response = await axios.post(`${baseUrl}`, bookData)
+=======
+// const setAuthToken = (token) => {
+//     axios.defaults.headers.common['Authorization'] = '';
+//     delete axios.defaults.headers.common['Authorization'];
 
-    if (!response.ok) {
-        const errorData = await response.data.json()
-        throw new Error(errorData.message)
-    }
+//     if (token) {
+//         axios.defaults.headers.common['Authorization'] = `Bearer ${token}` || `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+//         // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//     }
+// }
+
+// axios.interceptors.request.use(function (config) {
+//     const storage = localStorage.getItem('loggedBookJourneyUser')
+//     console.log('parsed', JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token)
+//     console.log('localStorage', localStorage.getItem('loggedBookJourneyUser'))
+//     if (storage) {
+//         const token = JSON.parse(storage).token
+//         console.log('tokennn', token)
+//         config.headers.Authorization = `Bearer ${token}`
+
+//     }
+//     config.headers['Content-Type'] = 'application/json'
+//     return config
+// });
+
+
+// client.interceptors.request.use(
+//     config => {
+//         config.headers['Authorization'] = `Bearer ${localStorage.getItem('loggedBookJourneyUser').token}`;
+//         return config;
+//     },
+//     error => {
+//         return Promise.reject(error);
+//     }
+// );
+
+axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+
+axios.defaults.headers.common['Content-Type'] = 'application/json'
+
+const addBook = async (bookData) => {
+    console.log('bookData', bookData)
+    console.log('default token', axios.defaults.headers.common['Authorization'])
+>>>>>>> main
+    const response = await axios.post(`${baseUrl}`, bookData)
+    console.log(response)
+    // if (!response.ok) {
+    //     const errorData = await response.data
+    //     console.log('errrodata', errorData)
+    //     throw new Error(errorData.message)
+    // }
     return response.data
 }
 
 const getBooks = async (token) => {
+<<<<<<< HEAD
     // console.log('token', token)
     // console.log('token', JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token)
     // console.log('axios head', axios.defaults.headers.common['Authorization'])
@@ -34,6 +81,15 @@ const getBooks = async (token) => {
     }
     try {
         const response = await axios.get(`${baseUrl}/books`, config)
+=======
+    const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    }
+    // console.log('default token', axios.defaults.headers.common['Authorization'])
+    try {
+        const response = await axios.get(`${baseUrl}/books`, config)
+        console.log('books request', response.data)
+>>>>>>> main
         return response.data
 
     } catch (error) {
@@ -71,4 +127,14 @@ const addToFavourites = async (id) => {
     }
 }
 
-export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites }
+const editBookDetail = async (id, bookData) => {
+    try {
+        const response = await axios.put(`${baseUrl}/${id}/`, bookData)
+        return response.data
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail }

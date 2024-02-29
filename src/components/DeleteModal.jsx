@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 // import { useAuth } from "../hooks/useAuth";
 import { useContext, useRef } from "react";
 import BookContext from "../context/BookContext";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import bookService from '../services/books'
 
-const Modal = ({ closeModal, id }) => {
-    // const { user } = useAuth()
+const DeleteModal = ({ closeModal, id }) => {
+    const { user } = useAuth()
     const { refreshBooks } = useContext(BookContext)
     const navigate = useNavigate()
     const modalRef = useRef()
@@ -16,7 +17,7 @@ const Modal = ({ closeModal, id }) => {
     const handleDelete = async (id) => {
         // await deleteBook(id, token)
         await bookService.deleteBook(id)
-        refreshBooks()
+        refreshBooks(user.token)
         closeModal()
         navigate(-1)
     }
@@ -28,7 +29,7 @@ const Modal = ({ closeModal, id }) => {
     }
 
     return (
-        <div onClick={handleOuterClick} className='fixed top-0 left-0 flex justify-center items-center w-full h-full bg-text-faded/50 z-10'>
+        <div onClick={handleOuterClick} className='fixed top-0 left-0 flex justify-center items-center w-full h-full bg-text-faded/50 z-30'>
             <div ref={modalRef} className="w-9/12 max-w-xs p-6 flex flex-col gap-4 bg-light-bg rounded-md z-50">
                 <div>
                     <XMarkIcon className="w-6 h-6 ml-auto cursor-pointer stroke-text hover:stroke-danger hover:ring-offset-2 hover:ring-2 ring-danger rounded-full transition duration-150"
@@ -49,9 +50,9 @@ const Modal = ({ closeModal, id }) => {
         </div>
     )
 }
-export default Modal
+export default DeleteModal
 
-Modal.propTypes = {
+DeleteModal.propTypes = {
     closeModal: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired
 }
