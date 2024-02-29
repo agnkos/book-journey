@@ -16,7 +16,7 @@ import Books from './pages/user/MyBooksPage/Books.jsx';
 import Friends from './pages/user/Friends.jsx';
 import Stats from './pages/user/Stats.jsx';
 import DashboardLayout from './layouts/DashboardLayout.jsx';
-import Profile from './pages/user/Profile.jsx'
+import Profile from './pages/user/ProfilePage/Profile.jsx'
 import Search from './pages/user/SearchBookPage/Search.jsx';
 import AddBook from './pages/user/AddBookPage/AddBook.jsx';
 import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
