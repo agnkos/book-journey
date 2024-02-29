@@ -5,6 +5,7 @@ import BookListElement from "./components/BookListElement"
 const Read = () => {
     const { books } = useContext(BookContext)
 
+    // useMemo
     const booksDisplayed = books => books.READ.map(book => <BookListElement book={book} key={book.id} />)
 
     return (
