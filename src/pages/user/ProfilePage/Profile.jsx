@@ -11,12 +11,16 @@ const Profile = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const data = await userService.getUser(user.token)
+      const data = await userService.getUser()
       console.log('userdata', data)
       setUserData(data)
     }
     getUserData()
   }, [user.token])
+
+  const handleEditUser = (bool) => {
+    setEditUser(bool)
+  }
 
   return (
     <div className="p-4">
@@ -27,7 +31,7 @@ const Profile = () => {
           <p className="text-xl">{userData?.username}</p>
         </div>
       </div>
-      <NameForm userData={userData} setUserData={setUserData} editUser={editUser} setEditUsername={setEditUser} />
+      <NameForm userData={userData} setUserData={setUserData} editUser={editUser} handleEditUser={handleEditUser} />
       <div className="mb-2">
         <p>Email</p>
         <p className="text-xl">{userData?.email}</p>

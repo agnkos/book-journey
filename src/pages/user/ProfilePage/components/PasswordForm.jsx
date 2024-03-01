@@ -1,10 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
-import { useAuth } from "../../../../hooks/useAuth"
 import userService from '../../../../services/user'
 
 const PasswordForm = () => {
-    const { user } = useAuth()
 
     const initialPasswordValues = {
         currentPassword: '',
@@ -21,7 +19,7 @@ const PasswordForm = () => {
         const valuesToSend = { ...values }
         delete valuesToSend.confirmNewPassword
         try {
-            await userService.changePassword(valuesToSend, user.token)
+            await userService.changePassword(valuesToSend)
             resetForm()
         } catch (error) {
             console.log(error)

@@ -14,8 +14,6 @@ export const BookContextProvider = ({ children }) => {
         if (user?.token) {
             refreshBooks()
         }
-        // refreshBooks()
-
     }, [user.token])
 
     useEffect(() => {
