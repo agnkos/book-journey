@@ -28,14 +28,9 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
                 if (data.totalItems > 0) {
-<<<<<<< HEAD
-                    const authors = data?.items.map(a => ({ author: a.volumeInfo?.authors?.[0], id: a.id }))
-                    const authorsFiltered = authors.filter((value, index, self) => index === self.findIndex((a) => a.author === value?.author))
-=======
                     const authors = data?.items.map(a => ({ author: a.volumeInfo?.authors?.[0].trim(), id: a.id }))
                     // const authorsFiltered = [...new Set(authors)]
                     const authorsFiltered = authors.filter((value, index, self) => index === self.findIndex((a) => a?.author === value?.author))
->>>>>>> main
                     setQueryResultsAuthor(authorsFiltered.slice(0, 5))
                 }
             }
