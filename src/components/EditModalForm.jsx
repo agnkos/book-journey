@@ -85,7 +85,7 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
         try {
             if (location.pathname === '/search') await booksService.addBook(bookData)
             // else await booksService.editBookDetail(id, bookData)
-            refreshBooks(user.token)
+            refreshBooks()
             resetForm()
             setValues({
                 ...values,
@@ -103,7 +103,7 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
             console.log(error)
             setStatus({ response: error.response.data.message })
         }
-    }, [refreshBooks, closeModal, location.pathname, user.token])
+    }, [refreshBooks, closeModal, location.pathname])
 
     return (
         <Formik

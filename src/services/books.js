@@ -2,22 +2,6 @@ import axios from 'axios';
 
 const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/book'
 
-<<<<<<< HEAD
-// let token = null
-
-// const setToken = newToken => {
-//     token = `Bearer ${newToken}` 
-//     axios.defaults.headers.common['Authorization'] = `${token}`
-// }
-
-// if (token !== null) {
-// }
-axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
-axios.defaults.headers.common['Content-Type'] = 'application/json'
-
-const addBook = async (bookData) => {
-    console.log('bookdata', bookData)
-=======
 // const setAuthToken = (token) => {
 //     axios.defaults.headers.common['Authorization'] = '';
 //     delete axios.defaults.headers.common['Authorization'];
@@ -53,14 +37,13 @@ const addBook = async (bookData) => {
 //     }
 // );
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+
 
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
     console.log('bookData', bookData)
-    console.log('default token', axios.defaults.headers.common['Authorization'])
->>>>>>> main
+    // console.log('default token', axios.defaults.headers.common['Authorization'])
     const response = await axios.post(`${baseUrl}`, bookData)
     console.log(response)
     // if (!response.ok) {
@@ -71,25 +54,15 @@ const addBook = async (bookData) => {
     return response.data
 }
 
-const getBooks = async (token) => {
-<<<<<<< HEAD
-    // console.log('token', token)
-    // console.log('token', JSON.parse(localStorage.getItem('loggedBookJourneyUser')).token)
-    // console.log('axios head', axios.defaults.headers.common['Authorization'])
-    const config = {
-        headers: { 'Authorization': `Bearer ${token}` }
-    }
-    try {
-        const response = await axios.get(`${baseUrl}/books`, config)
-=======
-    const config = {
-        headers: { 'Authorization': `Bearer ${token}` }
-    }
+const getBooks = async () => {
+
+    // const config = {
+    //     headers: { 'Authorization': `Bearer ${token}` }
+    // }
     // console.log('default token', axios.defaults.headers.common['Authorization'])
     try {
-        const response = await axios.get(`${baseUrl}/books`, config)
+        const response = await axios.get(`${baseUrl}/books`)
         console.log('books request', response.data)
->>>>>>> main
         return response.data
 
     } catch (error) {

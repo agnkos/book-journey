@@ -85,9 +85,9 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                     <p className="text-sm text-text-faded">Finish date</p>
                     <p className="mb-2">{bookDetail.endDate || '-'}</p>
                     <p className="text-sm text-text-faded">Moods</p>
-                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 ?
+                    {Object.keys(bookDetail.moodPercentages.moodsPercentages).length !== 0 ?
                         <div className="my-2">
-                            <PieChart data={bookDetail.moods.moodsPercentages} />
+                            <PieChart data={bookDetail.moodPercentages.moodsPercentages} />
                         </div>
                         :
                         <span>-</span>

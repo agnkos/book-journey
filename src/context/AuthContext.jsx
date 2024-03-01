@@ -1,23 +1,15 @@
-<<<<<<< HEAD
-import { createContext, useState, useEffect } from "react";
-import PropTypes from 'prop-types';
-import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import userService from '../services/user'
-// import axios from 'axios';
-=======
 import { createContext, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import authService from '../services/auth'
->>>>>>> main
+import axios from 'axios'
+
 
 const AuthContext = createContext(null)
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)
-    const [userLoggedIn, setUserLoggedIn] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -30,8 +22,8 @@ export const AuthContextProvider = ({ children }) => {
             .then(data => {
                 console.log(data)
                 setUser(data)
-                setUserLoggedIn(true)
                 window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
+                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
                 navigate('/dashboard')
             })
             .catch((error) => {
@@ -45,7 +37,6 @@ export const AuthContextProvider = ({ children }) => {
             .then(() => {
                 window.localStorage.removeItem('loggedBookJourneyUser')
                 setUser(null)
-                setUserLoggedIn(false)
                 navigate('/')
             })
             .catch((error) => {
@@ -79,7 +70,6 @@ export const AuthContextProvider = ({ children }) => {
         login,
         logout,
         signup,
-        userLoggedIn
     }
 
     return (
