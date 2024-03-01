@@ -2,8 +2,9 @@ import { createContext, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import userService from '../services/user'
-// import booksService from '../services/books'
+import authService from '../services/auth'
+import axios from 'axios'
+
 
 const AuthContext = createContext(null)
 
@@ -17,12 +18,12 @@ export const AuthContextProvider = ({ children }) => {
 
     const login = async (loginData, { setErrors = () => { } } = {}) => {
 
-        await userService.login(loginData)
+        await authService.login(loginData)
             .then(data => {
                 console.log(data)
                 setUser(data)
                 window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
-                // booksService.setAuthToken(data.token)
+                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
                 navigate('/dashboard')
             })
             .catch((error) => {
@@ -32,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     const logout = async () => {
-        await userService.logout()
+        await authService.logout()
             .then(() => {
                 window.localStorage.removeItem('loggedBookJourneyUser')
                 setUser(null)
@@ -44,7 +45,7 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     const signup = async (newUser, { setStatus }) => {
-        await userService.signup(newUser)
+        await authService.signup(newUser)
             .then(() => {
                 login({ username: newUser.username, password: newUser.password })
             })
@@ -58,6 +59,10 @@ export const AuthContextProvider = ({ children }) => {
                 }
             })
     }
+
+    useEffect(() => {
+        console.log('token from autcontext', user?.token)
+    }, [user?.token])
 
     const value = {
         user,

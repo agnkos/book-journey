@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-4">
-        <h1>Dashboard</h1>
+      <h1>Dashboard</h1>
       <p>Hello, {user?.username}</p>
       <p>First name: {userData?.firstName}</p>
       <p>Last name: {userData?.lastName}</p>
