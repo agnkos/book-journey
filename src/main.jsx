@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import {
@@ -22,13 +22,13 @@ import AddBook from './pages/user/AddBookPage/AddBook.jsx';
 import BookDetail from './pages/user/BookDetailPage/BookDetail.jsx';
 import Favourites from './pages/user/FavouritesPage/Favourites.jsx';
 import BookContextLayout from './layouts/BookContextLayout.jsx';
-// import Read from './pages/user/MyBooksPage/Read.jsx';
-// import Reading from './pages/user/MyBooksPage/Reading.jsx';
-// import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
+import Read from './pages/user/MyBooksPage/Read.jsx';
+import Reading from './pages/user/MyBooksPage/Reading.jsx';
+import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
 
-const Read = lazy(() => import('./pages/user/MyBooksPage/Read.jsx'))
-const Reading = lazy(() => import('./pages/user/MyBooksPage/Reading.jsx'))
-const ToRead = lazy(() => import('./pages/user/MyBooksPage/ToRead.jsx'))
+// const Read = lazy(() => import('./pages/user/MyBooksPage/Read.jsx'))
+// const Reading = lazy(() => import('./pages/user/MyBooksPage/Reading.jsx'))
+// const ToRead = lazy(() => import('./pages/user/MyBooksPage/ToRead.jsx'))
 
 const router = createBrowserRouter([
   {
