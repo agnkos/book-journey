@@ -15,7 +15,7 @@ const Profile = () => {
       console.log('userdata', data)
       setUserData(data)
     }
-    getUserData()
+    if (user.token) getUserData()
   }, [user.token])
 
   const handleEditUser = (bool) => {
