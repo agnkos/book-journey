@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import authService from '../services/auth'
+import axios from 'axios'
+
 
 const AuthContext = createContext(null)
 
@@ -21,6 +23,7 @@ export const AuthContextProvider = ({ children }) => {
                 console.log(data)
                 setUser(data)
                 window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
+                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
                 navigate('/dashboard')
             })
             .catch((error) => {
@@ -56,6 +59,10 @@ export const AuthContextProvider = ({ children }) => {
                 }
             })
     }
+
+    useEffect(() => {
+        console.log('token from autcontext', user?.token)
+    }, [user?.token])
 
     const value = {
         user,

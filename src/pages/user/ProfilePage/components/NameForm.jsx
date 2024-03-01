@@ -1,10 +1,8 @@
 import { Formik, Form, Field } from "formik"
 import userService from '../../../../services/user'
-import { useAuth } from "../../../../hooks/useAuth"
 import PropTypes from 'prop-types'
 
-const NameForm = ({ userData, setUserData, editUser, setEditUser }) => {
-    const { user } = useAuth()
+const NameForm = ({ userData, setUserData, editUser, handleEditUser }) => {
 
     let initialNameValues = {
         firstName: userData?.firstName || '',
@@ -12,10 +10,10 @@ const NameForm = ({ userData, setUserData, editUser, setEditUser }) => {
     };
 
     const onSubmit = async (values) => {
-        await userService.changeUsername(values, user.token)
-        const data = await userService.getUser(user.token)
+        await userService.changeUsername(values)
+        const data = await userService.getUser()
         setUserData(data)
-        setEditUser(false)
+        handleEditUser(false)
     }
 
     return (
@@ -67,12 +65,12 @@ const NameForm = ({ userData, setUserData, editUser, setEditUser }) => {
                                     type="submit">Save</button>
                                 <button
                                     className="px-2 py-1 text-xs text-center bg-danger hover:bg-danger-hover text-light-bg rounded-md block"
-                                    onClick={() => setEditUser(false)}>Cancel</button>
+                                    onClick={() => handleEditUser(false)}>Cancel</button>
                             </div>
                             :
 
                             <button className="px-2 py-1 text-xs text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block"
-                                onClick={() => setEditUser(true)}
+                                onClick={() => handleEditUser(true)}
                             >Edit</button>
                         }
 
@@ -88,5 +86,5 @@ NameForm.propTypes = {
     userData: PropTypes.object,
     setUserData: PropTypes.func,
     editUser: PropTypes.bool,
-    setEditUser: PropTypes.func
+    handleEditUser: PropTypes.func
 }
