@@ -14,7 +14,8 @@ const BookListElement = ({ result }) => {
     const openAddModal = () => setShowAddModal(true)
 
     const newList = Object.values(books).flatMap(array => array.map(book => book))
-    const filteredList = newList.filter(book => book.title === result.volumeInfo.title)
+    // const filteredList = newList.filter(book => book.title === result.volumeInfo.title)
+    const filteredList = newList.filter(book => book.googleBookId === result.id)
 
     return (
         <>
