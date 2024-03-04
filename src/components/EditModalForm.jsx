@@ -111,16 +111,11 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             });
             console.log('book edited', bookData)
             closeModal()
-            // if edit:
-            // if (location.pathname.includes(`/books/${id}`)) {
-            //     console.log('book edited')
-            //     navigate(`/books/${id}`)
-            // }
         } catch (error) {
             console.log(error)
             setStatus({ response: error.response.data.message || error.response.data.title })
         }
-    }, [refreshBooks, closeModal, location.pathname, id])
+    }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail])
 
 
     return (

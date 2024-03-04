@@ -3,7 +3,7 @@ import { useRef } from "react";
 import PropTypes from 'prop-types';
 import EditModalForm from "./EditModalForm";
 
-const EditModal = ({ closeModal, bookDetail, id }) => {
+const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }) => {
     const modalRef = useRef()
     const handleOuterClick = (e) => {
         if (!modalRef.current.contains(e.target)) {
@@ -28,7 +28,7 @@ const EditModal = ({ closeModal, bookDetail, id }) => {
                     </div>
                 </div>
                 <div className="p-6">
-                    <EditModalForm bookDetail={bookDetail} closeModal={closeModal} id={id} />
+                    <EditModalForm bookDetail={bookDetail} closeModal={closeModal} id={id} refreshBookDetail={refreshBookDetail} />
                 </div>
 
             </div>
@@ -40,5 +40,6 @@ export default EditModal
 EditModal.propTypes = {
     closeModal: PropTypes.func.isRequired,
     bookDetail: PropTypes.object.isRequired,
-    id: PropTypes.string
+    id: PropTypes.string,
+    refreshBookDetail: PropTypes.func
 }
