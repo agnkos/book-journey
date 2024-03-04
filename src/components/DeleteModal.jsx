@@ -12,7 +12,7 @@ const DeleteModal = ({ closeModal, id }) => {
 
     const handleDelete = async (id) => {
         await bookService.deleteBook(id)
-        refreshBooks()
+        await refreshBooks()
         closeModal()
         navigate(-1)
     }

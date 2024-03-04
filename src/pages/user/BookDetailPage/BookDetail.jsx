@@ -22,7 +22,7 @@ const BookDetail = () => {
         const data = await bookService.getBookDetail(id)
         setBookDetail(data)
     }
-    console.log('location', location.state)
+    // console.log('location', location.state)
 
     return (
         <div className="p-4">

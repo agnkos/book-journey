@@ -53,8 +53,8 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             nostalgic: bookDetail?.moodScores?.moodsPercentages.NOSTALGIC || 1,
             sad: bookDetail?.moodScores?.moodsPercentages.SAD || 1
         },
-        startDate: search ? '' : bookDetail.startDate,
-        endDate: search ? '' : bookDetail.endDate
+        startDate: search ? '' : Date.parse(bookDetail.startDate),
+        endDate: search ? '' : Date.parse(bookDetail.endDate)
     }
 
     const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
@@ -68,14 +68,17 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             title: values.title,
             author: values.author,
             mood: values.mood.toUpperCase() || null,
+            // moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate || null,
-            status: values.status.toUpperCase()
+            status: values.status.toUpperCase(),
+            googleBooksId: bookDetail.id
         }
 
         const toReadBook = {
             title: values.title,
             author: values.author,
-            status: 'GOING_TO_READ'
+            status: 'GOING_TO_READ',
+            googleBooksId: bookDetail.id
         }
         const readBook = {
             title: values.title,
@@ -87,7 +90,8 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             },
             startDate: values.startDate || null,
             endDate: values.endDate || null,
-            status: values.status.toUpperCase()
+            status: values.status.toUpperCase(),
+            googleBooksId: bookDetail.id
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
@@ -115,7 +119,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             console.log(error)
             setStatus({ response: error.response.data.message || error.response.data.title })
         }
-    }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail])
+    }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail, bookDetail.id])
 
 
     return (
@@ -149,7 +153,10 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
                                 <div className="mb-3">
                                     <TextareaField name="review" label="Review" />
                                 </div>
-
+                            </>
+                        }
+                        {["read"].includes(values.status) &&
+                            <>
                                 <div id="moods-group" className="font-semibold">Moods</div>
                                 <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-3">
 
@@ -162,8 +169,8 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
                                         </div>
                                     ))}
                                 </div>
-                            </>
-                        }
+                            </>}
+
 
                         {values.status === "reading" &&
                             <>
