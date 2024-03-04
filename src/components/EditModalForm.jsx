@@ -4,7 +4,7 @@ import { useCallback, useContext } from "react";
 // import * as Yup from "yup";
 // import TextField from "../pages/user/AddBookPage/components/TextField";
 import BookContext from "../context/BookContext";
-import AuthContext from "../context/AuthContext";
+// import AuthContext from "../context/AuthContext";
 import RadioButton from "../pages/user/AddBookPage/components/RadioButton";
 import RangeFieldEl from "../pages/user/AddBookPage/components/RangeFieldEl";
 import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
@@ -26,7 +26,7 @@ const moodOptions = [
 
 const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
     const { refreshBooks } = useContext(BookContext)
-    const { user } = useContext(AuthContext)
+    // const { user } = useContext(AuthContext)
     const location = useLocation()
     // const navigate = useNavigate()
 
@@ -80,14 +80,14 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
         const readBook = {
             title: values.title,
             author: values.author,
-            status: values.status.toUpperCase(),
+            moods: { moodsPercentages: moodsPercentages },
             review: {
                 score: values.rate,
                 comment: values.review
             },
-            moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate || null,
-            endDate: values.endDate || null
+            endDate: values.endDate || null,
+            status: values.status.toUpperCase()
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
@@ -95,7 +95,10 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
 
         try {
             if (location.pathname === '/search') await booksService.addBook(bookData)
-            else await booksService.editBookDetail(id, bookData)
+            else {
+                await booksService.editBookDetail(id, bookData)
+                refreshBookDetail(id)
+            }
             refreshBooks()
             resetForm()
             setValues({

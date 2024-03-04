@@ -57,13 +57,14 @@ const addToFavourites = async (id) => {
 const editBookDetail = async (id, bookData) => {
     console.log('book id', id)
     console.log('bookData', bookData)
-    try {
-        const response = await axios.put(`${baseUrl}/${id}/`, bookData)
+    console.log('json format', JSON.stringify(bookData))
+    // try {
+        const response = await axios.put(`${baseUrl}/${id}`, bookData)
         return response.data
 
-    } catch (error) {
-        console.log(error)
-    }
+    // } catch (error) {
+    //     console.log(error)
+    // }
 }
 
 export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail }
