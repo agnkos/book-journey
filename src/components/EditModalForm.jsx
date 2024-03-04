@@ -11,7 +11,7 @@ import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
 import TextareaField from "../pages/user/AddBookPage/components/TextareaField";
 import DateElement from "../pages/user/AddBookPage/components/DateElement";
 import booksService from '../services/books';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -28,7 +28,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
     const { refreshBooks } = useContext(BookContext)
     // const { user } = useContext(AuthContext)
     const location = useLocation()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     console.log('location', location)
     console.log('book detail from edit form', bookDetail)
@@ -98,7 +98,15 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
 
 
         try {
-            if (location.pathname === '/search') await booksService.addBook(bookData)
+            if (location.pathname === '/search') {
+                await booksService.addBook(bookData)
+                const books = await booksService.getBooks()
+                console.log('read', books[bookData.status])
+                const bookFiltered = books[bookData.status].filter(book => book.googleBookId === bookDetail.id)[0]
+                console.log('book filtered', bookFiltered)
+                console.log('new books', books)
+                navigate(`/books/${bookFiltered.id}`)
+            }
             else {
                 await booksService.editBookDetail(id, bookData)
                 refreshBookDetail(id)
