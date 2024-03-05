@@ -9,7 +9,8 @@ import RangeFieldEl from "./components/RangeFieldEl";
 import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
-import booksService from '../../../services/books'
+import booksService from '../../../services/books';
+import ScrollToError from "./components/ScrollToError";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -25,6 +26,7 @@ const moodOptions = [
 const AddBook = () => {
     const { state } = useLocation()
     const { refreshBooks } = useContext(BookContext)
+
 
     const initialValues = {
         title: state?.title || '',
@@ -45,6 +47,8 @@ const AddBook = () => {
     })
 
     const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
+        // setFieldTouched('title')
+        // setFieldTouched('author')
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
             if (values.status === "read" && values.moods.includes(key)) {
@@ -83,6 +87,8 @@ const AddBook = () => {
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
+        const el = document.querySelector('#top')
+
         try {
             await booksService.addBook(bookData)
             refreshBooks()
@@ -97,32 +103,36 @@ const AddBook = () => {
                 startDate: null,
                 endDate: null
             });
-            window.scrollTo({ top: 0, behaviour: 'smooth' });
+            // window.scrollTo({ top: 0, behaviour: 'smooth' });
+            el.scrollIntoView({ behavior: 'smooth' })
         } catch (error) {
-            window.scrollTo({ top: 0, behaviour: 'smooth' });
+            // window.scrollTo({ top: 0, behaviour: 'smooth' });
             console.log(error)
+            el.scrollIntoView({ behavior: 'smooth' })
             setStatus({ response: error.response.data.message })
         }
     }, [refreshBooks])
 
-    useEffect(() => {
-        console.log('scroll y', window.scrollY)
-    })
+    const handleScroll = () => {
+        const el = document.querySelector('#top')
+        el.scrollIntoView({ behavior: 'smooth' })
+    }
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-2">Add Book</h1>
+            <h1 className="text-2xl font-semibold mb-2" id="top">Add Book</h1>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, actions) => onSubmit(values, actions)}
                 validationSchema={validationSchema}
             >
-                {({ values, status }) => {
+                {({ values, status, isSubmitting }) => {
+                    console.log('submitting', isSubmitting)
                     return (
                         <Form>
                             <TextField name="title" label="Title" />
                             <TextField name="author" label="Author" />
-
+                            {/* <ScrollToError /> */}
                             <div id="start" className="text-md font-semibold text-red-500">{status?.response}</div>
 
                             <p id="status-group" className="font-semibold">Status</p>
@@ -134,6 +144,7 @@ const AddBook = () => {
                                 <RadioButton name="status" value="to read"
                                     label="To read" />
                             </div>
+
 
                             {values.status === "read" &&
                                 <>
@@ -186,6 +197,7 @@ const AddBook = () => {
 
                             <button type="submit"
                                 className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md"
+                                // onClick={ handleScroll}
                             >Add book</button>
                         </Form>
                     )
