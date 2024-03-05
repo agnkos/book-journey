@@ -35,6 +35,8 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
 
     const search = location.pathname === '/search'
 
+    // bookDetail.moodPercentages.moodsPercentages.toLowerCase() || 
+
     const initialValues = {
         title: search ? bookDetail.volumeInfo.title : bookDetail.title,
         author: search ? bookDetail.volumeInfo.authors[0] : bookDetail.author,
@@ -71,14 +73,14 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             // moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate || null,
             status: values.status.toUpperCase(),
-            googleBooksId: bookDetail.id
+            googleBookId: bookDetail.id
         }
 
         const toReadBook = {
             title: values.title,
             author: values.author,
             status: 'GOING_TO_READ',
-            googleBooksId: bookDetail.id
+            googleBookId: bookDetail.id
         }
         const readBook = {
             title: values.title,
@@ -91,7 +93,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             startDate: values.startDate || null,
             endDate: values.endDate || null,
             status: values.status.toUpperCase(),
-            googleBooksId: bookDetail.id
+            googleBookId: bookDetail.id
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
@@ -105,11 +107,11 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
                 const bookFiltered = books[bookData.status].filter(book => book.googleBookId === bookDetail.id)[0]
                 console.log('book filtered', bookFiltered)
                 console.log('new books', books)
-                navigate(`/books/${bookFiltered.id}`)
+                navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
             }
             else {
                 await booksService.editBookDetail(id, bookData)
-                refreshBookDetail(id)
+                await refreshBookDetail(id)
             }
             refreshBooks()
             resetForm()
@@ -127,7 +129,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             console.log(error)
             setStatus({ response: error.response.data.message || error.response.data.title })
         }
-    }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail, bookDetail.id])
+    }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail, bookDetail.id, navigate])
 
 
     return (
