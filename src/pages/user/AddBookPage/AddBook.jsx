@@ -1,15 +1,16 @@
-import { useAuth } from "../../../hooks/useAuth";
-import { addBook } from "../../../helpers/requests";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useCallback, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import BookContext from "../../../context/BookContext";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
 import RangeFieldEl from "./components/RangeFieldEl";
 import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
-import { useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import booksService from '../../../services/books';
+import ScrollToTop from "./components/ScrollToTop";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -22,18 +23,20 @@ const moodOptions = [
     { label: 'Sad', value: 'sad' },
 ];
 
-const AddBookVer = () => {
-    const { user } = useAuth()
+const AddBook = () => {
     const { state } = useLocation()
+    const { refreshBooks } = useContext(BookContext)
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const initialValues = {
-        title: state.title || '',
-        author: state.author || '',
+        title: state?.title || '',
+        author: state?.author[0] || '',
         status: 'read',
-        rate: 0,
+        rate: '',
         review: '',
         moods: [],
-        mood: null,
+        mood: '',
         moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
         startDate: null,
         endDate: null
@@ -44,7 +47,7 @@ const AddBookVer = () => {
         author: Yup.string().required('Author is required'),
     })
 
-    const onSubmit = useCallback(async (values, actions) => {
+    const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
         const moodsPercentages = {}
         for (const [key, value] of Object.entries(values.moodsrate)) {
             if (values.status === "read" && values.moods.includes(key)) {
@@ -55,15 +58,17 @@ const AddBookVer = () => {
         const readingBook = {
             title: values.title,
             author: values.author,
-            mood: values.mood,
-            startDate: values.startDate,
-            status: values.status.toUpperCase()
+            mood: values.mood.toUpperCase() || null,
+            startDate: values.startDate || null,
+            status: values.status.toUpperCase(),
+            googleBookId: null
         }
 
         const toReadBook = {
             title: values.title,
             author: values.author,
-            status: 'GOING_TO_READ'
+            status: 'GOING_TO_READ',
+            googleBookId: null
         }
         const readBook = {
             title: values.title,
@@ -75,33 +80,49 @@ const AddBookVer = () => {
             },
             moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate,
-            endDate: values.endDate
+            endDate: values.endDate,
+            googleBookId: null
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
         try {
-            await addBook(bookData, user.token)
-            actions.resetForm()
-        } catch (e) {
-            actions.setStatus({ response: 'Book not found' })
+            await booksService.addBook(bookData)
+            const books = await booksService.getBooks()
+            const bookFiltered = books[bookData.status].filter(book => book.title === bookData.title && book.author === bookData.author)[0]
+            console.log('book filtered', bookFiltered)
+            navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
+            refreshBooks()
+            resetForm()
+            setValues({
+                ...values,
+                title: '',
+                author: '',
+                rate: '',
+                moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
+                moods: [],
+                startDate: null,
+                endDate: null
+            });
+        } catch (error) {
+            setStatus({ response: error.response.data.message })
         }
-    }, [user.token])
+    }, [refreshBooks, location.pathname, navigate])
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-2">Add Book</h1>
+            <h1 className="text-2xl font-semibold mb-2" id="top">Add Book</h1>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, actions) => onSubmit(values, actions)}
                 validationSchema={validationSchema}
             >
-                {({ values, status }) => {
+                {({ values, status, isSubmitting }) => {
+                    console.log('submitting', isSubmitting)
                     return (
                         <Form>
                             <TextField name="title" label="Title" />
                             <TextField name="author" label="Author" />
-
                             <div id="start" className="text-md font-semibold text-red-500">{status?.response}</div>
 
                             <p id="status-group" className="font-semibold">Status</p>
@@ -166,6 +187,8 @@ const AddBookVer = () => {
                             <button type="submit"
                                 className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md"
                             >Add book</button>
+
+                            <ScrollToTop />
                         </Form>
                     )
                 }}
@@ -174,4 +197,4 @@ const AddBookVer = () => {
     )
 }
 
-export default AddBookVer
+export default AddBook

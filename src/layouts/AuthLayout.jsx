@@ -1,5 +1,6 @@
 import { useOutlet } from "react-router-dom";
 import { AuthContextProvider } from "../context/AuthContext";
+// import { BookContextProvider } from "../context/BookContext";
 // import { useEffect } from "react";
 // import { useAuth } from "../hooks/useAuth";
 
@@ -8,7 +9,9 @@ export const AuthLayout = () => {
 
     return (
         <AuthContextProvider>
-            {outlet}
+            {/* <BookContextProvider> */}
+                {outlet}
+            {/* </BookContextProvider> */}
         </AuthContextProvider>
     )
 }
