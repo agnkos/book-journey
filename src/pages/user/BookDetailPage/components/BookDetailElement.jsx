@@ -1,5 +1,4 @@
 import { HeartIcon, ShareIcon, TrashIcon } from "@heroicons/react/24/outline"
-// import { Link } from "react-router-dom"
 import { useContext, useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
@@ -112,9 +111,9 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                     {['READ', 'READING'].includes(bookDetail.status) &&
                         <>
                             <p className="text-sm text-text-faded">Moods</p>
-                            {Object.keys(bookDetail.moodPercentages.moodsPercentages).length !== 0 ?
+                            {Object.keys(bookDetail.moodsPercentages).length !== 0 ?
                                 <div className="my-2">
-                                    <PieChart data={bookDetail.moodPercentages.moodsPercentages} />
+                                    <PieChart data={bookDetail.moodsPercentages} />
                                 </div>
                                 :
                                 <span>-</span>
