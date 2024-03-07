@@ -55,15 +55,17 @@ const AddBook = () => {
         const readingBook = {
             title: values.title,
             author: values.author,
-            mood: values.mood.toUpperCase(),
-            startDate: values.startDate,
-            status: values.status.toUpperCase()
+            mood: values.mood.toUpperCase() || null,
+            startDate: values.startDate || null,
+            status: values.status.toUpperCase(),
+            googleBookId: null
         }
 
         const toReadBook = {
             title: values.title,
             author: values.author,
-            status: 'GOING_TO_READ'
+            status: 'GOING_TO_READ',
+            googleBookId: null
         }
         const readBook = {
             title: values.title,
@@ -75,7 +77,8 @@ const AddBook = () => {
             },
             moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate,
-            endDate: values.endDate
+            endDate: values.endDate,
+            googleBookId: null
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook

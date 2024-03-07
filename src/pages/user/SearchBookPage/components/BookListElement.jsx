@@ -14,7 +14,8 @@ const BookListElement = ({ result }) => {
     const openAddModal = () => setShowAddModal(true)
 
     const newList = Object.values(books).flatMap(array => array.map(book => book))
-    const filteredList = newList.filter(book => book.title === result.volumeInfo.title)
+    // const filteredList = newList.filter(book => book.title === result.volumeInfo.title)
+    const filteredList = newList.filter(book => book.googleBookId === result.id)
 
     return (
         <>
@@ -37,7 +38,7 @@ const BookListElement = ({ result }) => {
                     </div>
                     {filteredList.length > 0 ?
                         <Link to={`/books/${filteredList[0].id}`}
-                            state={{ path: location.pathname }}
+                            state={location.pathname}
                         >
                             <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Details</button>
                         </Link>

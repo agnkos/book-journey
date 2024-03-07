@@ -5,6 +5,7 @@ const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/book'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 const addBook = async (bookData) => {
+    console.log('bookData add', bookData)
     const response = await axios.post(`${baseUrl}`, bookData)
     // if (!response.ok) {
     //     const errorData = await response.data
@@ -55,13 +56,12 @@ const addToFavourites = async (id) => {
 }
 
 const editBookDetail = async (id, bookData) => {
-    try {
-        const response = await axios.put(`${baseUrl}/${id}/`, bookData)
-        return response.data
-
-    } catch (error) {
-        console.log(error)
-    }
+    console.log('book id', id)
+    console.log('bookData', bookData)
+    console.log('json format', JSON.stringify(bookData))
+    const response = await axios.put(`${baseUrl}/${id}`, bookData)
+    console.log('response', response.data)
+    return response.data
 }
 
 export default { addBook, getBooks, getBookDetail, deleteBook, addToFavourites, editBookDetail }

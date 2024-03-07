@@ -24,6 +24,7 @@ const Read = () => {
             {(books && !Object.hasOwn(books, 'READ')) && <p>No books on the list yet.</p>}
             {/* {(books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ')) && booksDisplayed(books)} */}
             {/* {(books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ')) && booksDisplayed} */}
+
         </>
     )
 }

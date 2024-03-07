@@ -73,6 +73,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
 
 
     const handleTitleHintClick = async (title, author) => {
+        console.log('author and title', title, author)
         setFieldValue('title', title)
         setFieldValue('author', author)
         await searchBook(author, title)
@@ -80,6 +81,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         resetForm()
     }
     const handleAuthorHintClick = async (author) => {
+        console.log('author', author)
         setFieldValue('author', author)
         await searchBook(author)
         setShowHintsAuthor(false)

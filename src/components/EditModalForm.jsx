@@ -1,17 +1,14 @@
 import { Formik, Form } from "formik";
 import PropTypes from 'prop-types';
 import { useCallback, useContext } from "react";
-// import * as Yup from "yup";
-// import TextField from "../pages/user/AddBookPage/components/TextField";
 import BookContext from "../context/BookContext";
-import AuthContext from "../context/AuthContext";
 import RadioButton from "../pages/user/AddBookPage/components/RadioButton";
 import RangeFieldEl from "../pages/user/AddBookPage/components/RangeFieldEl";
 import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
 import TextareaField from "../pages/user/AddBookPage/components/TextareaField";
 import DateElement from "../pages/user/AddBookPage/components/DateElement";
 import booksService from '../services/books';
-import { useLocation, useNavigation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -24,26 +21,33 @@ const moodOptions = [
     { label: 'Sad', value: 'sad' },
 ];
 
-const EditModalForm = ({ bookDetail, closeModal, id }) => {
+const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
     const { refreshBooks } = useContext(BookContext)
-    const { user } = useContext(AuthContext)
     const location = useLocation()
-    const navigate = useNavigation()
+    const navigate = useNavigate()
 
-    console.log('location', location)
-    console.log('book detail from edit form', bookDetail)
+    const search = location.pathname === '/search'
 
     const initialValues = {
-        title: location.pathname === '/search' ? bookDetail.volumeInfo.title : bookDetail.title,
-        author: location.pathname === '/search' ? bookDetail.volumeInfo.authors[0] : bookDetail.author,
-        status: location.pathname === '/search' ? 'read' : (bookDetail.status === 'READ' ? 'read' : bookDetail.status === 'READING' ? 'reading' : 'to read'),
-        rate: location.pathname === '/search' ? '' : bookDetail.review.score,
-        review: location.pathname === '/search' ? '' : bookDetail.review.comment,
-        moods: [],
+        title: search ? bookDetail.volumeInfo.title : bookDetail.title,
+        author: search ? bookDetail.volumeInfo.authors[0] : bookDetail.author,
+        status: search ? 'read' : (bookDetail.status === 'READ' ? 'read' : bookDetail.status === 'READING' ? 'reading' : 'to read'),
+        rate: search ? '' : bookDetail.review.score,
+        review: search ? '' : bookDetail.review.comment,
+        moods: search ? '' : Object.keys(bookDetail?.moodsPercentages).map(key => key.toLowerCase()),
         mood: '',
-        moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
-        startDate: location.pathname === '/search' ? '' : bookDetail.startDate,
-        endDate: location.pathname === '/search' ? '' : bookDetail.endDate
+        moodsrate: {
+            in_love: bookDetail?.moodsScores?.IN_LOVE || 1,
+            happy: bookDetail?.moodsScores?.HAPPY || 1,
+            relaxed: bookDetail?.moodsScores?.RELAXED || 1,
+            intrigued: bookDetail?.moodsScores?.INTRIGUED || 1,
+            scared: bookDetail?.moodsScores?.SCARED || 1,
+            tense: bookDetail?.moodsScores?.TENSE || 1,
+            nostalgic: bookDetail?.moodsScores?.NOSTALGIC || 1,
+            sad: bookDetail?.moodsScores?.SAD || 1
+        },
+        startDate: search ? '' : Date.parse(bookDetail.startDate),
+        endDate: search ? '' : Date.parse(bookDetail.endDate)
     }
 
     const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
@@ -58,33 +62,43 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
             author: values.author,
             mood: values.mood.toUpperCase() || null,
             startDate: values.startDate || null,
-            status: values.status.toUpperCase()
+            status: values.status.toUpperCase(),
+            googleBookId: bookDetail.id
         }
 
         const toReadBook = {
             title: values.title,
             author: values.author,
-            status: 'GOING_TO_READ'
+            status: 'GOING_TO_READ',
+            googleBookId: bookDetail.id
         }
         const readBook = {
             title: values.title,
             author: values.author,
-            status: values.status.toUpperCase(),
+            moods: moodsPercentages,
             review: {
                 score: values.rate,
                 comment: values.review
             },
-            moods: { moodsPercentages: moodsPercentages },
-            startDate: values.startDate,
-            endDate: values.endDate
+            startDate: values.startDate || null,
+            endDate: values.endDate || null,
+            status: values.status.toUpperCase(),
+            googleBookId: bookDetail.id
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
-
         try {
-            if (location.pathname === '/search') await booksService.addBook(bookData)
-            // else await booksService.editBookDetail(id, bookData)
+            if (location.pathname === '/search') {
+                await booksService.addBook(bookData)
+                const books = await booksService.getBooks()
+                const bookFiltered = books[bookData.status].filter(book => book.googleBookId === bookDetail.id)[0]
+                navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
+            }
+            else {
+                await booksService.editBookDetail(id, bookData)
+                await refreshBookDetail(id)
+            }
             refreshBooks()
             resetForm()
             setValues({
@@ -97,21 +111,20 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
             });
             console.log('book edited', bookData)
             closeModal()
-            // if edit:
-            // navigate(`books/${id}`)
         } catch (error) {
             console.log(error)
-            setStatus({ response: error.response.data.message })
+            setStatus({ response: error.response.data.message || error.response.data.title })
         }
-    }, [refreshBooks, closeModal, location.pathname])
+    }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail, bookDetail.id, navigate])
+
 
     return (
         <Formik
             initialValues={initialValues}
             onSubmit={(values, actions) => onSubmit(values, actions)}
-        // validationSchema={validationSchema}
         >
             {({ values }) => {
+                console.log('values', values)
                 return (
                     <Form>
                         <p id="status-group" className="font-semibold">Status</p>
@@ -135,7 +148,10 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
                                 <div className="mb-3">
                                     <TextareaField name="review" label="Review" />
                                 </div>
-
+                            </>
+                        }
+                        {["read"].includes(values.status) &&
+                            <>
                                 <div id="moods-group" className="font-semibold">Moods</div>
                                 <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-3">
 
@@ -148,8 +164,8 @@ const EditModalForm = ({ bookDetail, closeModal, id }) => {
                                         </div>
                                     ))}
                                 </div>
-                            </>
-                        }
+                            </>}
+
 
                         {values.status === "reading" &&
                             <>
@@ -192,5 +208,6 @@ export default EditModalForm
 EditModalForm.propTypes = {
     closeModal: PropTypes.func.isRequired,
     bookDetail: PropTypes.object.isRequired,
-    // id: PropTypes.string.isRequired
+    id: PropTypes.string,
+    refreshBookDetail: PropTypes.func
 }
