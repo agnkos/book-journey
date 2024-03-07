@@ -1,10 +1,7 @@
 import { Formik, Form } from "formik";
 import PropTypes from 'prop-types';
 import { useCallback, useContext } from "react";
-// import * as Yup from "yup";
-// import TextField from "../pages/user/AddBookPage/components/TextField";
 import BookContext from "../context/BookContext";
-// import AuthContext from "../context/AuthContext";
 import RadioButton from "../pages/user/AddBookPage/components/RadioButton";
 import RangeFieldEl from "../pages/user/AddBookPage/components/RangeFieldEl";
 import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
@@ -26,16 +23,10 @@ const moodOptions = [
 
 const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
     const { refreshBooks } = useContext(BookContext)
-    // const { user } = useContext(AuthContext)
     const location = useLocation()
     const navigate = useNavigate()
 
-    console.log('location', location)
-    console.log('book detail from edit form', bookDetail)
-
     const search = location.pathname === '/search'
-
-    // bookDetail.moodPercentages.moodsPercentages.toLowerCase() || 
 
     const initialValues = {
         title: search ? bookDetail.volumeInfo.title : bookDetail.title,
@@ -43,17 +34,17 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
         status: search ? 'read' : (bookDetail.status === 'READ' ? 'read' : bookDetail.status === 'READING' ? 'reading' : 'to read'),
         rate: search ? '' : bookDetail.review.score,
         review: search ? '' : bookDetail.review.comment,
-        moods: search ? '' : Object.keys(bookDetail?.moodPercentages?.moodsPercentages).map(key => key.toLowerCase()),
+        moods: search ? '' : Object.keys(bookDetail?.moodsPercentages).map(key => key.toLowerCase()),
         mood: '',
         moodsrate: {
-            in_love: bookDetail?.moodScores?.moodsPercentages.IN_LOVE || 1,
-            happy: bookDetail?.moodScores?.moodsPercentages.HAPPY || 1,
-            relaxed: bookDetail?.moodScores?.moodsPercentages.RELAXED || 1,
-            intrigued: bookDetail?.moodScores?.moodsPercentages.INTRIGUED || 1,
-            scared: bookDetail?.moodScores?.moodsPercentages.SCARED || 1,
-            tense: bookDetail?.moodScores?.moodsPercentages.TENSE || 1,
-            nostalgic: bookDetail?.moodScores?.moodsPercentages.NOSTALGIC || 1,
-            sad: bookDetail?.moodScores?.moodsPercentages.SAD || 1
+            in_love: bookDetail?.moodsScores?.IN_LOVE || 1,
+            happy: bookDetail?.moodsScores?.HAPPY || 1,
+            relaxed: bookDetail?.moodsScores?.RELAXED || 1,
+            intrigued: bookDetail?.moodsScores?.INTRIGUED || 1,
+            scared: bookDetail?.moodsScores?.SCARED || 1,
+            tense: bookDetail?.moodsScores?.TENSE || 1,
+            nostalgic: bookDetail?.moodsScores?.NOSTALGIC || 1,
+            sad: bookDetail?.moodsScores?.SAD || 1
         },
         startDate: search ? '' : Date.parse(bookDetail.startDate),
         endDate: search ? '' : Date.parse(bookDetail.endDate)
@@ -70,7 +61,6 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             title: values.title,
             author: values.author,
             mood: values.mood.toUpperCase() || null,
-            // moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate || null,
             status: values.status.toUpperCase(),
             googleBookId: bookDetail.id
@@ -85,7 +75,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
         const readBook = {
             title: values.title,
             author: values.author,
-            moods: { moodsPercentages: moodsPercentages },
+            moods: moodsPercentages,
             review: {
                 score: values.rate,
                 comment: values.review
@@ -98,15 +88,11 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
-
         try {
             if (location.pathname === '/search') {
                 await booksService.addBook(bookData)
                 const books = await booksService.getBooks()
-                console.log('read', books[bookData.status])
                 const bookFiltered = books[bookData.status].filter(book => book.googleBookId === bookDetail.id)[0]
-                console.log('book filtered', bookFiltered)
-                console.log('new books', books)
                 navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
             }
             else {
@@ -136,7 +122,6 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
         <Formik
             initialValues={initialValues}
             onSubmit={(values, actions) => onSubmit(values, actions)}
-        // validationSchema={validationSchema}
         >
             {({ values }) => {
                 console.log('values', values)
