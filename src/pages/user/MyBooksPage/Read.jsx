@@ -1,29 +1,31 @@
-import { useContext, useMemo } from "react"
+import { useContext, useCallback, useState } from "react"
 import BookContext from "../../../context/BookContext"
 import BookListElement from "./components/BookListElement"
 import Loading from "../../../components/Loading"
+import BooksPagination from "./components/BooksPagination"
 
 const Read = () => {
     const { books, isLoading } = useContext(BookContext)
+    const [currentPage, setCurrentPage] = useState(1)
 
-    // add useMemo
-    // const booksDisplayed = books => books.READ.map(book => <BookListElement book={book} key={book.id} />)
+    // const booksDisplayed2 = useMemo(() => {
+    //     if (books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ'))
+    //         return books.READ.map(book => <BookListElement book={book} key={book.id} />)
+    // }, [books])
 
-    // const displayBooks = items => items.READ.map(item => <BookListElement book={item} key={item.id} />)
-    // const booksDisplayed = useMemo(() => displayBooks(books), [books])
-
-    const booksDisplayed2 = useMemo(() => {
+    const booksDisplayed = useCallback((page = 1) => {
         if (books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ'))
-            return books.READ.map(book => <BookListElement book={book} key={book.id} />)
+            return books.READ.filter((book, index) => index >= (page - 1) * 10 && index < page * 10).map(book => <BookListElement book={book} key={book.id} />)
     }, [books])
+
+    const totalPages = Math.ceil(books?.READ?.length / 10)
 
     return (
         <>
             {isLoading && <Loading />}
-            {booksDisplayed2}
+            {booksDisplayed(currentPage)}
             {(books && !Object.hasOwn(books, 'READ')) && <p>No books on the list yet.</p>}
-            {/* {(books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ')) && booksDisplayed(books)} */}
-            {/* {(books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READ')) && booksDisplayed} */}
+            <BooksPagination totalPages={totalPages} setCurrentPage={setCurrentPage} />
 
         </>
     )

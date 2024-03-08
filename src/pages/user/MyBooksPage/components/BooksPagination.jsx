@@ -1,20 +1,13 @@
-import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const Pagination = ({ searchBook, query, totalPages }) => {
+const BooksPagination = ({ totalPages, setCurrentPage }) => {
 
     const handlePageChange = (selectedPage) => {
         console.log('selected page', selectedPage)
-        const index = (selectedPage.selected + 1) * 20 - 20;
-        console.log('index click', index)
-        searchBook(query.author, query.title, index)
-    };
-
-    useEffect(() => {
-        console.log('total pages', totalPages)
-    })
+        setCurrentPage(selectedPage.selected + 1)
+    }
 
     return (
         <div>
@@ -33,14 +26,12 @@ const Pagination = ({ searchBook, query, totalPages }) => {
                 previousClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
                 nextClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
                 activeClassName={'font-bold'}
-            />
-        </div>
+            /></div>
     )
 }
-export default Pagination
+export default BooksPagination
 
-Pagination.propTypes = {
-    query: PropTypes.object,
-    searchBook: PropTypes.func,
+BooksPagination.propTypes = {
     totalPages: PropTypes.number,
+    setCurrentPage: PropTypes.func
 }
