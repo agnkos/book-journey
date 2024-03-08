@@ -48,7 +48,7 @@ const BookListElement = ({ result }) => {
                             className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Add to list</button>}
                 </div>
             </div>
-            <hr className="bg-light-objects last:hidden max-w-[500px]" />
+            <hr className="bg-light-objects last-of-type:hidden max-w-[500px]" />
             {showAddModal && <EditModal closeModal={closeAddModal} bookDetail={result} />}
         </>
     )
