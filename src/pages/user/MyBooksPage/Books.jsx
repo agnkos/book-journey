@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from "react-router"
 import { NavLink } from "react-router-dom"
-// import { Suspense } from "react"
 // import Loading from "../../../components/Loading"
 // import { useContext, useEffect } from "react"
 // import BookContext from "../../../context/BookContext"
@@ -30,9 +29,7 @@ const Books = () => {
         >to read</NavLink>
       </div>
       <div className="py-3">
-        {/* <Suspense fallback={<Loading />}> */}
           <Outlet />
-        {/* </Suspense> */}
       </div>
     </div>
   )

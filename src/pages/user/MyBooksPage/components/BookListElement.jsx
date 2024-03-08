@@ -26,7 +26,7 @@ const BookListElement = ({ book }) => {
                     </Link>
                 </div>
             </div>
-            <hr className="bg-light-objects last:hidden max-w-[500px]" />
+            <hr className="bg-light-objects last-of-type:hidden last:bg-pink-600 max-w-[500px]" />
         </>
     )
 }
