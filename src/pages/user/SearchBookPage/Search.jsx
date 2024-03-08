@@ -2,6 +2,7 @@ import Loading from "../../../components/Loading"
 import SearchBook from "./components/SearchBookForm"
 import SearchBookResults from "./components/SearchBookResults"
 import { useEffect, useState } from "react"
+import Pagination from "../../../components/Pagination"
 
 const Search = () => {
   const [results, setResults] = useState(null)
@@ -38,6 +39,7 @@ const Search = () => {
       <SearchBook searchBook={searchBook} />
       {isLoading ? <Loading /> : null}
       <SearchBookResults results={results} searchBook={searchBook} query={query} totalPages={totalPages} />
+      <Pagination searchBook={searchBook} query={query} totalPages={totalPages} />
     </div>
   )
 }
