@@ -21,10 +21,10 @@ const BooksPagination = ({ totalPages, setCurrentPage }) => {
                 marginPagesDisplayed={1}
                 previousLabel={<ChevronLeftIcon className="w-6 h-6" />}
                 nextLabel={<ChevronRightIcon className="w-6 h-6" />}
-                containerClassName={'flex items-center justify-center mt-8 mb-4'}
+                containerClassName={`${totalPages > 1 ? 'flex items-center justify-center mt-8 mb-4' : 'hidden'}`}
                 pageClassName={'p-2 hover:text-link-active'}
-                previousClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
-                nextClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
+                previousClassName={`${totalPages > 1 ? 'hover:text-link-active' : 'hidden'}`}
+                nextClassName={`${totalPages > 1 ? 'hover:text-link-active' : 'hidden'}`}
                 activeClassName={'font-bold'}
             /></div>
     )
