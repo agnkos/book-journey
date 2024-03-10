@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useRef } from "react"
 import BookContext from "../../../../context/BookContext"
 import BookElement from "./BookElement"
 import "slick-carousel/slick/slick.css"
@@ -10,6 +10,7 @@ import SliderNextArrow from "./SliderNextArrow"
 
 const ReadingNow = () => {
     const { books } = useContext(BookContext)
+    const arrorRef = useRef(null)
 
     const booksReading = books?.READING.map(book =>
         <BookElement key={book.id} book={book} />
@@ -19,26 +20,28 @@ const ReadingNow = () => {
 
     const settings = {
         dots: true,
-        // className: 'max-w-full',
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        prevArrow: <SliderPrevArrow />,
-        nextArrow: <SliderNextArrow />
+        arrows: false,
+        // prevArrow: <SliderPrevArrow />,
+        // nextArrow: <SliderNextArrow />
     };
 
     return (
         <div>
             <h2 className="text-xl font-semibold">Reading Now</h2>
-            <div className="">
+            <div className="relative max-w-96">
 
-                <Slider {...settings} style={{display: "flex", alignItems: "center"}} className="">
+                <SliderPrevArrow onClick={() => arrorRef.current.slickPrev()} />
+                <Slider {...settings} style={{}} ref={arrorRef}>
 
 
                     {booksReading}
 
                 </Slider>
+                <SliderNextArrow onClick={() => arrorRef.current.slickNext()} />
             </div>
         </div>
     )

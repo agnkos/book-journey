@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 
 const SliderNextArrow = (props) => {
-    const { onClick} = props;
-    return (
-        <div onClick={onClick} >
+    const { onClick } = props;
 
-            <ChevronRightIcon className={` h-8 w-8 cursor-pointer z-10 translate-x-3`} />
+    return (
+        <div onClick={onClick} className="absolute top-[45%] -right-2 opacity-40 cursor-pointer z-10" >
+            <ChevronRightIcon className={` h-8 w-8 bg-light-objects rounded-lg `} />
         </div>
     )
 }
