@@ -8,7 +8,7 @@ import {
 import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
-import Dashboard from './pages/user/Dashboard.jsx';
+import Dashboard from './pages/user/DashboardPage/Dashboard.jsx';
 import NoMatch from './pages/NoMatch.jsx';
 import { AuthLayout } from './layouts/AuthLayout.jsx';
 import { AuthRequired } from './components/AuthRequired.jsx';
@@ -25,10 +25,7 @@ import BookContextLayout from './layouts/BookContextLayout.jsx';
 import Read from './pages/user/MyBooksPage/Read.jsx';
 import Reading from './pages/user/MyBooksPage/Reading.jsx';
 import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
-
-// const Read = lazy(() => import('./pages/user/MyBooksPage/Read.jsx'))
-// const Reading = lazy(() => import('./pages/user/MyBooksPage/Reading.jsx'))
-// const ToRead = lazy(() => import('./pages/user/MyBooksPage/ToRead.jsx'))
+import About from './pages/user/About.jsx';
 
 const router = createBrowserRouter([
   {
@@ -107,6 +104,10 @@ const router = createBrowserRouter([
                 {
                   path: '/profile',
                   element: <Profile />
+                },
+                {
+                  path: '/about',
+                  element: <About />
                 },
               ]
             }

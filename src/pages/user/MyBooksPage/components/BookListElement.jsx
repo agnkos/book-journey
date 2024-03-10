@@ -22,7 +22,7 @@ const BookListElement = ({ book }) => {
                         state={location.pathname}
                         className='mt-auto'
                     >
-                        <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Details</button>
+                        <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block transition duration-200">Details</button>
                     </Link>
                 </div>
             </div>

@@ -40,12 +40,12 @@ const BookListElement = ({ result }) => {
                         <Link to={`/books/${filteredList[0].id}`}
                             state={location.pathname}
                         >
-                            <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Details</button>
+                            <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block transition duration-150 ">Details</button>
                         </Link>
                         :
                         <button
                             onClick={openAddModal}
-                            className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block">Add to list</button>}
+                            className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block transition duration-150 ">Add to list</button>}
                 </div>
             </div>
             <hr className="bg-light-objects last-of-type:hidden max-w-[500px]" />
