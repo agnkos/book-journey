@@ -8,7 +8,6 @@ import SliderPrevArrow from "./SliderPrevArrow"
 import SliderNextArrow from "./SliderNextArrow"
 import MoodModal from "./MoodModal"
 
-
 const ReadingNow = () => {
     const { books } = useContext(BookContext)
     const [showMoodModal, setShowMoodModal] = useState(false)
@@ -19,8 +18,6 @@ const ReadingNow = () => {
         <BookElement key={book.id} book={book} setModalData={setModalData} setShowMoodModal={setShowMoodModal} />
     )
 
-    console.log(books?.READING)
-
     const settings = {
         dots: true,
         infinite: true,
@@ -28,8 +25,6 @@ const ReadingNow = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        // prevArrow: <SliderPrevArrow />,
-        // nextArrow: <SliderNextArrow />
     };
 
     const closeMoodModal = () => setShowMoodModal(false)
@@ -38,7 +33,6 @@ const ReadingNow = () => {
         <div >
             <h2 className="text-xl font-semibold">Reading Now</h2>
             <div className="relative max-w-96">
-
                 <SliderPrevArrow onClick={() => arrorRef.current.slickPrev()} />
                 <Slider {...settings} style={{}} ref={arrorRef}>
                     {booksReading}
