@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 const SliderPrevArrow = (props) => {
     const { onClick } = props;
     return (
+        <div onClick={onClick}>
 
-        <ChevronLeftIcon className={`h-8 w-10 block cursor-pointer z-10`} onClick={onClick} />
-
+            <ChevronLeftIcon className={`h-8 w-8 cursor-pointer z-10 -translate-x-3`} />
+        </div>
     )
 }
 export default SliderPrevArrow

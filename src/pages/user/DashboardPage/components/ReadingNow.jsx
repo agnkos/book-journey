@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick";
 import SliderPrevArrow from "./SliderPrevArrow"
+import SliderNextArrow from "./SliderNextArrow"
 
 
 const ReadingNow = () => {
@@ -17,23 +18,28 @@ const ReadingNow = () => {
     console.log(books?.READING)
 
     const settings = {
-        // dots: true,
+        dots: true,
+        // className: 'max-w-full',
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        prevArrow: <SliderPrevArrow />
+        prevArrow: <SliderPrevArrow />,
+        nextArrow: <SliderNextArrow />
     };
 
     return (
         <div>
             <h2 className="text-xl font-semibold">Reading Now</h2>
-            <Slider {...settings}>
+            <div className="">
+
+                <Slider {...settings} style={{display: "flex", alignItems: "center"}} className="">
 
 
-                {booksReading}
+                    {booksReading}
 
-            </Slider>
+                </Slider>
+            </div>
         </div>
     )
 }
