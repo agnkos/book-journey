@@ -1,7 +1,7 @@
 import { Formik, Form } from "formik";
 import PropTypes from 'prop-types';
-import { useCallback, useContext } from "react";
-import BookContext from "../context/BookContext";
+import { useCallback } from "react";
+// import BookContext from "../context/BookContext";
 import RadioButton from "../pages/user/AddBookPage/components/RadioButton";
 import RangeFieldEl from "../pages/user/AddBookPage/components/RangeFieldEl";
 import CheckboxField from "../pages/user/AddBookPage/components/CheckboxField";
@@ -10,6 +10,7 @@ import DateElement from "../pages/user/AddBookPage/components/DateElement";
 import booksService from '../services/books';
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
+import useBook from "../hooks/useBook";
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -23,7 +24,8 @@ const moodOptions = [
 ];
 
 const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
-    const { refreshBooks } = useContext(BookContext)
+    // const { refreshBooks } = useContext(BookContext)
+    const { refreshBooks } = useBook()
     const location = useLocation()
     const navigate = useNavigate()
 

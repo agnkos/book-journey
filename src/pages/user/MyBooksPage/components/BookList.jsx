@@ -1,13 +1,13 @@
-import { useContext, useCallback, useState } from "react"
-import BookContext from "../../../../context/BookContext"
+import { useCallback, useState } from "react"
 import BookListElement from "./BookListElement"
 import Loading from "../../../../components/Loading"
 import BooksPagination from "./BooksPagination"
 import PropTypes from 'prop-types'
+import useBook from "../../../../hooks/useBook"
 
 
 const BookList = ({ shelf }) => {
-    const { books, isLoading } = useContext(BookContext)
+    const { books, isLoading } = useBook()
     const [currentPage, setCurrentPage] = useState(1)
 
     const booksDisplayed = useCallback((page = 1) => {

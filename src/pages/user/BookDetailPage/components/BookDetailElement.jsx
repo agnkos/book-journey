@@ -1,20 +1,20 @@
 import { HeartIcon, ShareIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
 import PropTypes from 'prop-types';
-import BookContext from "../../../../context/BookContext"
 import booksService from '../../../../services/books'
 import EditModal from "../../../../components/EditModal"
 import DeleteModal from "../../../../components/DeleteModal"
 import BookCoverPlaceholderBig from "../../../../components/BookCoverPlaceholderBig";
+import useBook from "../../../../hooks/useBook";
 import { toast } from 'react-toastify'
 
 const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const [details, setDetails] = useState(true)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
-    const { refreshBooks } = useContext(BookContext)
+    const { refreshBooks } = useBook()
 
     const closeDeleteModal = () => setShowDeleteModal(false)
     const openDeleteModal = () => setShowDeleteModal(true)
