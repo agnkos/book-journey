@@ -28,6 +28,7 @@ const getBooks = async () => {
 const getBookDetail = async (id) => {
     try {
         const response = await axios.get(`${baseUrl}/${id}`)
+        console.log(response)
         return response.data
 
     } catch (error) {

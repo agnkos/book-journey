@@ -4,6 +4,7 @@ import { useAuth } from "../../../hooks/useAuth"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import BookDetailElement from "./components/BookDetailElement"
 import bookService from '../../../services/books'
+import axios from 'axios'
 
 const BookDetail = () => {
     const [bookDetail, setBookDetail] = useState()
@@ -19,10 +20,11 @@ const BookDetail = () => {
     }, [params.id, user.token])
 
     const refreshBookDetail = async (id) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
         const data = await bookService.getBookDetail(id)
         setBookDetail(data)
     }
-    console.log('location', location.state)
+    // console.log('location', location.state)
 
     return (
         <div className="p-4">
