@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import userService from '../../../../services/user'
+import { toast } from 'react-toastify'
 
 const PasswordForm = () => {
 
@@ -21,8 +22,10 @@ const PasswordForm = () => {
         try {
             await userService.changePassword(valuesToSend)
             resetForm()
+            toast.success('Password changed')
         } catch (error) {
             console.log(error)
+            toast.error('Failed to change password')
             setStatus({ response: error.response.data.message })
         }
     }

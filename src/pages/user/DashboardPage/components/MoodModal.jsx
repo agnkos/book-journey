@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Formik, Form } from "formik";
 import RadioButton from "../../AddBookPage/components/RadioButton";
 import bookService from '../../../../services/books'
+import { toast } from 'react-toastify'
 
 const MoodModal = ({ closeModal, book }) => {
 
@@ -21,8 +22,10 @@ const MoodModal = ({ closeModal, book }) => {
         try {
             await bookService.editBookDetail(book.id, bookData)
             closeModal()
+            toast.success('Mood added')
         } catch (error) {
             console.log(error)
+            toast.error('Adding mood failed')
         }
     }
 

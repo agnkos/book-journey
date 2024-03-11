@@ -9,7 +9,7 @@ const Menu = forwardRef((props, menuRef) => {
 
     return (
         <ul className={`fixed bg-main-accent w-full py-4 px-6 text-end 
-        ${toggle ? 'translate-y-0 transition duration-500 ease-in-out z-10' : 'transition duration-500 fixed -translate-y-96 ease-in-out '}
+        ${toggle ? 'translate-y-0 transition duration-500 ease-in-out z-20' : 'transition duration-500 fixed -translate-y-96 ease-in-out '}
         `}
             ref={menuRef}
         >

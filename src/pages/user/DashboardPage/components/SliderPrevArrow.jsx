@@ -16,7 +16,3 @@ SliderPrevArrow.propTypes = {
     onClick: PropTypes.func
 }
 
-/* <ChevronLeftIcon
-                // className={className}
-                style={{ display: "block", color: "green", padding: "1rem", margin: "1rem", zIndex: "10", width: "10px" }}
-                onClick={onClick} /> */

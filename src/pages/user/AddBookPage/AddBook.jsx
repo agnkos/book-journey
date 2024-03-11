@@ -1,8 +1,7 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import BookContext from "../../../context/BookContext";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
 import RangeFieldEl from "./components/RangeFieldEl";
@@ -11,6 +10,8 @@ import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
 import booksService from '../../../services/books';
 import ScrollToTop from "./components/ScrollToTop";
+import useBook from "../../../hooks/useBook";
+import { toast } from 'react-toastify'
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -25,7 +26,7 @@ const moodOptions = [
 
 const AddBook = () => {
     const { state } = useLocation()
-    const { refreshBooks } = useContext(BookContext)
+    const { refreshBooks } = useBook()
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -104,7 +105,9 @@ const AddBook = () => {
                 startDate: null,
                 endDate: null
             });
+            toast.success('Book added')
         } catch (error) {
+            toast.error('An error occured :(')
             setStatus({ response: error.response.data.message })
         }
     }, [refreshBooks, location.pathname, navigate])
