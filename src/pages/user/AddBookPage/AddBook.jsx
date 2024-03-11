@@ -11,6 +11,7 @@ import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
 import booksService from '../../../services/books';
 import ScrollToTop from "./components/ScrollToTop";
+import { toast } from 'react-toastify'
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -104,7 +105,9 @@ const AddBook = () => {
                 startDate: null,
                 endDate: null
             });
+            toast.success('Book added')
         } catch (error) {
+            toast.error('An error occured :(')
             setStatus({ response: error.response.data.message })
         }
     }, [refreshBooks, location.pathname, navigate])

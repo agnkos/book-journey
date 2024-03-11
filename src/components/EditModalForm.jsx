@@ -116,7 +116,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
             closeModal()
         } catch (error) {
             console.log(error)
-            toast.error('Error')
+            toast.error('An error occured :(')
             setStatus({ response: error.response.data.message || error.response.data.title })
         }
     }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail, bookDetail.id, navigate])

@@ -8,6 +8,7 @@ import booksService from '../../../../services/books'
 import EditModal from "../../../../components/EditModal"
 import DeleteModal from "../../../../components/DeleteModal"
 import BookCoverPlaceholderBig from "../../../../components/BookCoverPlaceholderBig";
+import { toast } from 'react-toastify'
 
 const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const [details, setDetails] = useState(true)
@@ -21,8 +22,17 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const openEditModal = () => setShowEditModal(true)
 
     const handleAddToFavourites = async (id) => {
-        await booksService.addToFavourites(id)
-        refreshBookDetail(id)
+        try {
+            await booksService.addToFavourites(id)
+            await refreshBookDetail(id)
+            if (bookDetail.favourite) toast.success('Book removed from favourites')
+            else toast.success('Book added to favourites')
+        } catch (error) {
+            console.log(error)
+            toast.error('An error occured')
+            if (bookDetail.favourite) toast.error('Failed to remove book from favourites')
+            else toast.error('Failed to add book to favourites')
+        }
     }
 
     const refreshBookDetail = async (id) => {

@@ -18,9 +18,3 @@ const Dashboard = () => {
   )
 }
 export default Dashboard
-
-// , {
-//   style: {
-//     borderRadius: "0px"
-//   }
-// }

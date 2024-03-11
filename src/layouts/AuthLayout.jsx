@@ -9,7 +9,7 @@ export const AuthLayout = () => {
     return (
         <AuthContextProvider>
             {outlet}
-            <ToastContainer autoClose={5000} toastClassName='max-w-fit m-4 ml-auto' bodyClassName={() => 'flex px-4 items-center'} className='opacity-80' toastStyle={{ borderRadius: "0px" }} />
+            <ToastContainer autoClose={2000} toastClassName='max-w-fit m-4 ml-auto' bodyClassName={() => 'flex px-4 items-center'} className='opacity-80' toastStyle={{ borderRadius: "0px" }} />
         </AuthContextProvider>
     )
 }
