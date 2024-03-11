@@ -9,6 +9,7 @@ import TextareaField from "../pages/user/AddBookPage/components/TextareaField";
 import DateElement from "../pages/user/AddBookPage/components/DateElement";
 import booksService from '../services/books';
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify'
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -94,10 +95,12 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
                 const books = await booksService.getBooks()
                 const bookFiltered = books[bookData.status].filter(book => book.googleBookId === bookDetail.id)[0]
                 navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
+                toast.success('Book added')
             }
             else {
                 await booksService.editBookDetail(id, bookData)
                 await refreshBookDetail(id)
+                toast.success('Book edited')
             }
             refreshBooks()
             resetForm()
@@ -109,10 +112,11 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
                 moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
                 moods: [],
             });
-            console.log('book edited', bookData)
+            console.log('Book edited', bookData)
             closeModal()
         } catch (error) {
             console.log(error)
+            toast.error('Error')
             setStatus({ response: error.response.data.message || error.response.data.title })
         }
     }, [refreshBooks, closeModal, location.pathname, id, refreshBookDetail, bookDetail.id, navigate])

@@ -16,7 +16,10 @@
         --light-objects: 217 217 217;
         --danger: 239 68 68;
         --danger-hover: 185 28 28;
-    }
+
+        
+      }
+
     html {
       scroll-behavior: smooth;
     }
