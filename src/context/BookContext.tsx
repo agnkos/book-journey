@@ -3,29 +3,28 @@ import PropTypes from 'prop-types';
 import { useAuth } from "../hooks/useAuth"
 import booksService from '../services/books'
 import axios from 'axios'
-import { BookType } from "../types";
+import { BookType, BooksObjectType } from "../types";
 
 type BookContextType = {
-    books: BooksObjectType,
+    books: BooksObjectType | null,
     setBooks: (books: BooksObjectType) => void,
     refreshBooks: () => void,
     isLoading: boolean
 }
 
-type BooksObjectType = {
-    READ: BookType[],
-    READING: BookType[],
-    GOING_TO_READ: BookType[],
-}
-
-const BookContext = createContext<BookContextType | null>(null)
+const BookContext = createContext<BookContextType>({
+    books: null,
+    setBooks: () => { },
+    refreshBooks: async () => { },
+    isLoading: false
+})
 
 export const BookContextProvider = ({ children }: PropsWithChildren<{}>) => {
     const [books, setBooks] = useState<BooksObjectType>({
         READ: [],
         READING: [],
         GOING_TO_READ: [],
-      })
+    })
     const [isLoading, setIsLoading] = useState(true)
     const { user } = useAuth()
 

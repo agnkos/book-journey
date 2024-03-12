@@ -26,3 +26,9 @@ export type BookType = {
     status: string,
     title: string,
 }
+
+export type BooksObjectType = {
+    READ: BookType[],
+    READING: BookType[],
+    GOING_TO_READ: BookType[],
+}

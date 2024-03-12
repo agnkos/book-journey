@@ -6,12 +6,17 @@ import { useNavigate } from "react-router-dom";
 import bookService from '../services/books'
 import { toast } from 'react-toastify'
 
-const DeleteModal = ({ closeModal, id }) => {
+type DeleteModalProps = {
+    closeModal: () => void,
+    id: string
+}
+
+const DeleteModal = ({ closeModal, id }: DeleteModalProps) => {
     const { refreshBooks } = useContext(BookContext)
     const navigate = useNavigate()
-    const modalRef = useRef()
+    const modalRef = useRef<HTMLDivElement>(null)
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: string) => {
         await bookService.deleteBook(id)
         await refreshBooks()
         closeModal()
@@ -19,8 +24,8 @@ const DeleteModal = ({ closeModal, id }) => {
         toast.success('Book deleted')
     }
 
-    const handleOuterClick = (e) => {
-        if (!modalRef.current.contains(e.target)) {
+    const handleOuterClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+        if (!modalRef?.current?.contains(e.target as Node)) {
             closeModal()
         }
     }

@@ -3,10 +3,37 @@ import { useRef } from "react";
 import PropTypes from 'prop-types';
 import EditModalForm from "./EditModalForm";
 
-const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }) => {
-    const modalRef = useRef()
-    const handleOuterClick = (e) => {
-        if (!modalRef.current.contains(e.target)) {
+type BookDetailType = {
+    author: string,
+    averageRating: number,
+    categories: string[],
+    description: string,
+    endDate: Date | null,
+    favourite: boolean,
+    googleBookId: string,
+    imageUrl: string,
+    isbn: string,
+    moodsPercentages: object,
+    moodsScores: object,
+    publishedDate: string,
+    review: { score: number, comment: string }
+    startDate: Date | null,
+    status: string,
+    title: string,
+    volumeInfo: { title: string, authors: string[] }
+}
+
+type EditModalProps = {
+    closeModal: () => void,
+    bookDetail: BookDetailType,
+    id: string,
+    refreshBookDetail: (id: string) => void
+}
+
+const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalProps) => {
+    const modalRef = useRef<HTMLDivElement>(null)
+    const handleOuterClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+        if (!modalRef?.current?.contains(e.target as Node)) {
             closeModal()
         }
     }
