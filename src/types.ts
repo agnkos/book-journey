@@ -32,3 +32,23 @@ export type BooksObjectType = {
     READING: BookType[],
     GOING_TO_READ: BookType[],
 }
+
+export type BookDetailType = {
+    author: string,
+    averageRating: number,
+    categories: string[],
+    description: string,
+    endDate: Date | null,
+    favourite: boolean,
+    googleBookId: string,
+    imageUrl: string,
+    isbn: string,
+    moodsPercentages: object,
+    moodsScores: object,
+    publishedDate: string,
+    review: { score: number, comment: string }
+    startDate: Date | null,
+    status: string,
+    title: string,
+    volumeInfo: { title: string, authors: string[] }
+}

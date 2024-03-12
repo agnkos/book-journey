@@ -2,30 +2,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useRef } from "react";
 import PropTypes from 'prop-types';
 import EditModalForm from "./EditModalForm";
-
-type BookDetailType = {
-    author: string,
-    averageRating: number,
-    categories: string[],
-    description: string,
-    endDate: Date | null,
-    favourite: boolean,
-    googleBookId: string,
-    imageUrl: string,
-    isbn: string,
-    moodsPercentages: object,
-    moodsScores: object,
-    publishedDate: string,
-    review: { score: number, comment: string }
-    startDate: Date | null,
-    status: string,
-    title: string,
-    volumeInfo: { title: string, authors: string[] }
-}
+import { BookDetailType } from "../types";
 
 type EditModalProps = {
     closeModal: () => void,
-    bookDetail: BookDetailType,
+    bookDetail: Partial<BookDetailType>,
     id: string,
     refreshBookDetail: (id: string) => void
 }
@@ -33,6 +14,7 @@ type EditModalProps = {
 const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null)
     const handleOuterClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+        // as Node -> checking if e.target is modalRef child
         if (!modalRef?.current?.contains(e.target as Node)) {
             closeModal()
         }
@@ -45,8 +27,8 @@ const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalP
             <div ref={modalRef} className="w-11/12 max-w-md flex flex-col bg-light-bg rounded-md z-50">
                 <div className="flex p-6 gap-4 bg-main-accent text-light-bg justify-between">
                     <div>
-                        <p className="text-xl font-semibold">{bookDetail.title || bookDetail.volumeInfo.title}</p>
-                        <p>{bookDetail.author || bookDetail.volumeInfo.authors[0]}</p>
+                        <p className="text-xl font-semibold">{bookDetail.title || bookDetail?.volumeInfo?.title}</p>
+                        <p>{bookDetail.author || bookDetail?.volumeInfo?.authors[0]}</p>
                     </div>
                     <div>
                         <XMarkIcon className="grow block w-6 h-6 cursor-pointer stroke-light-bg hover:stroke-danger hover:ring-offset-2 hover:ring-offset-main-accent hover:ring-2 hover:ring-danger rounded-full transition duration-150"
