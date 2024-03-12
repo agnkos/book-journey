@@ -13,14 +13,20 @@ type SetStatusType = {
 }
 
 type AuthContextType = {
-    user: UserType,
+    user: UserType | null,
     setUser: () => void,
     login: (loginData: LoginDataType, { setErrors }: { setErrors?: SetErrorsType }) => Promise<void>,
     logout: () => Promise<void>,
     signup: (newUser: SignupUserType, { setStatus }: SetStatusType) => Promise<void>,
 }
 
-const AuthContext = createContext<AuthContextType | null>(null)
+const AuthContext = createContext<AuthContextType>({
+    user: null,
+    setUser: () => { },
+    login: async () => { },
+    logout: async () => { },
+    signup: async () => { },
+})
 
 export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
     const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)

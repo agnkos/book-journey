@@ -1,13 +1,31 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, PropsWithChildren } from "react";
 import PropTypes from 'prop-types';
 import { useAuth } from "../hooks/useAuth"
 import booksService from '../services/books'
 import axios from 'axios'
+import { BookType } from "../types";
 
-const BookContext = createContext(null)
+type BookContextType = {
+    books: BooksObjectType,
+    setBooks: (books: BooksObjectType) => void,
+    refreshBooks: () => void,
+    isLoading: boolean
+}
 
-export const BookContextProvider = ({ children }) => {
-    const [books, setBooks] = useState()
+type BooksObjectType = {
+    READ: BookType[],
+    READING: BookType[],
+    GOING_TO_READ: BookType[],
+}
+
+const BookContext = createContext<BookContextType | null>(null)
+
+export const BookContextProvider = ({ children }: PropsWithChildren<{}>) => {
+    const [books, setBooks] = useState<BooksObjectType>({
+        READ: [],
+        READING: [],
+        GOING_TO_READ: [],
+      })
     const [isLoading, setIsLoading] = useState(true)
     const { user } = useAuth()
 
@@ -15,14 +33,14 @@ export const BookContextProvider = ({ children }) => {
         if (user?.token) {
             refreshBooks()
         }
-    }, [user.token])
+    }, [user?.token])
 
     useEffect(() => {
         console.log('books from context', books)
     }, [books])
 
     const refreshBooks = async () => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+        axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser') ?? '')?.token}`
         const data = await booksService.getBooks()
         setBooks(data)
         setIsLoading(false)

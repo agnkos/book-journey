@@ -16,3 +16,13 @@ export type SignupUserType = {
     username: string,
     password: string,
 }
+
+export type BookType = {
+    author: string,
+    favourite: boolean,
+    googleBookId: string,
+    id: number,
+    imageUrl: string,
+    status: string,
+    title: string,
+}
