@@ -33,7 +33,6 @@ const ReadingNow = () => {
     return (
         <>
             <h2 className="text-xl font-semibold">Reading Now</h2>
-
                 {books && Object.hasOwn(books, 'READING') ?
                     (<div className="relative max-w-96 mx-auto">
                         <SliderPrevArrow onClick={() => arrorRef.current.slickPrev()} />
