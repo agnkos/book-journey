@@ -59,12 +59,12 @@ const MoodModal = ({ closeModal, book }) => {
                                     <RadioButton label="nostalgic" value="nostalgic" name="mood" />
                                 </div>
                                 <div className='flex justify-evenly mt-6'>
-                                    <button className="px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent text-light-bg rounded-md transition duration-15"
-                                        type="submit"
-                                    >Add mood</button>
                                     <button className="px-4 py-2 text-center bg-danger hover:bg-danger-hover text-light-bg rounded-md transition duration-15"
                                         onClick={closeModal}
                                     >Cancel</button>
+                                    <button className="px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent text-light-bg rounded-md transition duration-15"
+                                        type="submit"
+                                    >Add mood</button>
                                 </div>
                             </Form>
                         )}
