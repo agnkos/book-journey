@@ -13,9 +13,15 @@ type EditModalProps = {
 
 const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null)
-    const handleOuterClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    // const handleOuterClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    //     // as Node -> checking if e.target is modalRef child
+    //     if (!modalRef?.current?.contains(e.target as Node)) {
+    //         closeModal()
+    //     }
+    // }
+    const handleOuterClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         // as Node -> checking if e.target is modalRef child
-        if (!modalRef?.current?.contains(e.target as Node)) {
+        if (!modalRef?.current?.contains(event.target as Node)) {
             closeModal()
         }
     }
