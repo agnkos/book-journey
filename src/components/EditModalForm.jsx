@@ -196,12 +196,12 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
                             <DateElement name="endDate" label="Finish date" values={values} />}
 
                         <div className='flex justify-evenly mt-6'>
-                            <button className="px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent text-light-bg rounded-md transition duration-15"
-                                type="submit"
-                            >{location.pathname === '/search' ? 'Add book' : 'Save'}</button>
                             <button className="px-4 py-2 text-center bg-danger hover:bg-danger-hover text-light-bg rounded-md transition duration-15"
                                 onClick={closeModal}
                             >Cancel</button>
+                            <button className="px-4 py-2 text-center bg-lighter-accent hover:bg-main-accent text-light-bg rounded-md transition duration-15"
+                                type="submit"
+                            >{location.pathname === '/search' ? 'Add book' : 'Save'}</button>
                         </div>
                     </Form>
                 )

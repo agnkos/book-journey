@@ -31,23 +31,23 @@ const ReadingNow = () => {
     const closeMoodModal = () => setShowMoodModal(false)
 
     return (
-        <div >
+        <>
             <h2 className="text-xl font-semibold">Reading Now</h2>
-            {books && Object.hasOwn(books, 'READING') ?
-                (<div className="relative max-w-96">
-                    <SliderPrevArrow onClick={() => arrorRef.current.slickPrev()} />
-                    <Slider {...settings} style={{}} ref={arrorRef}>
-                        {booksReading}
-                    </Slider>
-                    <SliderNextArrow onClick={() => arrorRef.current.slickNext()} />
-                </div>) :
-                <div className="py-4">
-                    <p>You are not reading anything now.</p>
-                    <p><Link to='/search' className="text-main-accent hover:text-main-accent-hover">Search</Link> for inspiration.</p>
-                </div>
-            }
-            {showMoodModal && <MoodModal closeModal={closeMoodModal} book={modalData} />}
-        </div>
+                {books && Object.hasOwn(books, 'READING') ?
+                    (<div className="relative max-w-96 mx-auto">
+                        <SliderPrevArrow onClick={() => arrorRef.current.slickPrev()} />
+                        <Slider {...settings} style={{}} ref={arrorRef}>
+                            {booksReading}
+                        </Slider>
+                        <SliderNextArrow onClick={() => arrorRef.current.slickNext()} />
+                    </div>) :
+                    <div className="py-4">
+                        <p>You are not reading anything now.</p>
+                        <p><Link to='/search' className="text-main-accent hover:text-main-accent-hover">Search</Link> for inspiration.</p>
+                    </div>
+                }
+                {showMoodModal && <MoodModal closeModal={closeMoodModal} book={modalData} />}
+        </>
     )
 }
 export default ReadingNow
