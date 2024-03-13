@@ -1,6 +1,5 @@
-import { useContext, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
-import BookContext from "../../../../context/BookContext"
 import BookElement from "./BookElement"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -8,9 +7,10 @@ import Slider from "react-slick";
 import SliderPrevArrow from "./SliderPrevArrow"
 import SliderNextArrow from "./SliderNextArrow"
 import MoodModal from "./MoodModal"
+import useBook from "../../../../hooks/useBook"
 
 const ReadingNow = () => {
-    const { books } = useContext(BookContext)
+    const { books } = useBook()
     const [showMoodModal, setShowMoodModal] = useState(false)
     const [modalData, setModalData] = useState()
     const arrorRef = useRef(null)

@@ -1,9 +1,8 @@
-import { useContext } from "react"
-import BookContext from "../../../context/BookContext"
 import BookListElement from "../MyBooksPage/components/BookListElement"
+import useBook from "../../../hooks/useBook"
 
 const Favourites = () => {
-  const { books } = useContext(BookContext)
+  const { books } = useBook()
 
   const favoriteBooks = Object.values(books).flatMap(array => array.filter(book => book.favourite === true)).map(book =>
     <BookListElement key={book.id} book={book} />)

@@ -4,6 +4,7 @@ import { useContext, useRef } from "react";
 import BookContext from "../context/BookContext";
 import { useNavigate } from "react-router-dom";
 import bookService from '../services/books'
+import { toast } from 'react-toastify'
 
 const DeleteModal = ({ closeModal, id }) => {
     const { refreshBooks } = useContext(BookContext)
@@ -15,6 +16,7 @@ const DeleteModal = ({ closeModal, id }) => {
         await refreshBooks()
         closeModal()
         navigate(-1)
+        toast.success('Book deleted')
     }
 
     const handleOuterClick = (e) => {

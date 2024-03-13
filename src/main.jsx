@@ -26,6 +26,7 @@ import Read from './pages/user/MyBooksPage/Read.jsx';
 import Reading from './pages/user/MyBooksPage/Reading.jsx';
 import ToRead from './pages/user/MyBooksPage/ToRead.jsx';
 import About from './pages/user/About.jsx';
+// import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -126,5 +127,6 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    {/* <ToastContainer autoClose={2000} bodyClassName={() => 'opacity-20'} /> */}
   </React.StrictMode>
 )

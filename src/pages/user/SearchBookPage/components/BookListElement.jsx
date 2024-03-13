@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, Link } from "react-router-dom"
 import BookCoverPlaceholder from '../../../../components/BookCoverPlaceholder';
 import EditModal from '../../../../components/EditModal';
-import BookContext from '../../../../context/BookContext';
+import useBook from '../../../../hooks/useBook';
 
 const BookListElement = ({ result }) => {
     const [showAddModal, setShowAddModal] = useState(false)
-    const { books } = useContext(BookContext)
+    const { books } = useBook()
     const location = useLocation()
 
     const closeAddModal = () => setShowAddModal(false)

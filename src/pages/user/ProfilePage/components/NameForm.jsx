@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from "formik"
 import userService from '../../../../services/user'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 
 const NameForm = ({ userData, setUserData, editUser, handleEditUser }) => {
 
@@ -10,10 +11,16 @@ const NameForm = ({ userData, setUserData, editUser, handleEditUser }) => {
     };
 
     const onSubmit = async (values) => {
-        await userService.changeUsername(values)
-        const data = await userService.getUser()
-        setUserData(data)
-        handleEditUser(false)
+        try {
+            await userService.changeUsername(values)
+            const data = await userService.getUser()
+            setUserData(data)
+            handleEditUser(false)
+            toast.success('User data changed')
+        } catch (error) {
+            console.log(error)
+            toast.error('Failed to changed user data')
+        }
     }
 
     return (
