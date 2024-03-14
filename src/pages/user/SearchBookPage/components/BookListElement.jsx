@@ -40,15 +40,15 @@ const BookListElement = ({ result }) => {
                                 </p>}
                         </div>
                         {filteredList.length > 0 ?
-                            <Link to={`/books/${filteredList[0].id}`}
-                                state={location.pathname}
-                            >
-                                <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block transition duration-150 ">Details</button>
-                            </Link>
+                            // <Link to={`/books/${filteredList[0].id}`}
+                            //     state={location.pathname}
+                            // >
+                            <button className="px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md ml-auto block transition duration-150 ">Details</button>
+                            // </Link>
                             :
                             <button
                                 onClick={openAddModal}
-                                className="px-2 py-1 text-center bg-main-accent hover:bg-main-accent-hover text-light-bg rounded-md ml-auto block transition duration-150 ">Add to list</button>}
+                                className="px-2 py-1 text-center bg-lighter-accent hover:bg-main-accent text-light-bg rounded-md ml-auto block transition duration-150 ">Add to list</button>}
                     </div>
                 </div>
             </ConditionalLinkWrapper>
