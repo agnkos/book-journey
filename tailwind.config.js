@@ -21,6 +21,9 @@ export default {
         "danger": "rgb(var(--danger))",
         "danger-hover": "rgb(var(--danger-hover))",
       },
+      height: {
+        screen: ['100vh', '100svh']
+      }
     },
     fontFamily: {
       sans: ['Poppins', ...defaultTheme.fontFamily.sans]

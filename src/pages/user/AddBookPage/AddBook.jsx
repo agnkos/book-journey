@@ -1,15 +1,17 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { useCallback, useContext } from "react";
-import { useLocation } from "react-router-dom";
-import BookContext from "../../../context/BookContext";
+import { useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import TextField from "./components/TextField";
 import RadioButton from "./components/RadioButton";
 import RangeFieldEl from "./components/RangeFieldEl";
 import CheckboxField from "./components/CheckboxField";
 import TextareaField from "./components/TextareaField";
 import DateElement from "./components/DateElement";
-import booksService from '../../../services/books'
+import booksService from '../../../services/books';
+import ScrollToTop from "./components/ScrollToTop";
+import useBook from "../../../hooks/useBook";
+import { toast } from 'react-toastify'
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -24,7 +26,9 @@ const moodOptions = [
 
 const AddBook = () => {
     const { state } = useLocation()
-    const { refreshBooks } = useContext(BookContext)
+    const { refreshBooks } = useBook()
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const initialValues = {
         title: state?.title || '',
@@ -55,15 +59,17 @@ const AddBook = () => {
         const readingBook = {
             title: values.title,
             author: values.author,
-            mood: values.mood.toUpperCase(),
-            startDate: values.startDate,
-            status: values.status.toUpperCase()
+            mood: values.mood.toUpperCase() || null,
+            startDate: values.startDate || null,
+            status: values.status.toUpperCase(),
+            googleBookId: null
         }
 
         const toReadBook = {
             title: values.title,
             author: values.author,
-            status: 'GOING_TO_READ'
+            status: 'GOING_TO_READ',
+            googleBookId: null
         }
         const readBook = {
             title: values.title,
@@ -75,13 +81,18 @@ const AddBook = () => {
             },
             moods: { moodsPercentages: moodsPercentages },
             startDate: values.startDate,
-            endDate: values.endDate
+            endDate: values.endDate,
+            googleBookId: null
         }
 
         const bookData = values.status === "read" ? readBook : values.status === "reading" ? readingBook : toReadBook
 
         try {
             await booksService.addBook(bookData)
+            const books = await booksService.getBooks()
+            const bookFiltered = books[bookData.status].filter(book => book.title === bookData.title && book.author === bookData.author)[0]
+            console.log('book filtered', bookFiltered)
+            navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
             refreshBooks()
             resetForm()
             setValues({
@@ -94,26 +105,27 @@ const AddBook = () => {
                 startDate: null,
                 endDate: null
             });
+            toast.success('Book added')
         } catch (error) {
-            console.log(error)
+            toast.error('An error occured :(')
             setStatus({ response: error.response.data.message })
         }
-    }, [refreshBooks])
+    }, [refreshBooks, location.pathname, navigate])
 
     return (
         <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-2">Add Book</h1>
+            <h1 className="text-2xl font-semibold mb-2" id="top">Add Book</h1>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, actions) => onSubmit(values, actions)}
                 validationSchema={validationSchema}
             >
-                {({ values, status }) => {
+                {({ values, status, isSubmitting }) => {
+                    console.log('submitting', isSubmitting)
                     return (
                         <Form>
                             <TextField name="title" label="Title" />
                             <TextField name="author" label="Author" />
-
                             <div id="start" className="text-md font-semibold text-red-500">{status?.response}</div>
 
                             <p id="status-group" className="font-semibold">Status</p>
@@ -178,6 +190,8 @@ const AddBook = () => {
                             <button type="submit"
                                 className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md"
                             >Add book</button>
+
+                            <ScrollToTop />
                         </Form>
                     )
                 }}

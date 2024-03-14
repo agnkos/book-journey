@@ -1,17 +1,15 @@
 import { useOutlet } from "react-router-dom";
 import { AuthContextProvider } from "../context/AuthContext";
-// import { BookContextProvider } from "../context/BookContext";
-// import { useEffect } from "react";
-// import { useAuth } from "../hooks/useAuth";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 export const AuthLayout = () => {
     const outlet = useOutlet();
 
     return (
         <AuthContextProvider>
-            {/* <BookContextProvider> */}
-                {outlet}
-            {/* </BookContextProvider> */}
+            {outlet}
+            <ToastContainer autoClose={2000} toastClassName='max-w-fit m-4 ml-auto' bodyClassName={() => 'flex px-4 items-center'} className='opacity-80' toastStyle={{ borderRadius: "0px" }} />
         </AuthContextProvider>
     )
 }

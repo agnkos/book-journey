@@ -1,25 +1,22 @@
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import PropTypes from 'prop-types';
-// import { deleteBook } from "../services/books";
-// import { useAuth } from "../hooks/useAuth";
 import { useContext, useRef } from "react";
 import BookContext from "../context/BookContext";
-import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import bookService from '../services/books'
+import { toast } from 'react-toastify'
 
 const DeleteModal = ({ closeModal, id }) => {
-    const { user } = useAuth()
     const { refreshBooks } = useContext(BookContext)
     const navigate = useNavigate()
     const modalRef = useRef()
 
     const handleDelete = async (id) => {
-        // await deleteBook(id, token)
         await bookService.deleteBook(id)
-        refreshBooks(user.token)
+        await refreshBooks()
         closeModal()
         navigate(-1)
+        toast.success('Book deleted')
     }
 
     const handleOuterClick = (e) => {

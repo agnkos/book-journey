@@ -1,17 +1,6 @@
-import { useContext } from "react"
-import BookContext from "../../../context/BookContext"
-import BookListElement from "./components/BookListElement"
+import BookList from "./components/BookList"
 
 const Reading = () => {
-    const { books } = useContext(BookContext)
-
-    const booksDisplayed = books => books.READING.map(book => <BookListElement book={book} key={book.id} />)
-
-
-    return (
-        <>
-            {(books !== undefined && Object.keys(books).length !== 0 && Object.hasOwn(books, 'READING')) && booksDisplayed(books)}
-        </>
-    )
+    return <BookList shelf='READING' />
 }
 export default Reading

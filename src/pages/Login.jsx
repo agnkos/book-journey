@@ -9,8 +9,9 @@ const Login = () => {
   const { login } = useAuth();
   const location = useLocation();
 
-  const onSubmit = useCallback((values, { setErrors }) => {
+  const onSubmit = useCallback((values, { setErrors, setSubmitting }) => {
     login(values, { setErrors })
+    setSubmitting(false)
   }, [login])
 
   const initialValues = {

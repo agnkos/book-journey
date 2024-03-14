@@ -6,7 +6,6 @@ import { useRef, useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const SearchBook = ({ searchBook }) => {
-
     const titleInputRef = useRef(null)
     const authorInputRef = useRef(null)
     const [showHintsTitle, setShowHintsTitle] = useState(false)
@@ -116,8 +115,5 @@ const SearchBook = ({ searchBook }) => {
 export default SearchBook
 
 SearchBook.propTypes = {
-    setResults: PropTypes.func,
-    setIsLoading: PropTypes.func,
     searchBook: PropTypes.func,
-
 }

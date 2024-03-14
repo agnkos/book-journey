@@ -3,7 +3,7 @@ import { useRef } from "react";
 import PropTypes from 'prop-types';
 import EditModalForm from "./EditModalForm";
 
-const EditModal = ({ closeModal, bookDetail, id }) => {
+const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }) => {
     const modalRef = useRef()
     const handleOuterClick = (e) => {
         if (!modalRef.current.contains(e.target)) {
@@ -13,8 +13,9 @@ const EditModal = ({ closeModal, bookDetail, id }) => {
 
     console.log('book details', bookDetail)
     return (
-        <div onClick={handleOuterClick} className='fixed top-0 left-0 py-8 flex justify-center items-center w-full h-full bg-text-faded/50 z-30'>
-            <div ref={modalRef} className="w-11/12 max-w-md max-h-full flex flex-col bg-light-bg rounded-md z-50 overflow-y-auto">
+        <div onClick={handleOuterClick} className='fixed top-0 left-0 py-8 flex justify-center items-start w-full h-full bg-text-faded/50 z-30 overflow-y-auto'>
+            {/* max-h-full overflow-y-auto */}
+            <div ref={modalRef} className="w-11/12 max-w-md flex flex-col bg-light-bg rounded-md z-50">
                 <div className="flex p-6 gap-4 bg-main-accent text-light-bg justify-between">
                     <div>
                         <p className="text-xl font-semibold">{bookDetail.title || bookDetail.volumeInfo.title}</p>
@@ -27,7 +28,7 @@ const EditModal = ({ closeModal, bookDetail, id }) => {
                     </div>
                 </div>
                 <div className="p-6">
-                    <EditModalForm bookDetail={bookDetail} closeModal={closeModal} id={id} />
+                    <EditModalForm bookDetail={bookDetail} closeModal={closeModal} id={id} refreshBookDetail={refreshBookDetail} />
                 </div>
 
             </div>
@@ -39,5 +40,6 @@ export default EditModal
 EditModal.propTypes = {
     closeModal: PropTypes.func.isRequired,
     bookDetail: PropTypes.object.isRequired,
-    id: PropTypes.string
+    id: PropTypes.string,
+    refreshBookDetail: PropTypes.func
 }

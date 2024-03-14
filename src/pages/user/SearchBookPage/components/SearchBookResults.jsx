@@ -9,6 +9,7 @@ const SearchBookResults = ({ results }) => {
         <>
             {results?.totalItems > 0 && booksResults(results.items)}
             {results?.totalItems === 0 && <p className="text-lg">Book not found.</p>}
+            {/* <Pagination searchBook={searchBook} query={query} totalPages={totalPages} /> */}
         </>
 
     )
@@ -17,5 +18,4 @@ export default SearchBookResults
 
 SearchBookResults.propTypes = {
     results: PropTypes.object,
-    setResults: PropTypes.func
 }

@@ -1,19 +1,20 @@
 import { HeartIcon, ShareIcon, TrashIcon } from "@heroicons/react/24/outline"
-// import { Link } from "react-router-dom"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import StarRating from "./StarRating"
 import PieChart from "./PieChart"
 import PropTypes from 'prop-types';
-import BookContext from "../../../../context/BookContext"
 import booksService from '../../../../services/books'
 import EditModal from "../../../../components/EditModal"
 import DeleteModal from "../../../../components/DeleteModal"
+import BookCoverPlaceholderBig from "../../../../components/BookCoverPlaceholderBig";
+import useBook from "../../../../hooks/useBook";
+import { toast } from 'react-toastify'
 
 const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const [details, setDetails] = useState(true)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
-    const { refreshBooks } = useContext(BookContext)
+    const { refreshBooks } = useBook()
 
     const closeDeleteModal = () => setShowDeleteModal(false)
     const openDeleteModal = () => setShowDeleteModal(true)
@@ -21,8 +22,17 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const openEditModal = () => setShowEditModal(true)
 
     const handleAddToFavourites = async (id) => {
-        await booksService.addToFavourites(id)
-        refreshBookDetail(id)
+        try {
+            await booksService.addToFavourites(id)
+            await refreshBookDetail(id)
+            if (bookDetail.favourite) toast.success('Book removed from favourites')
+            else toast.success('Book added to favourites')
+        } catch (error) {
+            console.log(error)
+            toast.error('An error occured')
+            if (bookDetail.favourite) toast.error('Failed to remove book from favourites')
+            else toast.error('Failed to add book to favourites')
+        }
     }
 
     const refreshBookDetail = async (id) => {
@@ -34,7 +44,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     return (
         <>
             <div className="flex gap-4">
-                <img src={bookDetail.imageUrl} alt={`cover of ${bookDetail.title} book`} className="rounded-lg w-32 h-44 object-cover" />
+                {bookDetail.imageUrl ? <img src={bookDetail.imageUrl} alt={`cover of ${bookDetail.title} book`} className="rounded-lg w-32 h-44 object-cover" /> : <BookCoverPlaceholderBig />}
                 <div className="py-2">
                     <p className="text-xl font-semibold">{bookDetail.title}</p>
                     <p className="text-text-faded">{bookDetail.author}</p>
@@ -75,22 +85,50 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
 
                 {details && <div>
                     <p className="text-sm text-text-faded">Status</p>
-                    <p className="mb-2">{bookDetail.status.toLowerCase()}</p>
-                    <p className="text-sm text-text-faded">My rating</p>
-                    <p className="mb-2">{bookDetail.review.score}</p>
-                    <p className="text-sm text-text-faded">My review</p>
-                    <p className="mb-2">{bookDetail.review.comment || '-'}</p>
-                    <p className="text-sm text-text-faded">Start date</p>
-                    <p className="mb-2">{bookDetail.startDate || '-'}</p>
-                    <p className="text-sm text-text-faded">Finish date</p>
-                    <p className="mb-2">{bookDetail.endDate || '-'}</p>
-                    <p className="text-sm text-text-faded">Moods</p>
-                    {Object.keys(bookDetail.moods.moodsPercentages).length !== 0 ?
-                        <div className="my-2">
-                            <PieChart data={bookDetail.moods.moodsPercentages} />
-                        </div>
-                        :
-                        <span>-</span>
+                    <p className="mb-2">{bookDetail.status === "GOING_TO_READ" ? 'to read' : bookDetail.status.toLowerCase()}</p>
+                    {bookDetail.status === "READ" &&
+                        <>
+                            <p className="text-sm text-text-faded">My rating</p>
+                            <p className="mb-2">{bookDetail.review.score}</p>
+                            <p className="text-sm text-text-faded">My review</p>
+                            <p className="mb-2">{bookDetail.review.comment || '-'}</p>
+                        </>}
+                    {['READ', 'READING'].includes(bookDetail.status) &&
+                        <>
+                            <p className="text-sm text-text-faded">Start date</p>
+                            <p className="mb-2">{bookDetail.startDate || '-'}</p>
+                        </>
+                    }
+                    {/* {bookDetail.status === "READING" &&
+                        <>
+                            <p className="text-sm text-text-faded">Mood</p>
+                            <p className="mb-2">{bookDetail.mood || '-'}</p>
+                        </>
+                    } */}
+                    {bookDetail.status === "READ" &&
+                        <>
+                            <p className="text-sm text-text-faded">Finish date</p>
+                            <p className="mb-2">{bookDetail.endDate || '-'}</p>
+                            {/* <p className="text-sm text-text-faded">Moods</p>
+                            {Object.keys(bookDetail.moodPercentages.moodsPercentages).length !== 0 ?
+                                <div className="my-2">
+                                    <PieChart data={bookDetail.moodPercentages.moodsPercentages} />
+                                </div>
+                                :
+                                <span>-</span>
+                            } */}
+                        </>}
+                    {['READ', 'READING'].includes(bookDetail.status) &&
+                        <>
+                            <p className="text-sm text-text-faded">Moods</p>
+                            {Object.keys(bookDetail.moodsPercentages).length !== 0 ?
+                                <div className="my-2">
+                                    <PieChart data={bookDetail.moodsPercentages} />
+                                </div>
+                                :
+                                <span>-</span>
+                            }
+                        </>
                     }
 
                     <button className="mt-6 px-2 py-1 text-center bg-link-active hover:bg-link-active-hover text-light-bg rounded-md block"
@@ -108,7 +146,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
                 </div>}
             </div>
             {showDeleteModal && <DeleteModal closeModal={closeDeleteModal} id={id} />}
-            {showEditModal && <EditModal closeModal={closeEditModal} bookDetail={bookDetail} id={id} />}
+            {showEditModal && <EditModal closeModal={closeEditModal} bookDetail={bookDetail} id={id} refreshBookDetail={refreshBookDetail} />}
         </>
     )
 }

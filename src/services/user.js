@@ -1,22 +1,22 @@
 import axios from 'axios';
 
-const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/auth'
+const baseUrl = 'https://book-journey-app-54dba2b08eec.herokuapp.com/user'
 
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-const login = async (loginData) => {
-    const response = await axios.post(`${baseUrl}/login`, loginData)
-    return response.data
-}
-const logout = async () => {
-    const response = await axios.post(`${baseUrl}/logout`)
+const getUser = async () => {
+    const response = await axios.get(`${baseUrl}/profile`)
     return response.data
 }
 
-const signup = async (signupData) => {
-    console.log(signupData)
-    const response = await axios.post(`${baseUrl}/users`, signupData)
+const changeUsername = async (data) => {
+    const response = await axios.put(`${baseUrl}/name`, data)
     return response.data
 }
 
-export default { login, logout, signup }
+const changePassword = async (data) => {
+    const response = await axios.put(`${baseUrl}/password`, data)
+    return response.data
+}
+
+export default { getUser, changeUsername, changePassword }

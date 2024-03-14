@@ -27,8 +27,9 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
                 if (data.totalItems > 0) {
-                    const authors = data?.items.map(a => a.volumeInfo?.authors?.[0].trim())
-                    const authorsFiltered = [...new Set(authors)]
+                    const authors = data?.items.map(a => ({ author: a.volumeInfo?.authors?.[0].trim(), id: a.id }))
+                    // const authorsFiltered = [...new Set(authors)]
+                    const authorsFiltered = authors.filter((value, index, self) => index === self.findIndex((a) => a?.author === value?.author))
                     setQueryResultsAuthor(authorsFiltered.slice(0, 5))
                 }
             }
@@ -39,24 +40,21 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
 
 
     useEffect(() => {
-        const handleKeyDownTitle = (e) => {
-            if (document.activeElement === titleInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
+        const onKeyDown = (e, inputRef, queryResults) => {
+            if (document.activeElement === inputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
                 setSelectedItem(prev => prev - 1)
-            } else if (document.activeElement === titleInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsTitle.length - 1) {
+            } else if (document.activeElement === inputRef.current && e.key === "ArrowDown" && selectedItem < queryResults.length - 1) {
                 setSelectedItem(prev => prev + 1)
-            } else if (document.activeElement === titleInputRef.current && e.key === "Enter" && selectedItem >= 0) {
-                searchBook(queryResultsTitle[selectedItem])
+            } else if (document.activeElement === inputRef.current && e.key === "Enter" && selectedItem >= 0) {
+                searchBook(queryResults[selectedItem])
             }
         }
+        const handleKeyDownTitle = (e) => {
+            onKeyDown(e, titleInputRef, queryResultsTitle)
+        }
+
         const handleKeyDownAuthor = (e) => {
-            if (document.activeElement === authorInputRef.current && e.key === "ArrowUp" && selectedItem > -1) {
-                setSelectedItem(prev => prev - 1)
-                console.log('selected title', selectedItem)
-            } else if (document.activeElement === authorInputRef.current && e.key === "ArrowDown" && selectedItem < queryResultsAuthor.length - 1) {
-                setSelectedItem(prev => prev + 1)
-            } else if (document.activeElement === authorInputRef.current && e.key === "Enter" && selectedItem >= 0) {
-                searchBook(queryResultsAuthor[selectedItem])
-            }
+            onKeyDown(e, authorInputRef, queryResultsAuthor)
         }
 
         if (showHintsTitle) {
@@ -73,6 +71,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
     }, [showHintsTitle, queryResultsTitle, searchBook, selectedItem, titleInputRef, showHintsAuthor, authorInputRef, queryResultsAuthor])
 
     const handleTitleHintClick = async (title, author) => {
+        console.log('author and title', title, author)
         setFieldValue('title', title)
         setFieldValue('author', author)
         await searchBook(author, title)
@@ -80,6 +79,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         resetForm()
     }
     const handleAuthorHintClick = async (author) => {
+        console.log('author', author)
         setFieldValue('author', author)
         await searchBook(author)
         setShowHintsAuthor(false)
@@ -103,10 +103,10 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         return (
             <div className="absolute top-9 left-0 w-full text-xs bg-white border z-10">
                 {queryResultsAuthor.map((item, index) => (
-                    <p key={item}
+                    <p key={item.id}
                         className={`flex w-full px-2 py-1 hover:bg-light-objects cursor-pointer ${index === selectedItem ? 'bg-light-objects' : ''}`}
-                        onClick={() => handleAuthorHintClick(item)}
-                    >{item}</p>
+                        onClick={() => handleAuthorHintClick(item.author)}
+                    >{item.author}</p>
                 ))}
             </div>
         )
