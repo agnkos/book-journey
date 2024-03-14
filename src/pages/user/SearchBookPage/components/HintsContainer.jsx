@@ -12,7 +12,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         const getHintsTitle = async () => {
             if (values.title?.length > 2 && showHintsTitle) {
                 const title = (values.title).replace(/ /g, '+')
-                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${title}"+intitle:"${title}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${title}"+intitle:"${title}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20`)
                 const data = await response.json()
                 if (data.totalItems > 0) {
                     const titles = data.items.map((t) => ({ title: t.volumeInfo.title, author: t.volumeInfo.authors, id: t.id }))
@@ -24,8 +24,9 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         const getHintsAuthor = async () => {
             if (values.author?.length > 2 && showHintsAuthor) {
                 const author = (values.author).replace(/ /g, '+')
-                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20`)
                 const data = await response.json()
+                console.log('response authors', data)
                 if (data.totalItems > 0) {
                     const authors = data?.items.map(a => ({ author: a.volumeInfo?.authors?.[0].trim(), id: a.id }))
                     // const authorsFiltered = [...new Set(authors)]

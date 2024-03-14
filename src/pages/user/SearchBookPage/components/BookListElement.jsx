@@ -32,6 +32,7 @@ const BookListElement = ({ result }) => {
 
                             <p className="font-semibold text-lg border-link-active">{result.volumeInfo.title}</p>
                             <p>{result.volumeInfo.authors}</p>
+                            {/* .slice(0, 3).join(', ') */}
                             {filteredList.length > 0 &&
                                 <p className='text-sm'>
                                     status: <span className='font-semibold'>{filteredList[0].status === "READ" ? 'read' : filteredList[0].status === "READING" ? 'reading' : 'to read'}</span>
