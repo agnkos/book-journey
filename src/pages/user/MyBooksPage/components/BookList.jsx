@@ -15,7 +15,7 @@ const BookList = ({ shelf }) => {
             return books[`${shelf}`].filter((book, index) => index >= (page - 1) * 10 && index < page * 10).map(book => <BookListElement book={book} key={book.id} />)
     }, [books, shelf])
 
-    const totalPages = Math.ceil(books[`${shelf}`]?.length / 10) || 0
+    const totalPages = Math.ceil(books?.[`${shelf}`]?.length / 10) || 0
 
     return (
         <>

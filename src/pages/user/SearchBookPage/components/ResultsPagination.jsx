@@ -35,7 +35,7 @@ const ResultsPagination = ({ searchBook, query, totalPages, currentPage, setCurr
                 pageClassName={'p-2 hover:text-link-active'}
                 previousClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
                 nextClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
-                activeClassName={'font-bold'}
+                activeClassName={'font-bold text-text'}
             />
         </div>
     )
