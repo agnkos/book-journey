@@ -23,10 +23,10 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         }
         const getHintsAuthor = async () => {
             if (values.author?.length > 2 && showHintsAuthor) {
-                console.log('values author', values.author)
                 const author = (values.author).replace(/ /g, '+')
-                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${author}+inauthor:${author}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
+                const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${author}"+inauthor:"${author}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=40`)
                 const data = await response.json()
+                console.log('response authors', data)
                 if (data.totalItems > 0) {
                     const authors = data?.items.map(a => ({ author: a.volumeInfo?.authors?.[0].trim(), id: a.id }))
                     // const authorsFiltered = [...new Set(authors)]
@@ -70,7 +70,6 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
             document.removeEventListener('keydown', handleKeyDownAuthor);
         };
     }, [showHintsTitle, queryResultsTitle, searchBook, selectedItem, titleInputRef, showHintsAuthor, authorInputRef, queryResultsAuthor])
-
 
     const handleTitleHintClick = async (title, author) => {
         console.log('author and title', title, author)
