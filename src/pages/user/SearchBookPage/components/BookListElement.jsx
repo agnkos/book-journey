@@ -31,7 +31,7 @@ const BookListElement = ({ result }) => {
                         <div className='flex flex-col grow'>
 
                             <p className="font-semibold text-lg border-link-active">{result.volumeInfo.title}</p>
-                            <p>{result.volumeInfo.authors}</p>
+                            <p>{result.volumeInfo.authors.slice(0, 15).join(', ')}</p>
                             {/* .slice(0, 3).join(', ') */}
                             {filteredList.length > 0 &&
                                 <p className='text-sm'>
