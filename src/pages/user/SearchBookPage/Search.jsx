@@ -19,7 +19,7 @@ const Search = () => {
       setIsLoading(true)
       const dataAuthor = author.replace(/ /g, '+')
       const dataTitle = title.replace(/ /g, '+')
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${dataTitle}+inauthor:${dataAuthor}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20&startIndex=${index}`)
+      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${dataTitle}"+inauthor:"${dataAuthor}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20&startIndex=${index}`)
       console.log('response', response)
       const data = await response.json()
       console.log(data)
