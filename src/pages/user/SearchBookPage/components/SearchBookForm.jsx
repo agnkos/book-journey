@@ -5,7 +5,7 @@ import HintsContainer from "./HintsContainer";
 import { useRef, useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const SearchBook = ({ searchBook }) => {
+const SearchBook = ({ searchBook, setCurrentPage }) => {
     const titleInputRef = useRef(null)
     const authorInputRef = useRef(null)
     const [showHintsTitle, setShowHintsTitle] = useState(false)
@@ -32,6 +32,7 @@ const SearchBook = ({ searchBook }) => {
         const dataTitle = (values.title).replace(/ /g, '+')
         searchBook(dataAuthor, dataTitle)
         resetForm()
+        setCurrentPage(0)
     }
 
     const validationSchema = Yup.object({
@@ -116,4 +117,5 @@ export default SearchBook
 
 SearchBook.propTypes = {
     searchBook: PropTypes.func,
+    setCurrentPage: PropTypes.func,
 }

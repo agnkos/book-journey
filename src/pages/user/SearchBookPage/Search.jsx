@@ -9,6 +9,7 @@ const Search = () => {
   const [query, setQuery] = useState({ author: '', title: '' })
   const [isLoading, setIsLoading] = useState(false)
   const [totalPages, setTotalPages] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
 
   const searchBook = async (author = '', title = '', index = 0) => {
     console.log('index search', index)
@@ -31,20 +32,23 @@ const Search = () => {
     }
   }
 
+  const handleCurrentPage = (page) => setCurrentPage(page)
+
   useEffect(() => {
-    console.log('total pages', totalPages)
-    console.log('results', results)
-    console.log('query', query)
-  }, [totalPages, query, results])
+    // console.log('total pages', totalPages)
+    // console.log('results', results)
+    // console.log('query', query)
+    console.log('current page from search', currentPage)
+  }, [currentPage])
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-2">Search book</h1>
       <p className="mb-3">Find a book by title, author or both.</p>
-      <SearchBook searchBook={searchBook} />
+      <SearchBook searchBook={searchBook} setCurrentPage={handleCurrentPage} />
       {isLoading ? <Loading /> : null}
       <SearchBookResults results={results} searchBook={searchBook} query={query} totalPages={totalPages} />
-      <ResultsPagination searchBook={searchBook} query={query} totalPages={totalPages} />
+      <ResultsPagination searchBook={searchBook} query={query} totalPages={totalPages} currentPage={currentPage} setCurrentPage={handleCurrentPage} />
     </div>
   )
 }
