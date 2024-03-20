@@ -1,22 +1,22 @@
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 const ResultsPagination = ({ searchBook, query, totalPages, currentPage, setCurrentPage }) => {
 
-    const handlePageChange = (selectedPage) => {
-        console.log('selected page', selectedPage)
+    const handlePageChange = async (selectedPage) => {
+        // console.log('selected page', selectedPage)
         setCurrentPage(selectedPage.selected)
         const index = (selectedPage.selected + 1) * 20 - 20;
-        console.log('index click', index)
-        searchBook(query.author, query.title, index)
+        // console.log('index click', index)
+        await searchBook(query.author, query.title, index)
     };
 
-    useEffect(() => {
-        console.log('curr page', currentPage)
-        console.log('total pages', totalPages)
-    }, [currentPage, totalPages])
+    // useEffect(() => {
+    //     console.log('curr page', currentPage)
+    //     console.log('total pages', totalPages)
+    // }, [currentPage, totalPages])
 
     return (
         <div>
@@ -35,7 +35,7 @@ const ResultsPagination = ({ searchBook, query, totalPages, currentPage, setCurr
                 pageClassName={'p-2 hover:text-link-active'}
                 previousClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
                 nextClassName={`${totalPages > 0 ? 'hover:text-link-active' : 'hidden'}`}
-                activeClassName={'font-bold'}
+                activeClassName={'font-bold text-text'}
             />
         </div>
     )
