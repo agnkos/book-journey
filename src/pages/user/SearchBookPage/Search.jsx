@@ -14,10 +14,10 @@ const Search = () => {
   const searchBook = async (author = '', title = '', index = 0) => {
     console.log('index search', index)
     setTotalPages(0)
+    setResults(null)
+    setIsLoading(true)
     try {
       setQuery({ author: author, title: title })
-      setResults(null)
-      setIsLoading(true)
       const dataAuthor = author.replace(/ /g, '+')
       const dataTitle = title.replace(/ /g, '+')
       const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q="${dataTitle}"+inauthor:"${dataAuthor}"&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&maxResults=20&startIndex=${index}`)
@@ -39,7 +39,8 @@ const Search = () => {
     // console.log('results', results)
     // console.log('query', query)
     console.log('current page from search', currentPage)
-  }, [currentPage])
+    console.log('query', query)
+  }, [currentPage, query])
 
   return (
     <div className="p-4">
@@ -47,6 +48,7 @@ const Search = () => {
       <p className="mb-3">Find a book by title, author or both.</p>
       <SearchBook searchBook={searchBook} setCurrentPage={handleCurrentPage} />
       {isLoading ? <Loading /> : null}
+      <ResultsPagination searchBook={searchBook} query={query} totalPages={totalPages} currentPage={currentPage} setCurrentPage={handleCurrentPage} />
       <SearchBookResults results={results} searchBook={searchBook} query={query} totalPages={totalPages} />
       <ResultsPagination searchBook={searchBook} query={query} totalPages={totalPages} currentPage={currentPage} setCurrentPage={handleCurrentPage} />
     </div>
