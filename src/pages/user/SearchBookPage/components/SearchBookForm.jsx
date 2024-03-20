@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form, Field, ErrorMessage} from "formik"
 import * as Yup from "yup";
 import PropTypes from 'prop-types';
 import HintsContainer from "./HintsContainer";
@@ -8,6 +8,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 const SearchBook = ({ searchBook, setCurrentPage }) => {
     const titleInputRef = useRef(null)
     const authorInputRef = useRef(null)
+    const btnRef = useRef(null)
     const [showHintsTitle, setShowHintsTitle] = useState(false)
     const [showHintsAuthor, setShowHintsAuthor] = useState(false)
 
@@ -105,6 +106,7 @@ const SearchBook = ({ searchBook, setCurrentPage }) => {
                         </div>
                         <ErrorMessage name="title" component="div" className="text-sm text-red-500" />
                         <button type="submit"
+                            ref={btnRef}
                             className="px-4 py-2 mt-2 text-center bg-lighter-accent hover:bg-main-accent-hover text-light-bg font-semibold rounded-md ml-auto block"
                         >Search</button>
                     </Form>)

@@ -3,7 +3,7 @@ import userService from '../../../services/user'
 import { useAuth } from "../../../hooks/useAuth"
 import PasswordForm from "./components/PasswordForm"
 import NameForm from "./components/NameForm"
-import axios from 'axios'
+// import axios from 'axios'
 
 const Profile = () => {
   const [userData, setUserData] = useState()
@@ -12,7 +12,7 @@ const Profile = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
       const data = await userService.getUser()
       console.log('userdata', data)
       setUserData(data)

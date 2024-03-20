@@ -16,6 +16,10 @@ export const AuthContextProvider = ({ children }) => {
         console.log('local', window.localStorage.getItem('loggedBookJourneyUser'))
     })
 
+    useEffect(() => {
+        if (user.token) axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+    }, [user?.token])
+
     const login = async (loginData, { setErrors = () => { } } = {}) => {
 
         await authService.login(loginData)
@@ -23,7 +27,7 @@ export const AuthContextProvider = ({ children }) => {
                 console.log(data)
                 setUser(data)
                 window.localStorage.setItem('loggedBookJourneyUser', JSON.stringify(data))
-                axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+                // axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
                 navigate('/dashboard')
             })
             .catch((error) => {
