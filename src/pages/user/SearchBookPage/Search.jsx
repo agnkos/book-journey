@@ -12,7 +12,7 @@ const Search = () => {
   const [currentPage, setCurrentPage] = useState(0)
 
   const searchBook = async (author = '', title = '', index = 0) => {
-    console.log('index search', index)
+    // console.log('index search', index)
     setTotalPages(0)
     setResults(null)
     setIsLoading(true)

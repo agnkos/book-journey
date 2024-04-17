@@ -19,11 +19,11 @@ const BookList = ({ shelf }) => {
 
     return (
         <>
-            <BooksPagination totalPages={totalPages} setCurrentPage={setCurrentPage} />
+            <BooksPagination totalPages={totalPages} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
             {isLoading && <Loading />}
             {booksDisplayed(currentPage)}
             {(books && !Object.hasOwn(books, `${shelf}`)) && <p>No books on the list yet.</p>}
-            <BooksPagination totalPages={totalPages} setCurrentPage={setCurrentPage} />
+            <BooksPagination totalPages={totalPages} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
         </>
     )
 }

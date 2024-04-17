@@ -2,7 +2,7 @@ import ReactPaginate from 'react-paginate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 
-const BooksPagination = ({ totalPages, setCurrentPage }) => {
+const BooksPagination = ({ totalPages, setCurrentPage, currentPage }) => {
 
     const handlePageChange = (selectedPage) => {
         console.log('selected page', selectedPage)
@@ -14,6 +14,7 @@ const BooksPagination = ({ totalPages, setCurrentPage }) => {
             <ReactPaginate
                 pageCount={totalPages}
                 onPageChange={handlePageChange}
+                forcePage={currentPage - 1}
                 breakLabel={"..."}
                 // center numbers - how many : ...4 5 6 ...
                 pageRangeDisplayed={3}
@@ -33,5 +34,6 @@ export default BooksPagination
 
 BooksPagination.propTypes = {
     totalPages: PropTypes.number,
-    setCurrentPage: PropTypes.func
+    setCurrentPage: PropTypes.func,
+    currentPage: PropTypes.number
 }

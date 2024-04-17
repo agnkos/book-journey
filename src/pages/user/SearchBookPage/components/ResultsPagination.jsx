@@ -6,7 +6,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 const ResultsPagination = ({ searchBook, query, totalPages, currentPage, setCurrentPage }) => {
 
     const handlePageChange = async (selectedPage) => {
-        // console.log('selected page', selectedPage)
+        console.log('selected page', selectedPage)
         setCurrentPage(selectedPage.selected)
         const index = (selectedPage.selected + 1) * 20 - 20;
         // console.log('index click', index)
