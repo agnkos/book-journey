@@ -32,7 +32,7 @@ const SearchBook = ({ searchBook, setCurrentPage }) => {
         const dataTitle = (values.title).replace(/ /g, '+')
         searchBook(dataAuthor, dataTitle)
         resetForm()
-        setCurrentPage(0)
+        // setCurrentPage(0)
     }
 
     const validationSchema = Yup.object({
@@ -71,6 +71,7 @@ const SearchBook = ({ searchBook, setCurrentPage }) => {
                                         showHintsTitle={showHintsTitle}
                                         setShowHintsTitle={setShowHintsTitle}
                                         titleInputRef={titleInputRef}
+                                        setCurrentPage={setCurrentPage}
                                     />
                                 }
                             </div>
@@ -98,6 +99,7 @@ const SearchBook = ({ searchBook, setCurrentPage }) => {
                                         showHintsAuthor={showHintsAuthor}
                                         setShowHintsAuthor={setShowHintsAuthor}
                                         authorInputRef={authorInputRef}
+                                        setCurrentPage={setCurrentPage}
                                     />
                                 }
                             </div>

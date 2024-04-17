@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 
-const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHintsAuthor, setShowHintsAuthor, titleInputRef, authorInputRef }) => {
+const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHintsAuthor, setShowHintsAuthor, titleInputRef, authorInputRef, setCurrentPage }) => {
     const [queryResultsTitle, setQueryResultsTitle] = useState()
     const [queryResultsAuthor, setQueryResultsAuthor] = useState()
     const { values, setFieldValue, resetForm } = useFormikContext()
@@ -76,6 +76,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         setFieldValue('title', title)
         setFieldValue('author', author)
         await searchBook(author, title)
+        setCurrentPage(0)
         setShowHintsTitle(false)
         resetForm()
     }
@@ -83,6 +84,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
         console.log('author', author)
         setFieldValue('author', author)
         await searchBook(author)
+        setCurrentPage(0)
         setShowHintsAuthor(false)
         resetForm()
     }
@@ -123,4 +125,5 @@ HintsContainer.propTypes = {
     setShowHintsAuthor: PropTypes.func,
     titleInputRef: PropTypes.object,
     authorInputRef: PropTypes.object,
+    setCurrentPage: PropTypes.func,
 }
