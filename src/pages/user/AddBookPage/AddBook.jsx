@@ -120,8 +120,7 @@ const AddBook = () => {
                 onSubmit={(values, actions) => onSubmit(values, actions)}
                 validationSchema={validationSchema}
             >
-                {({ values, status, isSubmitting }) => {
-                    console.log('submitting', isSubmitting)
+                {({ values, status }) => {
                     return (
                         <Form>
                             <TextField name="title" label="Title" />
