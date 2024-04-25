@@ -33,5 +33,5 @@ export default {
       sans: ['Poppins', ...defaultTheme.fontFamily.sans]
     }
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms"),],
 }
