@@ -14,7 +14,7 @@ const DateElement = ({ values, label, name }) => {
                 name={name}
                 selected={values[name]}
                 onChange={(date) => setFieldValue(`${name}`, date)}
-                className="px-3 py-1 rounded-md border" />
+                className="px-3 py-1 rounded-md border max-w-[220px]" />
         </div>
     )
 }
