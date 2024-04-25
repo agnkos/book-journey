@@ -11,7 +11,7 @@ const TextField = ({ label, ...props }) => {
                     type="text"
                     {...field}
                     {...props}
-                    className="px-3 py-1 rounded-md border grow " />
+                    className="px-3 py-1 rounded-md border grow outline-none focus:outline-none focus:border-lighter-accent focus:ring-0 " />
             </div>
             <ErrorMessage name={field.name} component="div" className="text-sm text-red-500" />
         </div>

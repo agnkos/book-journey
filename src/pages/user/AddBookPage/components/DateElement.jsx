@@ -14,7 +14,8 @@ const DateElement = ({ values, label, name }) => {
                 name={name}
                 selected={values[name]}
                 onChange={(date) => setFieldValue(`${name}`, date)}
-                className="px-3 py-1 rounded-md border max-w-[220px]" />
+                enableTabLoop={false}
+                className="px-3 py-1 rounded-md border grow max-w-[200px] outline-none focus:outline-none focus:border-lighter-accent focus:ring-0" />
         </div>
     )
 }
