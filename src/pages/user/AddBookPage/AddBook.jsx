@@ -11,6 +11,7 @@ import DateElement from "./components/DateElement";
 import booksService from '../../../services/books';
 import ScrollToTop from "./components/ScrollToTop";
 import useBook from "../../../hooks/useBook";
+import Rating from "./components/Rating";
 import { toast } from 'react-toastify'
 
 const moodOptions = [
@@ -141,8 +142,12 @@ const AddBook = () => {
                                 <>
                                     <div className="mb-3">
                                         <label className="font-semibold">Rate
-                                            <RangeFieldEl name="rate" values={values} />
+                                            {/* <RangeFieldEl name="rate" values={values} /> */}
                                         </label>
+                                        <div className="flex gap-4 items-center">
+                                            <Rating />
+                                            <span className="font-semibold">{values.rate}</span>
+                                        </div>
                                     </div>
 
                                     <div className="mb-3">

@@ -13,7 +13,7 @@ const RangeFieldEl = ({ values, ...props }) => {
                 max="10"
                 {...field}
                 {...props}
-                className="max-w-[160px] max-[390px]:w-24 slider scale-125 accent-lighter-accent focus:ring-1 focus:ring-lighter-accent outline-none"
+                className="max-w-[160px] max-[390px]:w-24 scale-125 rounded accent-lighter-accent focus:outline focus:outline-1 focus:outline-lighter-accent focus:outline-offset-1"
 
             />
             <span>{value}</span>
