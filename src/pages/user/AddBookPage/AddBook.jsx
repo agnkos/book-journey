@@ -128,7 +128,7 @@ const AddBook = () => {
                             <div id="start" className="text-md font-semibold text-red-500">{status?.response}</div>
 
                             <p id="status-group" className="font-semibold">Status</p>
-                            <div role="group" aria-labelledby="status-group" className="mb-3">
+                            <div role="group" aria-labelledby="status-group" className="mb-3 flex gap-2">
                                 <RadioButton name="status" value="read"
                                     label="Read" />
                                 <RadioButton name="status" value="reading"
@@ -153,7 +153,7 @@ const AddBook = () => {
                                     <div role="group" aria-labelledby="moods-group" className="flex flex-col mb-3">
 
                                         {moodOptions.map((moodOption) => (
-                                            <div key={moodOption.value} className="flex gap-4">
+                                            <div key={moodOption.value} className="flex gap-3 items-center mb-2">
                                                 <CheckboxField name="moods" value={moodOption.value} label={moodOption.label} />
                                                 {values.moods.includes(moodOption.value) && (
                                                     <RangeFieldEl name={`moodsrate.${moodOption.value}`} values={values} />

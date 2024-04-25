@@ -6,14 +6,14 @@ const RangeFieldEl = ({ values, ...props }) => {
     const value = field.name.startsWith('moodsrate') ? values.moodsrate[field.name.slice(10)] : values[field.name]
 
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-5 ml-3">
             <Field
                 type="range"
                 min="1"
                 max="10"
                 {...field}
                 {...props}
-                className="max-[390px]:w-24 slider"
+                className="max-[390px]:w-24 slider scale-125 accent-lighter-accent"
 
             />
             <span>{value}</span>

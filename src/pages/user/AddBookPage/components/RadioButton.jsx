@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const RadioButton = ({ label, ...props }) => {
     const [field] = useField(props)
     return (
-        <label className="mr-1 ">
-            <Field type="radio" {...field} {...props} className="mr-2" />
+        <label className="mr-1 flex items-center">
+            <Field type="radio" {...field} {...props} className="mr-1 text-lighter-accent" />
             {label}
         </label>
     )
