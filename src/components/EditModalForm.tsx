@@ -11,6 +11,14 @@ import booksService from '../services/books';
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import useBook from "../hooks/useBook";
+import { BookDetailType } from "../types";
+
+type EditModalFormProps = {
+    bookDetail: BookDetailType,
+    closeModal: () => void,
+    id: string,
+    refreshBookDetail: () => void
+}
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -23,7 +31,7 @@ const moodOptions = [
     { label: 'Sad', value: 'sad' },
 ];
 
-const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }) => {
+const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }: EditModalFormProps) => {
     // const { refreshBooks } = useContext(BookContext)
     const { refreshBooks } = useBook()
     const location = useLocation()

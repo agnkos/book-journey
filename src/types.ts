@@ -1,3 +1,5 @@
+import { NumberSchema } from "yup"
+
 export type UserType = {
     id: string,
     username: string,
@@ -33,22 +35,34 @@ export type BooksObjectType = {
     GOING_TO_READ: BookType[],
 }
 
+type MoodScoresType = {
+    IN_LOVE: number,
+    HAPPY: number,
+    RELAXED: number,
+    INTRIGUED: number,
+    SCARED: number,
+    TENSE: number,
+    NOSTALGIC: number,
+    SAD: number
+}
+
 export type BookDetailType = {
     author: string,
     averageRating: number,
     categories: string[],
     description: string,
-    endDate: Date | null,
+    endDate: string,
     favourite: boolean,
     googleBookId: string,
     imageUrl: string,
     isbn: string,
     moodsPercentages: object,
-    moodsScores: object,
+    moodsScores: MoodScoresType,
     publishedDate: string,
     review: { score: number, comment: string }
-    startDate: Date | null,
+    startDate: string,
     status: string,
     title: string,
-    volumeInfo: { title: string, authors: string[] }
+    volumeInfo: { title: string, authors: string[] },
+    id: string
 }
