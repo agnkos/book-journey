@@ -3,7 +3,12 @@ import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from "../hooks/useAuth";
 
-const Menu = forwardRef((props, menuRef) => {
+type MenuProps = {
+    toggle: boolean,
+    closeMenu: () => void,
+}
+
+const Menu = forwardRef<HTMLUListElement, MenuProps>((props, menuRef) => {
     const { logout } = useAuth();
     const { toggle, closeMenu } = props
 

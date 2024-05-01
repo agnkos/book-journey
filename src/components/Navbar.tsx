@@ -1,8 +1,12 @@
 import { BookOpenIcon, Bars3BottomRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 
+type NavBarProps = {
+    toggleMenu: () => void,
+    toggle: boolean
+}
 
-const Navbar = ({ toggleMenu, toggle }) => {
+const Navbar = ({ toggleMenu, toggle }: NavBarProps) => {
     return (
         <div className='fixed top-0 w-full flex p-4 bg-main-accent justify-between z-20 navbar'>
             <div className='flex'>
