@@ -35,7 +35,7 @@ export type BooksObjectType = {
     GOING_TO_READ: BookType[],
 }
 
-type MoodScoresType = {
+export type MoodScoresType = {
     IN_LOVE: number,
     HAPPY: number,
     RELAXED: number,

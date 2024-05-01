@@ -11,13 +11,55 @@ import booksService from '../services/books';
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import useBook from "../hooks/useBook";
-import { BookDetailType } from "../types";
+import { BookDetailType, MoodScoresType } from "../types";
 
 type EditModalFormProps = {
     bookDetail: BookDetailType,
     closeModal: () => void,
     id: string,
-    refreshBookDetail: () => void
+    refreshBookDetail: (id: string) => void
+}
+
+type MoodsPercentagesType = {
+    [key: string]: number
+}
+
+type FormSubmitPropsType = {
+    // values: FormValuesType,
+    resetForm: () => void,
+    setStatus: (response: CustomError) => void,
+    setValues: (values: FormValuesType) => void
+}
+
+type FormValuesType = {
+    title: string,
+    author: string,
+    status: string,
+    rate: string | number,
+    review: string,
+    moods: string | string[],
+    mood: string,
+    moodsrate: {
+        in_love: number,
+        happy: number,
+        relaxed: number,
+        intrigued: number,
+        scared: number,
+        tense: number,
+        nostalgic: number,
+        sad: number
+    },
+    startDate: string | number,
+    endDate: string | number,
+}
+
+type CustomError = {
+    response: {
+        data: {
+            message?: string;
+            title?: string;
+        };
+    };
 }
 
 const moodOptions = [
@@ -61,9 +103,9 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }: EditMo
         endDate: search ? '' : Date.parse(bookDetail.endDate)
     }
 
-    const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
-        const moodsPercentages = {}
-        for (const [key, value] of Object.entries(values.moodsrate)) {
+    const onSubmit = useCallback(async (values: FormValuesType, { resetForm, setStatus, setValues }: FormSubmitPropsType) => {
+        const moodsPercentages: MoodsPercentagesType = {}
+        for (const [key, value] of Object.entries(values.moodsrate as MoodsPercentagesType)) {
             if (values.status === "read" && values.moods.includes(key)) {
                 moodsPercentages[`${key}`.toUpperCase()] = value
             }
@@ -103,7 +145,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }: EditMo
             if (location.pathname === '/search') {
                 await booksService.addBook(bookData)
                 const books = await booksService.getBooks()
-                const bookFiltered = books[bookData.status].filter(book => book.googleBookId === bookDetail.id)[0]
+                const bookFiltered = books[bookData.status].filter((book: BookDetailType) => book.googleBookId === bookDetail.id)[0]
                 navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
                 toast.success('Book added')
             }
@@ -124,7 +166,7 @@ const EditModalForm = ({ bookDetail, closeModal, id, refreshBookDetail }: EditMo
             });
             console.log('Book edited', bookData)
             closeModal()
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
             toast.error('An error occured :(')
             setStatus({ response: error.response.data.message || error.response.data.title })

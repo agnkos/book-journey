@@ -6,9 +6,9 @@ import { BookDetailType } from "../types";
 
 type EditModalProps = {
     closeModal: () => void,
-    bookDetail: Partial<BookDetailType>,
+    bookDetail: BookDetailType,
     id: string,
-    refreshBookDetail: (id: string) => void
+    refreshBookDetail: () => void
 }
 
 const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalProps) => {
