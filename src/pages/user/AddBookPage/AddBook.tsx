@@ -12,6 +12,49 @@ import booksService from '../../../services/books';
 import ScrollToTop from "./components/ScrollToTop";
 import useBook from "../../../hooks/useBook";
 import { toast } from 'react-toastify'
+import { BookDetailType } from '../../../types'
+
+type FormValuesType = {
+    title: string,
+    author: string,
+    status: string,
+    rate: string,
+    review: string,
+    moods: string[],
+    mood: string,
+    moodsrate: {
+        in_love: number,
+        happy: number,
+        relaxed: number,
+        intrigued: number,
+        scared: number,
+        tense: number,
+        nostalgic: number,
+        sad: number
+    },
+    startDate: null,
+    endDate: null,
+}
+
+type FormSubmitPropsType = {
+    resetForm: () => void,
+    setStatus: (response: CustomError) => void,
+    setValues: (values: FormValuesType) => void
+}
+
+type CustomError = {
+    response: {
+        data: {
+            message?: string;
+            title?: string;
+        };
+    };
+}
+
+type MoodsPercentagesType = {
+    [key: string]: number
+}
+
 
 const moodOptions = [
     { label: 'In love', value: 'in_love' },
@@ -36,7 +79,7 @@ const AddBook = () => {
         status: 'read',
         rate: '',
         review: '',
-        moods: [],
+        moods: [] as string[],
         mood: '',
         moodsrate: { in_love: 1, happy: 1, relaxed: 1, intrigued: 1, scared: 1, tense: 1, nostalgic: 1, sad: 1 },
         startDate: null,
@@ -48,9 +91,9 @@ const AddBook = () => {
         author: Yup.string().required('Author is required'),
     })
 
-    const onSubmit = useCallback(async (values, { resetForm, setStatus, setValues }) => {
-        const moodsPercentages = {}
-        for (const [key, value] of Object.entries(values.moodsrate)) {
+    const onSubmit = useCallback(async (values: FormValuesType, { resetForm, setStatus, setValues }: FormSubmitPropsType) => {
+        const moodsPercentages: MoodsPercentagesType = {}
+        for (const [key, value] of Object.entries(values.moodsrate as MoodsPercentagesType)) {
             if (values.status === "read" && values.moods.includes(key)) {
                 moodsPercentages[`${key}`.toUpperCase()] = value
             }
@@ -90,7 +133,7 @@ const AddBook = () => {
         try {
             await booksService.addBook(bookData)
             const books = await booksService.getBooks()
-            const bookFiltered = books[bookData.status].filter(book => book.title === bookData.title && book.author === bookData.author)[0]
+            const bookFiltered = books[bookData.status].filter((book: BookDetailType) => book.title === bookData.title && book.author === bookData.author)[0]
             console.log('book filtered', bookFiltered)
             navigate(`/books/${bookFiltered.id}`, { state: location.pathname })
             refreshBooks()
@@ -106,7 +149,7 @@ const AddBook = () => {
                 endDate: null
             });
             toast.success('Book added')
-        } catch (error) {
+        } catch (error: any) {
             toast.error('An error occured :(')
             setStatus({ response: error.response.data.message })
         }

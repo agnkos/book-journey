@@ -6,7 +6,7 @@ import Menu from "../components/Menu";
 
 const DashboardLayout = () => {
     const [toggle, setToggle] = useState(false)
-    const menuRef = useRef()
+    const menuRef = useRef<HTMLUListElement>(null)
 
     const toggleMenu = () => {
         setToggle(!toggle)
@@ -17,13 +17,14 @@ const DashboardLayout = () => {
     }
 
     useEffect(() => {
-        const closeOnClickOutside = (e) => {
+        const closeOnClickOutside = (e: MouseEvent) => {
+            const target = e.target as HTMLUListElement
             if (
                 toggle &&
                 menuRef.current &&
-                !menuRef.current.contains(e.target)
+                !menuRef?.current?.contains(e.target as HTMLUListElement)
                 &&
-                !e.target.classList.contains('burger-btn')
+                !target?.classList.contains('burger-btn')
             ) {
                 closeMenu()
             }

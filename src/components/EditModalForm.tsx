@@ -11,7 +11,7 @@ import booksService from '../services/books';
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import useBook from "../hooks/useBook";
-import { BookDetailType, MoodScoresType } from "../types";
+import { BookDetailType } from "../types";
 
 type EditModalFormProps = {
     bookDetail: BookDetailType,

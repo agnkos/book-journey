@@ -1,7 +1,12 @@
-import { Field, useField } from "formik";
+import { Field, useField, FieldAttributes } from "formik";
 import PropTypes from 'prop-types';
 
-const CheckboxField = ({ label, ...props }) => {
+interface CheckboxFieldPropsType extends FieldAttributes<any> {
+    label: string,
+    name: string
+}
+
+const CheckboxField = ({ label, ...props }: CheckboxFieldPropsType) => {
     const [field] = useField(props)
     return (
         <label className="mr-1">
