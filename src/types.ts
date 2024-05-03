@@ -66,3 +66,25 @@ export type BookDetailType = {
     volumeInfo: { title: string, authors: string[] },
     id: string
 }
+
+export type FormValuesType = {
+    title: string,
+    author: string,
+    status: string,
+    rate: string | number,
+    review: string,
+    moods: string | string[],
+    mood: string,
+    moodsrate: {
+        in_love: number,
+        happy: number,
+        relaxed: number,
+        intrigued: number,
+        scared: number,
+        tense: number,
+        nostalgic: number,
+        sad: number
+    },
+    startDate: string | number | null,
+    endDate: string | number | null,
+}

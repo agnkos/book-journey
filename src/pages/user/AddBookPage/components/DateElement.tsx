@@ -11,28 +11,31 @@ type FormValuesType = {
     review: string,
     moods: string | string[],
     mood: string,
+    // moodsrate: {
+    //     in_love: number,
+    //     happy: number,
+    //     relaxed: number,
+    //     intrigued: number,
+    //     scared: number,
+    //     tense: number,
+    //     nostalgic: number,
+    //     sad: number
+    // },
     moodsrate: {
-        in_love: number,
-        happy: number,
-        relaxed: number,
-        intrigued: number,
-        scared: number,
-        tense: number,
-        nostalgic: number,
-        sad: number
-    },
+        [key: string]: number;
+    };
     startDate: string | number | null,
     endDate: string | number | null,
 }
 
-interface DateElementPropsType extends FieldAttributes<any> {
+interface DateElementProps extends FieldAttributes<any> {
     label: string,
     name: keyof FormValuesType,
     values: FormValuesType
 }
 
 
-const DateElement = ({ values, label, name }: DateElementPropsType) => {
+const DateElement = ({ values, label, name }: DateElementProps) => {
     const { setFieldValue } = useFormikContext();
 
     const selectedDate = values[name] ? new Date(values[name] as string) : null

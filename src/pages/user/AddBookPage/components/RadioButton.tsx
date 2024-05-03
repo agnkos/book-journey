@@ -1,7 +1,13 @@
-import { Field, useField } from "formik";
+import { Field, useField, FieldAttributes } from "formik";
 import PropTypes from 'prop-types';
 
-const RadioButton = ({ label, ...props }) => {
+interface RadioButtonProps extends FieldAttributes<any> {
+    label: string,
+    name: string,
+    value: string
+}
+
+const RadioButton = ({ label, ...props }: RadioButtonProps) => {
     const [field] = useField(props)
     return (
         <label className="mr-1 ">
