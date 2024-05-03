@@ -1,7 +1,12 @@
 import { Field } from "formik";
 import PropTypes from 'prop-types'
 
-const TextareaField = ({ label, name }) => {
+type TextareaFieldPropsType = {
+    label: string,
+    name: string,
+}
+
+const TextareaField = ({ label, name }: TextareaFieldPropsType) => {
     return (
         <label className="font-semibold flex flex-col">{label}
             <Field

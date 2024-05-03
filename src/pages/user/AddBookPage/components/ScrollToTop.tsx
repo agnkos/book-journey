@@ -8,7 +8,7 @@ const ScrollToTop = () => {
     useEffect(() => {
         const el = document.querySelector('h1')
         setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth' })
+            el?.scrollIntoView({ behavior: 'smooth' })
         }, 1000);
     }, [submitting])
 

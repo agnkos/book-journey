@@ -1,7 +1,12 @@
-import { Field, ErrorMessage, useField } from "formik";
+import { Field, ErrorMessage, useField, FieldAttributes } from "formik";
 import PropTypes from 'prop-types'
 
-const TextField = ({ label, ...props }) => {
+interface TextFieldProps extends FieldAttributes<any> {
+    label: string,
+    name: string,
+}
+
+const TextField = ({ label, ...props }: TextFieldProps) => {
     const [field] = useField(props)
     return (
         <div className="mb-3">
