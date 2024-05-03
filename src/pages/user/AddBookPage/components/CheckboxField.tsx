@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 interface CheckboxFieldPropsType extends FieldAttributes<any> {
     label: string,
-    name: string
+    name: string,
+    value: string
 }
 
 const CheckboxField = ({ label, ...props }: CheckboxFieldPropsType) => {
