@@ -9,8 +9,15 @@ import DeleteModal from "../../../../components/DeleteModal"
 import BookCoverPlaceholderBig from "../../../../components/BookCoverPlaceholderBig";
 import useBook from "../../../../hooks/useBook";
 import { toast } from 'react-toastify'
+import { BookDetailType } from "../../../../types";
 
-const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
+type BookDetailElementProps = {
+    bookDetail: BookDetailType,
+    setBookDetail: (newBookDetail: BookDetailType | undefined) => void,
+    id: string 
+}
+
+const BookDetailElement = ({ bookDetail, setBookDetail, id }: BookDetailElementProps) => {
     const [details, setDetails] = useState(true)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
@@ -21,7 +28,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
     const closeEditModal = () => setShowEditModal(false)
     const openEditModal = () => setShowEditModal(true)
 
-    const handleAddToFavourites = async (id) => {
+    const handleAddToFavourites = async (id : string) => {
         try {
             await booksService.addToFavourites(id)
             await refreshBookDetail(id)
@@ -35,7 +42,7 @@ const BookDetailElement = ({ bookDetail, setBookDetail, id }) => {
         }
     }
 
-    const refreshBookDetail = async (id) => {
+    const refreshBookDetail = async (id: string) => {
         const data = await booksService.getBookDetail(id)
         setBookDetail(data)
         refreshBooks()

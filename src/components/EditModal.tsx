@@ -8,7 +8,7 @@ type EditModalProps = {
     closeModal: () => void,
     bookDetail: BookDetailType,
     id: string,
-    refreshBookDetail: () => void
+    refreshBookDetail: (id: string) => void
 }
 
 const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalProps) => {

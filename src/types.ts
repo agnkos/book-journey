@@ -36,14 +36,14 @@ export type BooksObjectType = {
 }
 
 export type MoodScoresType = {
-    IN_LOVE: number,
-    HAPPY: number,
-    RELAXED: number,
-    INTRIGUED: number,
-    SCARED: number,
-    TENSE: number,
-    NOSTALGIC: number,
-    SAD: number
+    IN_LOVE?: number,
+    HAPPY?: number,
+    RELAXED?: number,
+    INTRIGUED?: number,
+    SCARED?: number,
+    TENSE?: number,
+    NOSTALGIC?: number,
+    SAD?: number
 }
 
 export type BookDetailType = {

@@ -3,11 +3,16 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import PropTypes from 'prop-types';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { MoodScoresType } from "../../../../types";
 
 Chart.register(CategoryScale);
 Chart.register(ChartDataLabels);
 
-const PieChart = ({ data }) => {
+type PieChartProps = {
+    data: MoodScoresType
+}
+
+const PieChart = ({ data }: PieChartProps) => {
 
     const dataLabels = Object.keys(data)
     // const dataLabels2 = Object.entries(data).map(el => {
@@ -52,7 +57,7 @@ const PieChart = ({ data }) => {
                         },
                         datalabels: {
                             display: true,
-                            formatter: function (value, context) {
+                            formatter: function (value, context: any) {
                                 return Math.round(value / context.chart.getDatasetMeta(0).total * 100) + "%";
                             }
                         }

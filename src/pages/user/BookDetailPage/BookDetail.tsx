@@ -5,9 +5,10 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import BookDetailElement from "./components/BookDetailElement"
 import bookService from '../../../services/books'
 import axios from 'axios'
+import { BookDetailType } from "../../../types"
 
 const BookDetail = () => {
-    const [bookDetail, setBookDetail] = useState()
+    const [bookDetail, setBookDetail] = useState<BookDetailType | undefined>()
     const { user } = useAuth()
     const params = useParams()
     const navigate = useNavigate()
@@ -17,10 +18,10 @@ const BookDetail = () => {
 
     useEffect(() => {
         refreshBookDetail(params.id)
-    }, [params.id, user.token])
+    }, [params.id, user?.token])
 
-    const refreshBookDetail = async (id) => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+    const refreshBookDetail = async (id: string | undefined) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser') ?? '')?.token}`
         const data = await bookService.getBookDetail(id)
         setBookDetail(data)
     }
@@ -33,7 +34,7 @@ const BookDetail = () => {
                 <p>back to {location?.state === '/favourites' ? 'favourites' : location?.state?.includes('/books') ? 'books' : location?.state === '/search' ? 'search' : location?.state === '/addbook' ? 'adding book' : location?.state === '/dashboard' ? 'dashboard' : ''}</p>
             </div>
             {bookDetail &&
-                <BookDetailElement bookDetail={bookDetail} id={params.id} setBookDetail={setBookDetail} />
+                <BookDetailElement bookDetail={bookDetail} id={params.id ?? ''} setBookDetail={setBookDetail} />
             }
         </div>
     )
