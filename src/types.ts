@@ -23,7 +23,7 @@ export type BookType = {
     author: string,
     favourite: boolean,
     googleBookId: string,
-    id: number,
+    id: string | number,
     imageUrl: string,
     status: string,
     title: string,

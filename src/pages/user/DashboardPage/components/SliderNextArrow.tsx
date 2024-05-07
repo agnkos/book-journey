@@ -1,8 +1,11 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import PropTypes from 'prop-types';
 
+type PropsType = {
+    onClick: () => void
+}
 
-const SliderNextArrow = (props) => {
+const SliderNextArrow = (props: PropsType) => {
     const { onClick } = props;
 
     return (

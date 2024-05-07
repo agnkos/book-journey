@@ -8,11 +8,20 @@ import SliderPrevArrow from "./SliderPrevArrow"
 import SliderNextArrow from "./SliderNextArrow"
 import MoodModal from "./MoodModal"
 import useBook from "../../../../hooks/useBook"
+import { BookType } from "../../../../types"
 
 const ReadingNow = () => {
     const { books } = useBook()
     const [showMoodModal, setShowMoodModal] = useState(false)
-    const [modalData, setModalData] = useState()
+    const [modalData, setModalData] = useState<BookType>({
+        "author": "",
+        "favourite": false,
+        "googleBookId": "",
+        "id": "",
+        "imageUrl": "",
+        "status": "",
+        "title": ""
+    })
     const arrowRef = useRef<Slider>(null)
 
     const booksReading = books?.READING?.map(book =>

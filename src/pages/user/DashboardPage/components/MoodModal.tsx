@@ -4,14 +4,24 @@ import { Formik, Form } from "formik";
 import RadioButton from "../../AddBookPage/components/RadioButton";
 import bookService from '../../../../services/books'
 import { toast } from 'react-toastify'
+import { BookType } from "../../../../types";
 
-const MoodModal = ({ closeModal, book }) => {
+type MoodModalProps = {
+    closeModal: () => void,
+    book: BookType
+}
+
+type MoodModalFormValuesType = {
+    mood: string
+}
+
+const MoodModal = ({ closeModal, book }: MoodModalProps) => {
 
     const initialValues = {
         mood: ''
     }
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: MoodModalFormValuesType) => {
         const bookData = {
             title: book.title,
             author: book.author,

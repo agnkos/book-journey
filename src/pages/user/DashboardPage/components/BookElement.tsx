@@ -1,8 +1,15 @@
 import PropTypes from 'prop-types';
 import BookCoverPlaceholder from '../../../../components/BookCoverPlaceholder';
 import { Link, useLocation } from 'react-router-dom';
+import { BookType } from '../../../../types';
 
-const BookElement = ({ book, setModalData, setShowMoodModal }) => {
+type BookElementProps = {
+    book: BookType,
+    setModalData: (book: BookType) => void,
+    setShowMoodModal: (arg: boolean) => void
+}
+
+const BookElement = ({ book, setModalData, setShowMoodModal }: BookElementProps) => {
     const location = useLocation()
 
     const handleModalOpen = () => {
