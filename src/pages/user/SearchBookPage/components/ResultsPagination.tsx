@@ -2,9 +2,19 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
-const ResultsPagination = ({ searchBook, query, totalPages }) => {
+type ResultsPaginationProps = {
+    searchBook: (author: string, title: string, index: number) => void,
+    query: { author: string, title: string },
+    totalPages: number
+}
 
-    const handlePageChange = (selectedPage) => {
+type SelectedPageType = {
+    selected: number
+}
+
+const ResultsPagination = ({ searchBook, query, totalPages }: ResultsPaginationProps) => {
+
+    const handlePageChange = (selectedPage: SelectedPageType) => {
         console.log('selected page', selectedPage)
         const index = (selectedPage.selected + 1) * 20 - 20;
         console.log('index click', index)

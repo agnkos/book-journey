@@ -10,7 +10,7 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [totalPages, setTotalPages] = useState(0)
 
-  const searchBook = async (author, title, index = 0) => {
+  const searchBook = async (author: string, title: string, index = 0) => {
     console.log('index search', index)
     try {
       setQuery({ author: author, title: title })
@@ -33,7 +33,7 @@ const Search = () => {
       <p className="mb-3">Find a book by title, author or both.</p>
       <SearchBook searchBook={searchBook} />
       {isLoading ? <Loading /> : null}
-      <SearchBookResults results={results} searchBook={searchBook} query={query} totalPages={totalPages} />
+      <SearchBookResults results={results} />
       <ResultsPagination searchBook={searchBook} query={query} totalPages={totalPages} />
     </div>
   )
