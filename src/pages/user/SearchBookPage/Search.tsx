@@ -3,6 +3,7 @@ import SearchBook from "./components/SearchBookForm"
 import SearchBookResults from "./components/SearchBookResults"
 import { useState } from "react"
 import ResultsPagination from "./components/ResultsPagination"
+import { BookDetailType } from "../../../types"
 
 const Search = () => {
   const [results, setResults] = useState(null)
@@ -33,7 +34,7 @@ const Search = () => {
       <p className="mb-3">Find a book by title, author or both.</p>
       <SearchBook searchBook={searchBook} />
       {isLoading ? <Loading /> : null}
-      <SearchBookResults results={results} />
+      {results && <SearchBookResults results={results} />}
       <ResultsPagination searchBook={searchBook} query={query} totalPages={totalPages} />
     </div>
   )

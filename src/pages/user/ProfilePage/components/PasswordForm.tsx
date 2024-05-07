@@ -21,7 +21,6 @@ type CustomError = {
 type FormSubmitPropsType = {
     resetForm: () => void,
     setStatus: (response: CustomError) => void,
-    // setValues: (values: PasswordFormValuesType) => void
 }
 
 const PasswordForm = () => {

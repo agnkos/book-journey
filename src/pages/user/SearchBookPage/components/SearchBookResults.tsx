@@ -1,15 +1,22 @@
 import BookListElement from "./BookListElement"
 import PropTypes from 'prop-types';
+import { BookDetailType } from "../../../../types";
 
-const SearchBookResults = ({ results }) => {
+type SearchBookProps = {
+    results: {
+        items: BookDetailType[],
+        totalItems: number
+    }
+}
 
-    const booksResults = (data) => data.map(result => <BookListElement key={result.id} result={result} />)
+const SearchBookResults = ({ results }: SearchBookProps) => {
+
+    const booksResults = (data: BookDetailType[]) => data.map(result => <BookListElement key={result.id} result={result} />)
 
     return (
         <>
             {results?.totalItems > 0 && booksResults(results.items)}
             {results?.totalItems === 0 && <p className="text-lg">Book not found.</p>}
-            {/* <Pagination searchBook={searchBook} query={query} totalPages={totalPages} /> */}
         </>
 
     )

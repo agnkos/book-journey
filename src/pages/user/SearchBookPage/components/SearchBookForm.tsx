@@ -1,11 +1,25 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form, Field, ErrorMessage, FormikErrors } from "formik"
 import * as Yup from "yup";
 import PropTypes from 'prop-types';
 import HintsContainer from "./HintsContainer";
 import { useRef, useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const SearchBook = ({ searchBook }) => {
+type SearchBookFormProps = {
+    searchBook: (author: string, title: string, index?: number) => void,
+}
+
+type SearchBookFormValues = {
+    title: string,
+    author: string
+}
+
+type FormSubmitPropsType = {
+    resetForm: () => void,
+    setErrors: (errors: FormikErrors<SearchBookFormValues>) => void
+}
+
+const SearchBook = ({ searchBook }: SearchBookFormProps) => {
     const titleInputRef = useRef(null)
     const authorInputRef = useRef(null)
     const [showHintsTitle, setShowHintsTitle] = useState(false)
@@ -22,7 +36,7 @@ const SearchBook = ({ searchBook }) => {
         };
     }, [])
 
-    const onSubmit = (values, { resetForm, setErrors }) => {
+    const onSubmit = (values: SearchBookFormValues, { resetForm, setErrors }: FormSubmitPropsType) => {
         console.log('sent values', values)
         if (!values.author && !values.title) {
             setErrors({ title: 'At least one of the input fields must be filled in' });
