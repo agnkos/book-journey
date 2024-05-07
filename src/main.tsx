@@ -124,7 +124,7 @@ const router = createBrowserRouter([
   }
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLDivElement).render(
   <React.StrictMode>
     <RouterProvider router={router} />
     {/* <ToastContainer autoClose={2000} bodyClassName={() => 'opacity-20'} /> */}

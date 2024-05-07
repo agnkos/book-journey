@@ -1,15 +1,18 @@
 import { useAuth } from "../hooks/useAuth";
 import { useLocation } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikErrors, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
 import { useCallback } from "react";
+import { LoginDataType } from "../types";
 
 const Login = () => {
-  const { login } = useAuth();
-  const location = useLocation();
+  const { login } = useAuth()
+  const location = useLocation()
 
-  const onSubmit = useCallback((values, { setErrors, setSubmitting }) => {
+  // const onSubmit = useCallback((values: LoginDataType, { setErrors, setSubmitting }: SubmitPropsType) => {
+  const onSubmit = useCallback((values: LoginDataType, formikHelpers: FormikHelpers<LoginDataType>) => {
+    const { setErrors, setSubmitting } = formikHelpers;
     login(values, { setErrors })
     setSubmitting(false)
   }, [login])

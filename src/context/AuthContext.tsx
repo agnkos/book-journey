@@ -5,8 +5,10 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import authService from '../services/auth'
 import axios from 'axios'
 import { UserType, LoginDataType, SignupUserType } from "../types";
+import { FormikErrors } from "formik";
 
-type SetErrorsType = (errors: { password?: string } | null) => void;
+// type SetErrorsType = (errors: { password?: string } | null) => void;
+type SetErrorsType = (errors: FormikErrors<LoginDataType>) => void
 
 type SetStatusType = {
     setStatus: (status: string) => void
@@ -16,6 +18,7 @@ type AuthContextType = {
     user: UserType | null,
     setUser: () => void,
     login: (loginData: LoginDataType, { setErrors }: { setErrors?: SetErrorsType }) => Promise<void>,
+    // login: (loginData: LoginDataType, helpers: { setErrors?: SetErrorsType }) => Promise<void>,
     logout: () => Promise<void>,
     signup: (newUser: SignupUserType, { setStatus }: SetStatusType) => Promise<void>,
 }
@@ -29,7 +32,7 @@ const AuthContext = createContext<AuthContextType>({
 })
 
 export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
-    const [user, setUser] = useLocalStorage('loggedBookJourneyUser', null)
+    const [user, setUser] = useLocalStorage('loggedBookJourneyUser', '')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -37,7 +40,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
     })
 
     const login = async (loginData: LoginDataType, { setErrors }: { setErrors?: SetErrorsType } = {}) => {
-
+        // const { setErrors = () => { } } = helpers;
         await authService.login(loginData)
             .then(data => {
                 console.log(data)
