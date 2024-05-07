@@ -18,11 +18,8 @@ const BookListElement = ({ result }: BookListElementProps) => {
     const closeAddModal = () => setShowAddModal(false)
     const openAddModal = () => setShowAddModal(true)
 
-
-
     const newList = books && Object.values(books).flatMap(array => array.map(book => book))
     const filteredList = newList && newList.filter(book => book.googleBookId === result.id)
-
 
     return (
         <>
