@@ -3,8 +3,8 @@ import ReactPaginate from 'react-paginate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 type ResultsPaginationProps = {
-    searchBook: (author: string, title: string, index: number) => void,
-    query: { author: string, title: string },
+    searchBook: (author: string, title?: string, index?: number) => void,
+    query: { author: string, title?: string },
     totalPages: number
 }
 

@@ -7,11 +7,11 @@ import { BookDetailType } from "../../../types"
 
 const Search = () => {
   const [results, setResults] = useState(null)
-  const [query, setQuery] = useState({ author: '', title: '' })
+  const [query, setQuery] = useState<{author: string, title: string | undefined}>({ author: '', title: '' })
   const [isLoading, setIsLoading] = useState(false)
   const [totalPages, setTotalPages] = useState(0)
 
-  const searchBook = async (author: string, title: string, index = 0) => {
+  const searchBook = async (author: string, title: string | undefined, index = 0) => {
     console.log('index search', index)
     try {
       setQuery({ author: author, title: title })

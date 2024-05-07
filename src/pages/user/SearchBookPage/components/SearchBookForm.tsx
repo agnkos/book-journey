@@ -6,7 +6,7 @@ import { useRef, useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type SearchBookFormProps = {
-    searchBook: (author: string, title: string, index?: number) => void,
+    searchBook: (author: string, title?: string, index?: number) => void,
 }
 
 type SearchBookFormValues = {
@@ -20,8 +20,8 @@ type FormSubmitPropsType = {
 }
 
 const SearchBook = ({ searchBook }: SearchBookFormProps) => {
-    const titleInputRef = useRef(null)
-    const authorInputRef = useRef(null)
+    const titleInputRef = useRef<HTMLDivElement>(null)
+    const authorInputRef = useRef<HTMLDivElement>(null)
     const [showHintsTitle, setShowHintsTitle] = useState(false)
     const [showHintsAuthor, setShowHintsAuthor] = useState(false)
 
