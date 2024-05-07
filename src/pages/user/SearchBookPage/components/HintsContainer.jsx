@@ -48,6 +48,8 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 setSelectedItem(prev => prev + 1)
             } else if (document.activeElement === inputRef.current && e.key === "Enter" && selectedItem >= 0) {
                 searchBook(queryResults[selectedItem])
+                // queryResultsAuthor && searchBook(queryResults[selectedItem].author)
+                // queryResultsTitle && searchBook(queryResults[selectedItem].author, queryResults[selectedItem].title)
             }
         }
         const handleKeyDownTitle = (e) => {
@@ -95,7 +97,7 @@ const HintsContainer = ({ searchBook, showHintsTitle, setShowHintsTitle, showHin
                 {queryResultsTitle.map((item, index) => (
                     <div key={item.id}
                         className={`flex w-full px-2 py-1 hover:bg-light-objects cursor-pointer ${index === selectedItem ? 'bg-light-objects' : ''}`}
-                        onClick={() => handleTitleHintClick(item.title, item.author)}>
+                        onClick={() => handleTitleHintClick(item.title, item?.author[0])}>
                         <p className='truncate'>{item.title}</p><p className='truncate'>, {item.author}</p>
                     </div>
                 ))}
