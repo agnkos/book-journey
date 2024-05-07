@@ -13,7 +13,7 @@ const ReadingNow = () => {
     const { books } = useBook()
     const [showMoodModal, setShowMoodModal] = useState(false)
     const [modalData, setModalData] = useState()
-    const arrorRef = useRef(null)
+    const arrowRef = useRef<Slider>(null)
 
     const booksReading = books?.READING?.map(book =>
         <BookElement key={book.id} book={book} setModalData={setModalData} setShowMoodModal={setShowMoodModal} />
@@ -35,11 +35,11 @@ const ReadingNow = () => {
             <h2 className="text-xl font-semibold">Reading Now</h2>
             {books && Object.hasOwn(books, 'READING') ?
                 (<div className="relative max-w-96">
-                    <SliderPrevArrow onClick={() => arrorRef.current.slickPrev()} />
-                    <Slider {...settings} style={{}} ref={arrorRef}>
+                    <SliderPrevArrow onClick={() => arrowRef.current?.slickPrev()} />
+                    <Slider {...settings} ref={arrowRef}>
                         {booksReading}
                     </Slider>
-                    <SliderNextArrow onClick={() => arrorRef.current.slickNext()} />
+                    <SliderNextArrow onClick={() => arrowRef.current?.slickNext()} />
                 </div>) :
                 <div className="py-4">
                     <p>You are not reading anything now.</p>
