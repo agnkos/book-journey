@@ -2,15 +2,28 @@ import { Formik, Form, Field } from "formik"
 import userService from '../../../../services/user'
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
+import { UserDataType } from "../../../../types"
 
-const NameForm = ({ userData, setUserData, editUser, handleEditUser }) => {
+type NameFormProps = {
+    userData: UserDataType,
+    setUserData: (user: UserDataType) => void,
+    editUser: boolean,
+    handleEditUser: (bool: boolean) => void
+}
+
+type SubmitValuesType = {
+    firstName: string,
+    lastName: string
+}
+
+const NameForm = ({ userData, setUserData, editUser, handleEditUser }: NameFormProps) => {
 
     let initialNameValues = {
         firstName: userData?.firstName || '',
         lastName: userData?.lastName || '',
     };
 
-    const onSubmit = async (values) => {
+    const onSubmit = async (values: SubmitValuesType) => {
         try {
             await userService.changeUsername(values)
             const data = await userService.getUser()

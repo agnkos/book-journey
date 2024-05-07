@@ -4,23 +4,30 @@ import { useAuth } from "../../../hooks/useAuth"
 import PasswordForm from "./components/PasswordForm"
 import NameForm from "./components/NameForm"
 import axios from 'axios'
+import { UserDataType } from "../../../types"
 
 const Profile = () => {
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState<UserDataType>({
+    "username": "",
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "accountCreated": ""
+  })
   const [editUser, setEditUser] = useState(false)
   const { user } = useAuth()
 
   useEffect(() => {
     const getUserData = async () => {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser'))?.token}`
+      axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('loggedBookJourneyUser') ?? '')?.token}`
       const data = await userService.getUser()
       console.log('userdata', data)
       setUserData(data)
     }
-    if (user.token) getUserData()
-  }, [user.token])
+    if (user?.token) getUserData()
+  }, [user?.token])
 
-  const handleEditUser = (bool) => {
+  const handleEditUser = (bool: boolean) => {
     setEditUser(bool)
   }
 

@@ -8,6 +8,14 @@ export type UserType = {
     token: string
 }
 
+export type UserDataType = {
+    username: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    accountCreated: string
+}
+
 export type LoginDataType = {
     username: string,
     password: string

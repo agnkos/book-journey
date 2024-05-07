@@ -3,6 +3,27 @@ import * as Yup from "yup"
 import userService from '../../../../services/user'
 import { toast } from 'react-toastify'
 
+type PasswordFormValuesType = {
+    currentPassword: string,
+    newPassword: string,
+    confirmNewPassword?: string
+}
+
+type CustomError = {
+    response: {
+        data: {
+            message?: string;
+            title?: string;
+        };
+    };
+}
+
+type FormSubmitPropsType = {
+    resetForm: () => void,
+    setStatus: (response: CustomError) => void,
+    // setValues: (values: PasswordFormValuesType) => void
+}
+
 const PasswordForm = () => {
 
     const initialPasswordValues = {
@@ -16,14 +37,14 @@ const PasswordForm = () => {
         confirmNewPassword: Yup.string().oneOf([Yup.ref("newPassword")], "Passwords don't match").required('Confirm password')
     })
 
-    const submitNewPassword = async (values, { setStatus, resetForm }) => {
+    const submitNewPassword = async (values: PasswordFormValuesType, { setStatus, resetForm }: FormSubmitPropsType) => {
         const valuesToSend = { ...values }
         delete valuesToSend.confirmNewPassword
         try {
             await userService.changePassword(valuesToSend)
             resetForm()
             toast.success('Password changed')
-        } catch (error) {
+        } catch (error: any) {
             console.log(error)
             toast.error('Failed to change password')
             setStatus({ response: error.response.data.message })
