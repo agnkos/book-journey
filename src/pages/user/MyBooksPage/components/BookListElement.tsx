@@ -1,8 +1,13 @@
 import BookCoverPlaceholder from '../../../../components/BookCoverPlaceholder';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import { BookType } from '../../../../types';
 
-const BookListElement = ({ book }) => {
+type BookListElementProps = {
+    book: BookType
+}
+
+const BookListElement = ({ book }: BookListElementProps) => {
     const location = useLocation()
     return (
         <>

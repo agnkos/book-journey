@@ -2,9 +2,18 @@ import ReactPaginate from 'react-paginate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 
-const BooksPagination = ({ totalPages, setCurrentPage }) => {
+type BooksPaginationProps = {
+    totalPages: number,
+    setCurrentPage: (page: number) => void
+}
 
-    const handlePageChange = (selectedPage) => {
+type SelectedPageType = {
+    selected: number
+}
+
+const BooksPagination = ({ totalPages, setCurrentPage }: BooksPaginationProps) => {
+
+    const handlePageChange = (selectedPage: SelectedPageType) => {
         console.log('selected page', selectedPage)
         setCurrentPage(selectedPage.selected + 1)
     }

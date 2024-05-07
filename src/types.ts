@@ -30,6 +30,7 @@ export type BookType = {
 }
 
 export type BooksObjectType = {
+    [index: string]: BookType[],
     READ: BookType[],
     READING: BookType[],
     GOING_TO_READ: BookType[],
