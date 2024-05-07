@@ -1,10 +1,11 @@
 import BookListElement from "../MyBooksPage/components/BookListElement"
 import useBook from "../../../hooks/useBook"
+import { BooksObjectType } from "../../../types"
 
 const Favourites = () => {
   const { books } = useBook()
 
-  const favoriteBooks = Object.values(books).flatMap(array => array.filter(book => book.favourite === true)).map(book =>
+  const favoriteBooks = books && Object.values(books).flatMap(array => array.filter(book => book.favourite === true)).map(book =>
     <BookListElement key={book.id} book={book} />)
 
   return (
