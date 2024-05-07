@@ -7,8 +7,8 @@ import { BookDetailType } from "../types";
 type EditModalProps = {
     closeModal: () => void,
     bookDetail: BookDetailType,
-    id: string,
-    refreshBookDetail: (id: string) => void
+    id?: string,
+    refreshBookDetail?: (id: string) => void
 }
 
 const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalProps) => {
@@ -43,7 +43,7 @@ const EditModal = ({ closeModal, bookDetail, id, refreshBookDetail }: EditModalP
                     </div>
                 </div>
                 <div className="p-6">
-                    <EditModalForm bookDetail={bookDetail} closeModal={closeModal} id={id} refreshBookDetail={refreshBookDetail} />
+                   {id && refreshBookDetail && <EditModalForm bookDetail={bookDetail} closeModal={closeModal} id={id} refreshBookDetail={refreshBookDetail} />}
                 </div>
 
             </div>

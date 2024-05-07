@@ -72,7 +72,13 @@ export type BookDetailType = {
     startDate: string,
     status: string,
     title: string,
-    volumeInfo: { title: string, authors: string[] },
+    volumeInfo: {
+        title: string,
+        authors: string[],
+        imageLinks: {
+            smallThumbnail: string
+        },
+    },
     id: string
 }
 
