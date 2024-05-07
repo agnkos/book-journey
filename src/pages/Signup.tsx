@@ -4,9 +4,20 @@ import * as Yup from "yup";
 import ShelfImg from '../img/shelf.jpg';
 import { useCallback } from "react";
 
+type SignupValuesType = {
+    email: string,
+    username: string,
+    password: string,
+    repeatPassword?: string,
+}
+
+type SetStatusType = {
+    setStatus: (status: string) => void
+}
+
 const Signup = () => {
     const { signup } = useAuth()
-    const onSubmit = useCallback((values, { setStatus }) => {
+    const onSubmit = useCallback((values: SignupValuesType, { setStatus }: SetStatusType) => {
         const valuesToSend = { ...values }
         delete valuesToSend.repeatPassword
         signup(valuesToSend, { setStatus })
