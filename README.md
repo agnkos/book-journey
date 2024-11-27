@@ -63,7 +63,7 @@ Completed features:
   ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
   ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
   ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-- additional packages: Vite, Formik & Yup, <a href="https://www.npmjs.com/package/react-datepicker">react-datepicker</a>,  <a href="https://www.npmjs.com/package/react-datepicker">react-chartjs-2</a>,  <a href="https://react-slick.neostack.com/" >react-slick</a>, <a href="https://www.npmjs.com/package/react-paginate" >react-paginate</a>, <a href="https://github.com/tailwindlabs/heroicons" >heroicons</a>, <a href="https://www.npmjs.com/package/react-toastify" >React-Toastify</a>
+- additional packages: Vite, Formik & Yup, <a href="https://www.npmjs.com/package/react-datepicker">react-datepicker</a>,  <a href="https://www.npmjs.com/package/react-chartjs-2">react-chartjs-2</a>,  <a href="https://react-slick.neostack.com/" >react-slick</a>, <a href="https://www.npmjs.com/package/react-paginate" >react-paginate</a>, <a href="https://github.com/tailwindlabs/heroicons" >heroicons</a>, <a href="https://www.npmjs.com/package/react-toastify" >React-Toastify</a>
 
 ## Screenshots:
 
